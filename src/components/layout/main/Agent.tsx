@@ -5,16 +5,18 @@ import { mockAgentMessages } from '~/data/agent.mock';
 import { Motion } from 'solid-motionone';
 import { getUnreadEmailCount } from '~/store/email/email.selectors';
 import AgentAvatar from '~/assets/images/AI-avatar.jpg';
+import { useNavigate } from '@solidjs/router';
 
 export function Agent() {
     const agentMessages = createMemo(getAgentMessages);
+    const navigate = useNavigate();
 
     const handleAvatarClick = () => {
         if (agentMessages().length > 0) {
             setAgentMessages([]);
         } else {
             const unreadCount = getUnreadEmailCount();
-            setAgentMessages(mockAgentMessages.helps(unreadCount));
+            setAgentMessages(mockAgentMessages.helps(unreadCount, navigate));
         }
     };
 

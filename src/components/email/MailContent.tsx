@@ -65,7 +65,7 @@ export function MailContent(props: MailContentProps) {
                     >
                         <div id="writing-paper" class={`paper min-h-80 p-8!`}>
                             <h1 class="text-2xl font-semibold mb-3">{email.subject}</h1>
-                            <div class="prose max-w-none" innerHTML={email.content} />
+                            <div class="prose max-w-none" innerHTML={email.content ?? email.preview} />
                         </div>
 
                         <Show when={attachments.length > 0}>

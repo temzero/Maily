@@ -1,5 +1,5 @@
 // utils/compose.helper.ts
-import { Email, EmailFolder } from '~/types/email/email.type';
+import { Email, EmailFolder } from "~/types/email/email.type";
 
 /**
  * Checks if HTML content is effectively empty (no visible text or meaningful content)
@@ -7,28 +7,29 @@ import { Email, EmailFolder } from '~/types/email/email.type';
  * @returns true if content is empty/whitespace only
  */
 export const isHtmlContentEmpty = (htmlContent: string): boolean => {
-    const trimmedContent = htmlContent?.trim() || '';
-    if (!trimmedContent) return true;
+  const trimmedContent = htmlContent?.trim() || "";
+  if (!trimmedContent) return true;
 
-    // Create a temporary div to parse HTML
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = trimmedContent;
+  // Create a temporary div to parse HTML
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = trimmedContent;
 
-    // Get text content and check if it's empty
-    const textContent = tempDiv.textContent?.trim() || '';
+  // Get text content and check if it's empty
+  const textContent = tempDiv.textContent?.trim() || "";
 
-    // Check for visible content (text, images, embeds, etc.)
-    const hasVisibleContent =
-        textContent !== '' ||
-        Array.from(tempDiv.querySelectorAll('img, iframe, video, object, embed')).length > 0;
+  // Check for visible content (text, images, embeds, etc.)
+  const hasVisibleContent =
+    textContent !== "" ||
+    Array.from(tempDiv.querySelectorAll("img, iframe, video, object, embed"))
+      .length > 0;
 
-    // Check if the HTML consists only of empty elements like <br>, <div><br></div>, etc.
-    const isEmptyHtmlStructure =
-        !hasVisibleContent &&
-        (!trimmedContent ||
-            /^(<br\s*\/?>|<\w+>\s*<br\s*\/?>\s*<\/\w+>|\s*)+$/i.test(trimmedContent));
+  // Check if the HTML consists only of empty elements like <br>, <div><br></div>, etc.
+  const isEmptyHtmlStructure =
+    !hasVisibleContent &&
+    (!trimmedContent ||
+      /^(<br\s*\/?>|<\w+>\s*<br\s*\/?>\s*<\/\w+>|\s*)+$/i.test(trimmedContent));
 
-    return isEmptyHtmlStructure || !hasVisibleContent;
+  return isEmptyHtmlStructure || !hasVisibleContent;
 };
 
 /**
@@ -37,10 +38,10 @@ export const isHtmlContentEmpty = (htmlContent: string): boolean => {
  * @returns Plain text content
  */
 export const getPlainTextFromHtml = (htmlContent: string): string => {
-    if (!htmlContent) return '';
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlContent;
-    return tempDiv.textContent?.trim() || '';
+  if (!htmlContent) return "";
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = htmlContent;
+  return tempDiv.textContent?.trim() || "";
 };
 
 /**
@@ -51,15 +52,15 @@ export const getPlainTextFromHtml = (htmlContent: string): string => {
  * @returns true if compose has any content
  */
 export const isComposeContentValid = (
-    subject: string,
-    contentHtml: string,
-    attachments: any[]
+  subject: string,
+  contentHtml: string,
+  attachments: any[],
 ): boolean => {
-    const hasSubject = subject.trim() !== '';
-    const hasAttachments = attachments.length > 0;
-    const hasValidContent = !isHtmlContentEmpty(contentHtml);
+  const hasSubject = subject.trim() !== "";
+  const hasAttachments = attachments.length > 0;
+  const hasValidContent = !isHtmlContentEmpty(contentHtml);
 
-    return hasSubject && (hasValidContent || hasAttachments);
+  return hasSubject && (hasValidContent || hasAttachments);
 };
 
 /**
@@ -70,12 +71,13 @@ export const isComposeContentValid = (
  * @returns true if email can be sent
  */
 export const isEmailSendable = (
-    subject: string,
-    contentHtml: string,
-    isRecipientValid: boolean
+  subject: string,
+  contentHtml: string,
+  isRecipientValid: boolean,
 ): boolean => {
-    const hasSubjectOrContent = subject.trim() !== '' || !isHtmlContentEmpty(contentHtml);
-    return hasSubjectOrContent && isRecipientValid;
+  const hasSubjectOrContent =
+    subject.trim() !== "" || !isHtmlContentEmpty(contentHtml);
+  return hasSubjectOrContent && isRecipientValid;
 };
 
 /**
@@ -83,11 +85,11 @@ export const isEmailSendable = (
  * @param attachments - Array of attachments
  */
 export const cleanupAttachmentBlobs = (attachments: any[]): void => {
-    attachments.forEach((attachment) => {
-        if (attachment.url?.startsWith('blob:')) {
-            URL.revokeObjectURL(attachment.url);
-        }
-    });
+  attachments.forEach((attachment) => {
+    if (attachment.url?.startsWith("blob:")) {
+      URL.revokeObjectURL(attachment.url);
+    }
+  });
 };
 
 /**
@@ -100,27 +102,27 @@ export const cleanupAttachmentBlobs = (attachments: any[]): void => {
  * @returns Draft email object
  */
 export const createDraftEmail = (
-    id: string,
-    recipient: string,
-    subject: string,
-    contentHtml: string,
-    attachments: any[]
+  id: string,
+  recipient: string,
+  subject: string,
+  contentHtml: string,
+  attachments: any[],
 ): Email => {
-    const plainTextContent = getPlainTextFromHtml(contentHtml);
+  const plainTextContent = getPlainTextFromHtml(contentHtml);
 
-    return {
-        id,
-        from: 'me@example.com',
-        to: [recipient],
-        subject,
-        content: contentHtml,
-        preview: plainTextContent.substring(0, 100),
-        folder: EmailFolder.DRAFTS,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        read: false,
-        attachments,
-    };
+  return {
+    id,
+    from: "me@example.com",
+    to: [recipient],
+    subject,
+    content: contentHtml,
+    preview: plainTextContent.substring(0, 100),
+    folder: EmailFolder.DRAFTS,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    isRead: false,
+    attachments,
+  };
 };
 
 /**
@@ -134,29 +136,29 @@ export const createDraftEmail = (
  * @returns Sent email object
  */
 export const createSentEmail = (
-    id: string,
-    recipient: string,
-    subject: string,
-    contentHtml: string,
-    attachments: any[],
-    envelope: any
+  id: string,
+  recipient: string,
+  subject: string,
+  contentHtml: string,
+  attachments: any[],
+  envelope: any,
 ): Email => {
-    const plainTextContent = getPlainTextFromHtml(contentHtml);
+  const plainTextContent = getPlainTextFromHtml(contentHtml);
 
-    return {
-        id,
-        from: 'me@example.com',
-        to: [recipient],
-        subject,
-        content: contentHtml,
-        preview: plainTextContent.substring(0, 100),
-        read: true,
-        folder: EmailFolder.SENT,
-        envelope,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        attachments,
-    };
+  return {
+    id,
+    from: "me@example.com",
+    to: [recipient],
+    subject,
+    content: contentHtml,
+    preview: plainTextContent.substring(0, 100),
+    isRead: true,
+    folder: EmailFolder.SENT,
+    envelope,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    attachments,
+  };
 };
 
 /**
@@ -165,10 +167,10 @@ export const createSentEmail = (
  * @returns Formatted reply subject
  */
 export const formatReplySubject = (originalSubject?: string): string => {
-    if (!originalSubject) return '';
-    return originalSubject.toLowerCase().startsWith('re:')
-        ? originalSubject
-        : `Re: ${originalSubject}`;
+  if (!originalSubject) return "";
+  return originalSubject.toLowerCase().startsWith("re:")
+    ? originalSubject
+    : `Re: ${originalSubject}`;
 };
 
 /**
@@ -177,8 +179,8 @@ export const formatReplySubject = (originalSubject?: string): string => {
  * @returns Formatted forward subject
  */
 export const formatForwardSubject = (originalSubject?: string): string => {
-    if (!originalSubject) return '';
-    return originalSubject.toLowerCase().startsWith('fwd:')
-        ? originalSubject
-        : `Fwd: ${originalSubject}`;
+  if (!originalSubject) return "";
+  return originalSubject.toLowerCase().startsWith("fwd:")
+    ? originalSubject
+    : `Fwd: ${originalSubject}`;
 };

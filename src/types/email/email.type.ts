@@ -13,7 +13,7 @@ export interface Email {
 
     // Content
     subject: string;
-    preview: string; // Short preview for list view
+    preview?: string; // Short preview for list view
     content?: string; // Full email content (HTML or text)
 
     // Metadata
