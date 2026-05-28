@@ -75,7 +75,7 @@ export default function SearchInput(props: Props) {
                     onInput={props.onInput}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    class="w-full h-full text-lg outline-none focus:outline-none focus:ring-0 "
+                    class="w-full h-full text-xl outline-none focus:outline-none focus:ring-0 "
                 />
             </div>
         </Motion>

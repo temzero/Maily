@@ -4,7 +4,9 @@ import { FaRegularCalendar, FaSolidCalendar } from 'solid-icons/fa';
 import { clearActiveLabels, useSortedLabels } from '~/store/label.store';
 import { createMemo } from 'solid-js';
 import { LabelIcon } from '../label/LabelIcon';
-import { updatePreference, getIsDateView } from '~/store/preferences.store'; // 👈 Import reactive getter
+import { updatePreference, getIsDateView } from '~/store/preferences.store';
+import { labelSize } from '~/data/constants';
+
 
 const LabelsAction = () => {
     const isDateView = createMemo(() => getIsDateView());
@@ -23,7 +25,7 @@ const LabelsAction = () => {
             id: label.id.toString(),
             label: label.name,
             icon: (
-                <LabelIcon labelId={label.id} iconId={label.iconId} size={24} color={label.color} />
+                <LabelIcon labelId={label.id} iconId={label.iconId} size={labelSize} color={label.color} />
             ),
             onClick: () => label.onClick?.(),
         }));

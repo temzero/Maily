@@ -13,10 +13,10 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  sm: { logoIcon: "[&_svg]:w-5! [&_svg]:h-5!", name: "text-sm", gap: "gap-0.5" },
-  md: { logoIcon: "[&_svg]:w-7! [&_svg]:h-7!", name: "text-base", gap: "gap-0.5" },
-  lg: { logoIcon: "[&_svg]:w-10! [&_svg]:h-10!", name: "text-2xl", gap: "gap-1" },
-  xl: { logoIcon: "[&_svg]:w-14! [&_svg]:h-14!", name: "text-4xl", gap: "gap-2" },
+  sm: { logoIcon: "[&_svg]:w-9! [&_svg]:h-9!", name: "text-lg", gap: "gap-0.5" },
+  md: { logoIcon: "[&_svg]:w-12! [&_svg]:h-12!", name: "text-3xl", gap: "gap-1" },
+  lg: { logoIcon: "[&_svg]:w-14! [&_svg]:h-14!", name: "text-4xl", gap: "gap-1" },
+  xl: { logoIcon: "[&_svg]:w-16! [&_svg]:h-16!", name: "text-5xl", gap: "gap-2" },
 };
 
 const Logo: Component<LogoProps> = (props) => {

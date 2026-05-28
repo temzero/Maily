@@ -68,7 +68,7 @@ export const getGroupedEmailIds = (options: GetEmailsOptions = {}): string[] => 
             const matches =
                 email.subject.toLowerCase().includes(q) ||
                 email.from.toLowerCase().includes(q) ||
-                email.preview.toLowerCase().includes(q) ||
+                email.preview?.toLowerCase().includes(q) ||
                 email.content?.toLowerCase().includes(q) ||
                 email.to?.join(' ').toLowerCase().includes(q);
             if (!matches) continue;
@@ -196,7 +196,7 @@ export const getFilteredEmailIds = (options: GetEmailsOptions = {}): string[] =>
             return (
                 email.subject.toLowerCase().includes(query) ||
                 email.from.toLowerCase().includes(query) ||
-                email.preview.toLowerCase().includes(query) ||
+                email.preview?.toLowerCase().includes(query) ||
                 email.content?.toLowerCase().includes(query) ||
                 email.to?.join(' ').toLowerCase().includes(query)
             );

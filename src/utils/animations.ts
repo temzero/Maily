@@ -1,8 +1,8 @@
 export const animations = {
     slideUp: {
-        initial: { opacity: 0, scale: 0.75, y: 399 },
+        initial: { opacity: 0, scale: 0.75, y: 699 },
         animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.75, y: 399 },
+        exit: { opacity: 0, scale: 0.75, y: 699 },
         transition: {
             type: 'tween',
             ease: [0.4, 0, 0.2, 1],
@@ -10,9 +10,9 @@ export const animations = {
         },
     },
     slideDown: {
-        initial: { opacity: 0, scale: 0.75, y: -399 },
+        initial: { opacity: 0, scale: 0.75, y: -699 },
         animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.75, y: -399 },
+        exit: { opacity: 0, scale: 0.75, y: -699 },
         transition: {
             type: 'tween',
             ease: [0.4, 0, 0.2, 1],

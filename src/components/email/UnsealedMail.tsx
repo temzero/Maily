@@ -57,17 +57,16 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
       {/* Mail Content - Behind the envelope */}
       <div
         id="mail-content"
-        class={`bg-white text-black p-2 overflow-hidden mb-1 `}
+        class={`bg-white text-black p-3 overflow-hidden mb-1 `}
         style={{
           width: "90%",
           height: "calc(100% - 16px)", // Height from top to above envelope
         }}
       >
-        <h1 class="text-sm font-bold mb-1">
+        <h1 class="tiny-subject-text">
           {props.email.subject || "(No Subject)"}
         </h1>
-        {/* <p class="text-xs">{props.email.content || '(No Content)'}</p> */}
-        <div class="prose max-w-none text-xs" innerHTML={previewContent} />
+        <div class="small-content-text" innerHTML={previewContent} />
       </div>
 
       {/* Envelope - On top with higher z-index, centered at bottom */}

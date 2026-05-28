@@ -1,10 +1,17 @@
 export const APP_NAME = 'Maily';
 export const APP_VERSION = '1.0.0';
 
+// export const mailDimensions = {
+//     width: 260,
+//     height: 140,
+// };
+
 export const mailDimensions = {
-    width: 260,
-    height: 140,
+    width: 300,
+    height: 160,
 };
+
+export const labelSize = 28
 
 export const exampleAvatarUrl =
     'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80';

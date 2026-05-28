@@ -130,7 +130,7 @@ export default function FolderPage() {
         <Presence initial={false}>
             <Show when={groupedEmailIds().length > 0} fallback={<EmptyFolder folder={folder()} />}>
                 <div class="flex flex-col items-center justify-center gap-6 w-fit h-fit">
-                    <div class="flex flex-col gap-6 w-full">
+                    <div class="flex flex-col gap-10 w-full">
                         <For each={groupedEmailIds()}>
                             {(item, index) => {
                                 if (isGroupMarker(item)) {

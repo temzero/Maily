@@ -54,7 +54,7 @@ export default function Header(props: { class: string }) {
             style={{ height: `${headerHeight}px` }}
             class={`${props.class} fixed inset-x-0 top-0 bg-linear-to-b from-black/30 to-transparent pointer-events-none flex items-center justify-between px-4`}
         >
-            <Logo size="lg" class="pointer-events-auto pr-1 rounded backdrop-blur" />
+            <Logo class="pointer-events-auto pr-1 rounded backdrop-blur" />
 
             <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
                 <Motion {...getSlideAnimation(-200, 0.9)}>
@@ -66,7 +66,7 @@ export default function Header(props: { class: string }) {
                 <Avatar
                     src={currentUser()?.avatarUrl}
                     name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
-                    size="md"
+                    size="sm"
                     rounded="full"
                     showStatus={true}
                     status="online"

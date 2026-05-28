@@ -44,15 +44,12 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
         }
     };
 
-    // Prevent scroll on modal content and stop propagation
     const handleScrollPrevention = (e: Event) => {
         e.stopPropagation();
     };
 
-    // Prevent touchmove on modal to stop background scrolling on mobile
     const handleTouchMove = (e: TouchEvent) => {
         if (e.target === modalRef || modalRef?.contains(e.target as Node)) {
-            // Allow scrolling inside modal content
             const target = e.target as HTMLElement;
             const isScrollable = target.closest(
                 '.modal-scrollable, .overflow-auto, .overflow-y-auto'
@@ -67,20 +64,16 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
 
     onMount(() => {
         if (props.isOpen) {
-            // Save current body styles
             previousOverflow = document.body.style.overflow;
             previousPaddingRight = document.body.style.paddingRight;
 
-            // Calculate scrollbar width to prevent layout shift
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
-            // Apply styles to prevent body scroll
             document.body.style.overflow = 'hidden';
             if (scrollbarWidth > 0) {
                 document.body.style.paddingRight = `${scrollbarWidth}px`;
             }
 
-            // Add touchmove prevention for mobile
             document.addEventListener('touchmove', handleTouchMove, { passive: false });
         }
 
@@ -94,11 +87,8 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
             window.removeEventListener('keydown', handleKeyDown);
         }
 
-        // Restore body styles
         document.body.style.overflow = previousOverflow;
         document.body.style.paddingRight = previousPaddingRight;
-
-        // Remove touchmove listener
         document.removeEventListener('touchmove', handleTouchMove);
 
         props.onAfterLeave?.();
@@ -108,39 +98,16 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
         <Portal>
             <Presence>
                 <Show when={props.isOpen}>
-                    {/* <div
-                        class={`fixed inset-0 flex items-center justify-center transition-opacity bg-black/60 ${
-                            props.disableBackdropBlur ? '' : 'backdrop-blur-sm'
-                        }`}
-                        role="dialog"
-                        aria-modal="true"
-                        ref={modalRef}
-                        onClick={handleBackdropClick}
-                        onScroll={handleScrollPrevention}
-                        style={{
-                            'z-index': props.zIndex,
-                            transition:
-                                'opacity 500ms cubic-bezier(0.5, 1.5, 0.5, 1)',
-                        }}
-                    >
-                        <div
-                            class={`flex-1 w-full h-full overflow-auto modal-scrollable ${props.class || ''} border border-amber-600`}
-                            onScroll={(e) => e.stopPropagation()}
-                            onWheel={(e) => e.stopPropagation()}
-                        >
-                            {props.children}
-                        </div>
-
-                        {props.showCloseButton !== false && <CloseButton onClose={handleClose} />}
-                    </div> */}
-
                     <Motion
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: ModalAnimateDuration }}
-                        class={`fixed inset-0 flex items-center justify-center transition-opacity bg-black/60 ${
-                            props.disableBackdropBlur ? '' : 'backdrop-blur-sm'
+                        transition={{ 
+                            duration: ModalAnimateDuration,
+                        }}
+                        // REMOVED conflicting transition classes and styles
+                        class={`fixed inset-0 flex items-center justify-center ${
+                            props.disableBackdropBlur ? 'bg-black/60' : 'bg-black/60 backdrop-blur-sm'
                         }`}
                         role="dialog"
                         aria-modal="true"
@@ -149,8 +116,6 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
                         onScroll={handleScrollPrevention}
                         style={{
                             'z-index': props.zIndex,
-                            transition:
-                                'opacity 500ms cubic-bezier(0.5, 1.5, 0.5, 1)',
                         }}
                     >
                         <div

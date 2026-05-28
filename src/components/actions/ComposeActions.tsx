@@ -12,6 +12,7 @@ import {
 } from "~/types/attachment/attachment.type";
 import InsertLinkForm from "~/components/form/InsertLinkForm";
 import { printMail } from "../email/MailPrint";
+import { labelSize } from "~/data/constants";
 
 const EmojiPickerButton = clientOnly(
   () => import("~/components/colorPicker/EmojiPickerButton"),
@@ -183,7 +184,7 @@ const ComposeActions = (props: ComposeActionsProps) => {
     {
       id: "print",
       label: "Print",
-      icon: <FiPrinter size={24} />,
+      icon: <FiPrinter size={labelSize} />,
       onClick: handlePrint,
     },
     { divider: true },
@@ -202,13 +203,13 @@ const ComposeActions = (props: ComposeActionsProps) => {
     {
       id: "link",
       label: "Insert Link",
-      icon: <FiLink size={24} />,
+      icon: <FiLink size={labelSize} />,
       onClick: handleLinkClick,
     },
     {
       id: "attachment",
       label: "Attachment (Left: All Files, Right: Images/Videos)",
-      icon: <AiOutlinePaperClip size={32} />,
+      icon: <AiOutlinePaperClip size={36} />,
       onClick: handleAttachmentClick,
       onContextMenu: handleAttachmentRightClick,
     },

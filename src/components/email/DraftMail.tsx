@@ -31,14 +31,15 @@ export const DraftMail: Component<DraftMailProps> = (props) => {
         class="paper py-2! px-4! rounded-b! overflow-hidden!"
         style={{
           width: "90%",
+          height: "100%"
         }}
       >
-        <h1 class="text-base font-bold font-sans">
+        <h1 class="small-subject-text">
           {props.email.subject || "(No Subject)"}
         </h1>
 
         <div
-          class="prose text-xs opacity-80 leading-relaxed"
+          class="small-content-text"
           innerHTML={previewContent}
         />
       </div>

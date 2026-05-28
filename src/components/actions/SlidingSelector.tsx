@@ -183,7 +183,7 @@ export const SlidingSelector = <T extends string | number | symbol>(
             ref={(el) => (buttonRefs[idx] = el)}
             onClick={() => handleClick(option.value, idx)}
             style={{ height: `${props.height || 48}px` }}
-            class={`flex-1 px-4 rounded-full text-lg flex items-center justify-center cursor-pointer transition-colors duration-150 ${
+            class={`flex-1 px-4 rounded-full text-xl flex items-center justify-center cursor-pointer transition-colors duration-150 ${
               selectedIndex() === idx
                 ? "text-blue-400 font-bold"
                 : "opacity-80 hover:opacity-100"

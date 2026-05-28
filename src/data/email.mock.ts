@@ -125,7 +125,7 @@ export const mockEmails: Email[] = [
     to: ["user@example.com"],
     subject: "Tech Daily: Latest updates in AI",
     content:
-      "Here are today's top tech stories: OpenAI announces GPT-5 capabilities, Google releases new AI search features, Microsoft integrates Copilot across all Office apps, and Anthropic reveals Claude 3 improvements. Read more on our blog.",
+      "Here are today's top tech stories:<br/><br/>Breaking News:<br/><br/>1. OpenAI announces GPT-5 capabilities<br/><br/>• Enhanced reasoning and problem-solving<br/><br/>• Multimodal understanding improvements<br/><br/>• Expected release date: Q3 2025<br/><br/>2. Google releases new AI search features<br/><br/>• AI-organized search results pages<br/><br/>• Video generation in search<br/><br/>• Circle to Search expansion<br/><br/>3. Microsoft integrates Copilot across all Office apps<br/><br/>• Excel now has Copilot for data analysis<br/><br/>• PowerPoint Copilot can generate full presentations<br/><br/>• Outlook Copilot summarizes email threads<br/><br/>4. Anthropic reveals Claude 3 improvements<br/><br/>• Enhanced context window of 200K tokens<br/><br/>• Better code generation capabilities<br/><br/>• Reduced hallucination rates by 50%<br/><br/>Read more on our blog for full details.",
     avatar:
       "https://ui-avatars.com/api/?name=Tech+Daily&background=ef4444&color=fff",
     isRead: false,
@@ -878,7 +878,7 @@ export const mockEmails: Email[] = [
     to: ["support@saasapp.com"],
     subject: "Bug report: Dashboard not loading",
     content:
-      "Hi support team, I'm experiencing an issue where the analytics dashboard shows a loading spinner indefinitely. This happens every time after 3pm EST. Browser is Chrome 120. Can you please look into this? Screenshot attached.",
+      "Hi support team,<br/><br/>I'm experiencing an issue where the analytics dashboard shows a loading spinner indefinitely.<br/><br/>This happens every time after 3pm EST.<br/><br/>Browser: Chrome 120<br/><br/>Can you please look into this?<br/><br/>Screenshot attached.<br/><br/>Additional details:<br/><br/>- Dashboard URL: analytics.company.com/reports<br/><br/>- Frequency: Daily after 3pm EST<br/><br/>- Duration: Indefinite until page refresh<br/><br/>- Other users affected: Yes, team members confirmed<br/><br/>Steps to reproduce:<br/><br/>1. Login to analytics dashboard before 3pm EST<br/><br/>2. Navigate to main reports page<br/><br/>3. Wait until 3pm EST passes<br/><br/>4. Observe loading spinner appears and never resolves<br/><br/>Troubleshooting attempted:<br/><br/>- Cleared browser cache and cookies<br/><br/>- Disabled all extensions<br/><br/>- Tested in incognito mode<br/><br/>- Confirmed network requests are pending<br/><br/>Please advise on next steps.",
     avatar: null,
     folder: EmailFolder.SENT,
     isRead: true,

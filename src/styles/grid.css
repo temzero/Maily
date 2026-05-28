@@ -2,7 +2,7 @@
 .container-grid {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -17,13 +17,13 @@
     }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .container-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1600px) {
     .container-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }

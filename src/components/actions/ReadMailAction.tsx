@@ -21,6 +21,7 @@ import {
 import { TbOutlineRestore } from 'solid-icons/tb';
 import { openComposeForward } from '~/store/modal/composeModal.store';
 import { getEmailById } from '~/store/email/email.selectors';
+import { labelSize } from '~/data/constants';
 
 interface ReadMailActionsProps {
     emailId: string;
@@ -35,7 +36,7 @@ const ReadMailActions = (props: ReadMailActionsProps) => {
     if (!email()) return null;
 
     const labelActions = createMemo(() =>
-        getRenderLabelsByIds(email()?.labelIds || [], 20)().map((label) => ({
+        getRenderLabelsByIds(email()?.labelIds || [], labelSize)().map((label) => ({
             id: label.id.toString(),
             label: label.name,
             color: label.color,

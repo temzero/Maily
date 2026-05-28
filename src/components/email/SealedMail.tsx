@@ -35,8 +35,8 @@ export const SealedMail: Component<SealedMailProps> = (props) => {
         >
             <div class="flex flex-col gap-2 h-full min-h-0 select-none">
                 {/* Top Section - Subject & Stamp */}
-                <div class="flex justify-between gap-1 min-h-0">
-                    <h1 class="font-bold px-1 overflow-hidden">
+                <div class="flex justify-between gap-1 min-h-0 p-1">
+                    <h1 class="small-subject-text">
                         {props.email.subject || '(No Subject)'}
                     </h1>
                 </div>
@@ -59,11 +59,11 @@ export const SealedMail: Component<SealedMailProps> = (props) => {
                         )}
 
                         {/* Display Name */}
-                        <div class="text-xs">{displayName()}</div>
+                        <div class="small-content-text">{displayName()}</div>
                     </div>
 
                     {/* Created At - Bottom Right */}
-                    <div class="text-[10px] opacity-60">{formatDate(props.email.createdAt)}</div>
+                    <div class="text-xs opacity-60">{formatDate(props.email.createdAt)}</div>
                 </div>
             </div>
         </Envelope>
