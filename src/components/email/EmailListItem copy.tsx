@@ -11,27 +11,26 @@ import {
 } from "~/store/ui.store";
 
 interface EmailListItemProps {
+  // email: Email;
   emailId: string;
   class?: string;
   onDelete?: () => void;
 }
 
 export const EmailListItem: Component<EmailListItemProps> = (props) => {
+  // const email = props.email;
   const email = createMemo(() => getEmailById(props.emailId)!);
 
   console.log("EmailListItem", email().id);
 
+  // const [isInfoMode, setInfoMode] = createSignal(false);
   const [isContextMenuOpen, setIsContextMenuOpen] = createSignal(false);
 
   const focusId = `mail-item-${email().id}`;
 
-  let holdTimer: number | undefined;
-  let longPressTriggered = false;
-
   const isOpening = (): boolean => {
     return getActiveEmailId() === email().id;
   };
-
   const isFocusing = (): boolean => {
     return getFocusElementId() === focusId;
   };
@@ -43,89 +42,36 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
         setIsContextMenuOpen(false);
       },
       onInfo: () => setFocusElementId(focusId),
+      // onInfo: () => setInfoMode(true),
       onDelete: props.onDelete,
     }),
   );
 
-  const openContextMenu = (x: number, y: number) => {
-    setIsContextMenuOpen(true);
-
-    showContextMenu(getMenuItems(), x, y, () => {
-      setIsContextMenuOpen(false);
-    });
-  };
-
   const handleClick = () => {
-    // prevent click after long press
-    if (longPressTriggered) {
-      longPressTriggered = false;
-      return;
-    }
-
     setActiveEmailId(email().id);
-
     console.log("Clicked email", email().id);
   };
 
   const handleContextMenu = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    openContextMenu(e.clientX, e.clientY);
-  };
-
-  const clearHoldTimer = () => {
-    if (holdTimer) {
-      clearTimeout(holdTimer);
-      holdTimer = undefined;
-    }
-  };
-
-  const handlePointerDown = (e: PointerEvent) => {
-    // mobile only
-    if (e.pointerType !== "touch") return;
-
-    longPressTriggered = false;
-
-    clearHoldTimer();
-
-    holdTimer = window.setTimeout(() => {
-      longPressTriggered = true;
-
-      openContextMenu(e.clientX, e.clientY);
-    }, 500);
-  };
-
-  const handlePointerUp = () => {
-    clearHoldTimer();
-  };
-
-  const handlePointerLeave = () => {
-    clearHoldTimer();
-  };
-
-  const handlePointerCancel = () => {
-    clearHoldTimer();
+    setIsContextMenuOpen(true);
+    showContextMenu(getMenuItems(), e.clientX, e.clientY, () => {
+      setIsContextMenuOpen(false);
+    });
   };
 
   return (
     <div
       id={`email-list-item-${email().id}`}
-      class={`flex items-center justify-center w-fit transition-transform cursor-pointer relative touch-manipulation ${
-        props.class ?? ""
-      } ${
+      class={`flex items-center justify-center w-fit transition-transform cursor-pointer relative ${props.class} ${
         !isFocusing() && (isContextMenuOpen() ? "scale-110" : "hover:scale-105")
       }`}
       style={{
         opacity: isFocusing() || isOpening() ? "0" : "1",
-        "-webkit-touch-callout": "none",
       }}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerLeave}
-      onPointerCancel={handlePointerCancel}
     >
       <Mail email={email()} isFocusing={isFocusing()} />
     </div>

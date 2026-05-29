@@ -3,7 +3,7 @@ import { Component, JSX } from 'solid-js';
 import { mailDimensions } from '~/data/constants';
 import { BorderStyle, EnvelopeType } from '~/types/envelop/envelop.type';
 import { getEnvelopeBorderStyle } from './utils/getEnvelopBorderStyle.utils';
-import { FontStyle } from '~/types/font.style';
+import { FontFamily } from "~/types/font-family.enums";
 import { getBackgroundStyle } from '~/utils/getBackgroundStyle';
 
 interface EnvelopeLayoutProps {
@@ -20,7 +20,7 @@ interface EnvelopeLayoutProps {
 
 const defaultSettings = {
     textColor: 'black',
-    fontStyle: FontStyle.ARIAL,
+    fontStyle: FontFamily.ARIAL,
     backgroundColor: 'linear-gradient(to left, #cccccc, white)',
     borderWidth: 6,
     padding: 12,
@@ -84,7 +84,7 @@ export const Envelope: Component<EnvelopeLayoutProps> = (props) => {
                         bottom: `${borderWidth}px`,
                         width: 'auto',
                         height: 'auto',
-                        'pointer-events': 'none', // So clicks pass through to background
+                        // 'pointer-events': 'none', // So clicks pass through to background
                     }}
                 >
                     {props.children}

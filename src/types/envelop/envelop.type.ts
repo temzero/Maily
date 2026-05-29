@@ -1,11 +1,11 @@
-import { FontStyle } from "../font.style";
+import { FontFamily } from "~/types/font-family.enums";
 
 // Envelope Interface with Enums
 export interface EnvelopeType {
     id: string;
     name?: string;
     textColor?: string; // Hex, RGB, or CSS color
-    fontStyle?: FontStyle; // e.g., 'Arial', 'Times New Roman'
+    fontStyle?: FontFamily; // e.g., 'Arial', 'Times New Roman'
     borderStyle?: BorderStyle;
     borderColors?: string[]; // Hex, RGB, or CSS color
     hiddenBorders?: HiddenBorderSide[];

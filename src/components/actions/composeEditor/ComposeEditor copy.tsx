@@ -8,7 +8,7 @@ import {
   FaSolidAlignJustify,
   FaSolidUnderline,
 } from "solid-icons/fa";
-import { createSignal } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { RiSystemResetLeftFill } from "solid-icons/ri";
 import TextColorPicker from "../colorPicker/TextColorPicker";
 
@@ -18,12 +18,16 @@ const buttonSize = 20;
 
 const ComposeEditor = () => {
   const [textColor, setTextColor] = createSignal(DefaultTextColor);
-  const [highlightColor, setHighlightColor]= createSignal(DefaultHighlightColor);
+  const [highlightColor, setHighlightColor] = createSignal(DefaultHighlightColor);
   
   // State for active buttons
   const [activeFontSize, setActiveFontSize] = createSignal<string | null>("medium");
   const [activeFormatting, setActiveFormatting] = createSignal<string[]>([]);
   const [activeAlignment, setActiveAlignment] = createSignal<string | null>("justifyLeft");
+
+  // Store the current colors to apply to new text
+  let currentTextColor = DefaultTextColor;
+  let currentHighlightColor = DefaultHighlightColor;
 
   const actionButtonHoverClasses =
     "opacity-80 hover:opacity-100 hover:scale-125 transition-all origin-left";
@@ -44,6 +48,56 @@ const ComposeEditor = () => {
       case "medium": return "16px";
       case "large": return "24px";
       default: return "16px";
+    }
+  };
+
+  // Apply current colors to newly typed text
+  const handleInput = (e: Event) => {
+    const editor = getEditor();
+    if (!editor) return;
+
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed) return;
+
+    // Get the current node
+    const node = selection.anchorNode;
+    if (!node || node.nodeType !== Node.TEXT_NODE) return;
+
+    // Check if the parent element already has the current colors
+    const parent = node.parentElement;
+    if (parent) {
+      const hasCurrentColor = currentTextColor === DefaultTextColor 
+        ? !parent.style.color 
+        : parent.style.color === currentTextColor;
+      
+      const hasCurrentHighlight = currentHighlightColor === DefaultHighlightColor
+        ? !parent.style.backgroundColor
+        : parent.style.backgroundColor === currentHighlightColor;
+
+      // If colors don't match, wrap the text node with styled spans
+      if (!hasCurrentColor || !hasCurrentHighlight) {
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        
+        const span = document.createElement("span");
+        if (currentTextColor !== DefaultTextColor) {
+          span.style.color = currentTextColor;
+        }
+        if (currentHighlightColor !== DefaultHighlightColor) {
+          span.style.backgroundColor = currentHighlightColor;
+        }
+        
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+        
+        // Move cursor to the end
+        selection.removeAllRanges();
+        const newRange = document.createRange();
+        newRange.selectNodeContents(span);
+        newRange.collapse(false);
+        selection.addRange(newRange);
+      }
     }
   };
 
@@ -106,6 +160,7 @@ const ComposeEditor = () => {
 
   // Handle text color
   const applyTextColor = (color: string) => {
+    currentTextColor = color;
     setTextColor(color);
     if (color === DefaultTextColor) {
       // Remove color styling
@@ -116,12 +171,14 @@ const ComposeEditor = () => {
   };
 
   const resetTextColor = () => {
+    currentTextColor = DefaultTextColor;
     setTextColor(DefaultTextColor);
     document.execCommand('removeFormat', false);
   };
 
   // Handle highlight color
   const applyHighlightColor = (color: string) => {
+    currentHighlightColor = color;
     setHighlightColor(color);
     if (color === DefaultHighlightColor) {
       document.execCommand('removeFormat', false);
@@ -131,6 +188,7 @@ const ComposeEditor = () => {
   };
 
   const resetHighlightColor = () => {
+    currentHighlightColor = DefaultHighlightColor;
     setHighlightColor(DefaultHighlightColor);
     document.execCommand('removeFormat', false);
   };
@@ -188,6 +246,29 @@ const ComposeEditor = () => {
     editor.dispatchEvent(new Event("input", { bubbles: true }));
   };
 
+  // Set up input event listener for new text
+  const setupInputListener = () => {
+    const editor = getEditor();
+    if (editor) {
+      editor.addEventListener('input', handleInput);
+      onCleanup(() => {
+        editor.removeEventListener('input', handleInput);
+      });
+    }
+  };
+
+  // Use mutation observer to ensure the editor exists
+  const observer = new MutationObserver(() => {
+    const editor = getEditor();
+    if (editor) {
+      setupInputListener();
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+  onCleanup(() => observer.disconnect());
+
   return (
     <div class="fixed left-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
       {/* Font Selection */}
@@ -200,14 +281,14 @@ const ComposeEditor = () => {
         <option class="text-black bg-white rounded-b">Mono</option>
       </select>
 
-      <div class={buttonContainerClasses}>
-        <div class="flex items-center gap-0">
+      <div class='flex flex-col gap-0.5'>
+        <div class="flex items-center gap-1">
           <div class={actionButtonHoverClasses}>
             <TextColorPicker
               color={textColor()}
               onChange={(color) => applyTextColor(color)}
               offsetX={30}
-              offsetY={2}
+              offsetY={12}
               shape="circle"
             />
           </div>
@@ -224,13 +305,13 @@ const ComposeEditor = () => {
         </div>
         <div />
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1">
           <div class={actionButtonHoverClasses}>
             <TextColorPicker
               color={highlightColor()}
               onChange={(color) => applyHighlightColor(color)}
               offsetX={30}
-              offsetY={2}
+              offsetY={12}
               shape="square"
             />
           </div>

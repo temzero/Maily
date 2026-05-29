@@ -1,7 +1,7 @@
 // mock/envelop.mock.ts
 import { BorderStyle } from "~/types/envelop/envelop.type";
 import { EnvelopeType } from "~/types/envelop/envelop.type";
-import { FontStyle } from "~/types/font.style";
+import { FontFamily } from "~/types/font-family.enums";
 
 import procreatePaper from "~/assets/images/papers/procreate-paper.jpg";
 import stripesPaper from "~/assets/images/papers/stripes-paper.png";
@@ -20,7 +20,7 @@ export const getNewCustomEnvelope = (id?: string): EnvelopeType => {
     id: resolvedId,
     name: resolvedId,
     textColor: "black",
-    fontStyle: FontStyle.ARIAL,
+    fontStyle: FontFamily.ARIAL,
     backgroundColor: "white",
     backgroundUrl: procreatePaper,
     borderStyle: BorderStyle.STRIPED,
@@ -34,7 +34,7 @@ export const envelopePresets: EnvelopeType[] = [
     id: "default",
     name: "Airmail",
     textColor: "black",
-    fontStyle: FontStyle.ARIAL,
+    fontStyle: FontFamily.ARIAL,
     backgroundColor: "white",
     backgroundUrl: procreatePaper,
     borderStyle: BorderStyle.STRIPED,
@@ -45,7 +45,7 @@ export const envelopePresets: EnvelopeType[] = [
     id: "simple_white",
     name: "Simple White",
     textColor: "#000099",
-    fontStyle: FontStyle.GEORGIA,
+    fontStyle: FontFamily.GEORGIA,
     borderStyle: BorderStyle.NONE,
     backgroundColor: "linear-gradient(to left, #cccccc, white)",
   },
@@ -87,7 +87,7 @@ export const envelopePresets: EnvelopeType[] = [
     id: "airmail_red",
     name: "Airmail Red",
     textColor: "#4A1A1A",
-    fontStyle: FontStyle.COURIER_NEW,
+    fontStyle: FontFamily.COURIER_NEW,
     borderStyle: BorderStyle.STRIPED,
     borderColors: ["#C62828", "#E57373", "blue"],
     backgroundColor: "#FFF5F5",
@@ -118,7 +118,7 @@ export const envelopePresets: EnvelopeType[] = [
     id: "double_yellow_red",
     name: "Double Yellow Red",
     textColor: "#4A1A1A",
-    fontStyle: FontStyle.MONOSPACE,
+    fontStyle: FontFamily.MONOSPACE,
     borderStyle: BorderStyle.DOUBLE,
     borderColors: ["#FFF9C4", "#D32F2F", "#D32F2F"],
     backgroundColor: "#FFF9C4",

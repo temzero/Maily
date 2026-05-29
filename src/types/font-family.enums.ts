@@ -1,4 +1,4 @@
-export enum FontStyle {
+export enum FontFamily {
     ARIAL = 'Arial',
     GEORGIA = 'Georgia',
     MONOSPACE = 'Monospace',

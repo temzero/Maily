@@ -6,9 +6,9 @@ export enum Theme {
 }
 
 export enum FontSize {
-  SMALL = "small",
-  MEDIUM = "medium",
-  LARGE = "large",
+  S = "small",
+  M = "medium",
+  L = "large",
 }
 
 export enum PreviewLines {

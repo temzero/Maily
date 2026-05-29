@@ -25,6 +25,7 @@ import { labelSize } from '~/data/constants';
 
 interface ReadMailActionsProps {
     emailId: string;
+    onClose: () => void;
 }
 
 const ReadMailActions = (props: ReadMailActionsProps) => {
@@ -107,7 +108,10 @@ const ReadMailActions = (props: ReadMailActionsProps) => {
                 id: 'delete',
                 label: email()?.isDeleted ? 'Delete Permanently' : 'Move to Trash',
                 icon: email()?.isDeleted ? <HiSolidTrash color={redColor} /> : <HiOutlineTrash />,
-                onClick: () => deleteEmail(email()!.id),
+             onClick: () => {
+                deleteEmail(email()!.id);
+                props.onClose();
+                }
             },
         ];
     });

@@ -4,10 +4,10 @@ import { Motion } from "solid-motionone";
 import { animations } from "~/utils/animations";
 import { Attachment } from "~/types/attachment/attachment.type";
 import { Email } from "~/types/email/email.type";
-import ComposeEditor from "../actions/ComposeEditor";
 import RenderAttachments, {
   RenderAttachmentMode,
 } from "~/components/attachment/RenderAttachments";
+import ComposeEditor from "../actions/composeEditor/ComposeEditor";
 
 type Props = {
   subject: Accessor<string>;

@@ -109,7 +109,7 @@ export function Avatar(props: AvatarProps) {
             <Show when={local.showStatus}>
                 <span
                     class={`
-                        absolute bottom-0 right-0
+                        absolute bottom-0.5 right-0.5
                         ${statusSizeClass()}
                         ${statusColorClass()}
                         rounded-full ring-2 ring-white dark:ring-gray-900

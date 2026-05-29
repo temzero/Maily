@@ -35,14 +35,10 @@ export function MailContent(props: MailContentProps) {
 
   console.log("MailContent", email.id);
 
-  const handleClose = (): void => {
-    props.onClose?.();
-  };
-
   onMount(() => {
     if (!isSent) {
       setAgentMessages(
-        mockAgentMessages.read(email.id, email.subject, handleClose),
+        mockAgentMessages.read(email.id, email.subject, () => props.onClose?.()),
       );
     }
     audioManager.play("viewMail");
@@ -104,7 +100,7 @@ export function MailContent(props: MailContentProps) {
           class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
           name={isSent ? "Forward email" : `Reply to ${email.from}`}
         />
-        <ReadMailActions emailId={email.id} />
+        <ReadMailActions emailId={email.id} onClose={() => props.onClose?.()} />
       </Show>
     </div>
   );

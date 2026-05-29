@@ -80,10 +80,10 @@ export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
               <img
                 src={props.email.avatar}
                 alt="Avatar"
-                class="w-11 h-11 rounded-full object-cover"
+                class="w-11 h-11 rounded-full object-cover pointer-events-none select-none"
               />
             ) : (
-              <div class="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
+              <div class="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold pointer-events-none select-none">
                 {getInitials()}
               </div>
             )}

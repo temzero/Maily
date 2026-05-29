@@ -28,7 +28,7 @@ export const DraftMail: Component<DraftMailProps> = (props) => {
       {/* Paper Content */}
       <div
         id="paper-content"
-        class="paper py-2! px-4! rounded-b! overflow-hidden!"
+        class="paper p-4! rounded-b! overflow-hidden!"
         style={{
           width: "90%",
           height: "100%"

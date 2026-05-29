@@ -3,7 +3,7 @@ import { Accessor, For, Show } from 'solid-js';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlinePlusCircle } from 'solid-icons/ai';
 import { HiOutlineTrash } from 'solid-icons/hi';
 import { EnvelopeType, BorderStyle, HiddenBorderSide } from '~/types/envelop/envelop.type';
-import { FontStyle } from '~/types/font.style';
+import { FontFamily } from "~/types/font-family.enums";
 import HiddenBorderPicker from './envelopeEditor/HiddenBorderPicker';
 import ColorPickerButton from '~/components/colorPicker/ColorPickerButton';
 import { getNewCustomEnvelope } from '~/data/envelop.mock';
@@ -32,7 +32,7 @@ export default function EnvelopeEditor(props: EnvelopeEditorProps) {
         );
     };
 
-    const fontOptions = [FontStyle.ARIAL, FontStyle.SERIF, FontStyle.GEORGIA, FontStyle.MONOSPACE];
+    const fontOptions = [FontFamily.ARIAL, FontFamily.SERIF, FontFamily.GEORGIA, FontFamily.MONOSPACE];
     const borderStyles = [
         BorderStyle.SOLID,
         BorderStyle.DASHED,
@@ -144,7 +144,7 @@ export default function EnvelopeEditor(props: EnvelopeEditorProps) {
                 <div class="flex gap-1.5 items-center">
                     <h1
                         style={{
-                            'font-family': props.envelope?.fontStyle ?? FontStyle.ARIAL,
+                            'font-family': props.envelope?.fontStyle ?? FontFamily.ARIAL,
                         }}
                         class="text-2xl leading-none"
                     >
@@ -158,7 +158,7 @@ export default function EnvelopeEditor(props: EnvelopeEditorProps) {
                     />
                     <select
                         class="bg-black/50 rounded py-1 text-sm"
-                        onChange={(e) => update({ fontStyle: e.currentTarget.value as FontStyle })}
+                        onChange={(e) => update({ fontStyle: e.currentTarget.value as FontFamily })}
                         value={props.envelope?.fontStyle || 'Arial'}
                     >
                         <For each={fontOptions}>

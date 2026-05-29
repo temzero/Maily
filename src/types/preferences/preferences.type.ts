@@ -71,7 +71,7 @@ export const defaultUserPreferences: UserPreferences = {
     theme: Theme.SYSTEM,
     isCompactView: false,
     isDateView: false,
-    fontSize: FontSize.MEDIUM,
+    fontSize: FontSize.M,
 
     // Notifications
     areNotificationsEnabled: true,

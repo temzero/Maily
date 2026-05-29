@@ -68,7 +68,6 @@ export default function Header(props: { class: string }) {
                     name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
                     size="sm"
                     rounded="full"
-                    showStatus={true}
                     status="online"
                     class="pointer-events-auto!"
                     onClick={() => navigate('/profile')}

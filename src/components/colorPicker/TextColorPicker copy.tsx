@@ -1,3 +1,4 @@
+import { CompactPicker } from "solid-color";
 import { ChromePicker } from "solid-color";
 import { Show, createSignal, createEffect, onCleanup } from "solid-js";
 import { Portal } from "solid-js/web";
@@ -6,7 +7,7 @@ type TextColorPickerProps = {
   color?: string | null;
   onChange: (hex: string) => void;
   shape?: "circle" | "square";
-  size?: number;
+  size?: string;
   label?: string;
   offsetX?: number;
   offsetY?: number;
@@ -16,12 +17,10 @@ export default function TextColorPicker(props: TextColorPickerProps) {
   const [open, setOpen] = createSignal(false);
   const [pickerPosition, setPickerPosition] = createSignal({ top: 0, left: 0 });
   let swatchRef: HTMLDivElement | undefined;
-  let pickerRef: HTMLDivElement | undefined;
   let savedSelection: Range | null = null;
 
   const shapeClass = props.shape === "circle" ? "rounded-full" : "rounded";
-  const size = props.size ?? 6;
-  const sizeClass = `w-${size} h-${size}`;
+  const sizeClass = props.size ?? "w-6 h-6";
 
   const hasColor = () => {
     const color = props.color;
@@ -42,6 +41,7 @@ export default function TextColorPicker(props: TextColorPickerProps) {
   // Restore selection and focus
   const restoreSelectionAndFocus = () => {
     if (savedSelection) {
+      // Focus the editor first
       const editor = document.querySelector(
         '[contenteditable="true"]',
       ) as HTMLElement;
@@ -49,6 +49,7 @@ export default function TextColorPicker(props: TextColorPickerProps) {
         editor.focus();
       }
 
+      // Restore the selection
       const selection = window.getSelection();
       if (selection) {
         selection.removeAllRanges();
@@ -65,28 +66,45 @@ export default function TextColorPicker(props: TextColorPickerProps) {
     const { r, g, b, a = 1 } = color.rgb;
     const value = a === 1 ? color.hex : `rgba(${r}, ${g}, ${b}, ${a})`;
 
+    // Restore selection and focus BEFORE applying color
     restoreSelectionAndFocus();
+
+    // Apply the color
     props.onChange(value);
 
+    // Close the picker
+    // setOpen(false);
+
+    // Ensure focus stays on editor after closing
     const editor = document.querySelector(
       '[contenteditable="true"]',
     ) as HTMLElement;
     if (editor) {
       editor.focus();
+      if (savedSelection) {
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(savedSelection);
+        savedSelection = null;
+      }
     }
   };
 
   const calculatePosition = () => {
     if (!swatchRef) return;
     const rect = swatchRef.getBoundingClientRect();
-    const left = rect.left + (props.offsetX || size);
-    const top = rect.top + (props.offsetY || size);
+    const left = rect.left + (props.offsetX || 0);
+    const top = rect.top + (props.offsetY || 0);
     setPickerPosition({ top, left });
   };
 
-  const handleClick = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handleMouseDown = (e: MouseEvent) => {
+    // Prevent button from stealing focus
+    e.preventDefault();
+
+    // Save current selection before opening
     saveSelection();
+
     calculatePosition();
     setOpen(true);
   };
@@ -102,42 +120,16 @@ export default function TextColorPicker(props: TextColorPickerProps) {
     }
   };
 
-  // Handle click outside
   createEffect(() => {
-    if (!open()) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      // Use a small delay to ensure the DOM is updated
-      setTimeout(() => {
-        const target = event.target as Node;
-        const isClickInsideSwatch = swatchRef?.contains(target);
-        const isClickInsidePicker = pickerRef?.contains(target);
-
-        console.log("Click detected:", {
-          isClickInsideSwatch,
-          isClickInsidePicker,
-          target: target.nodeName,
-          hasPickerRef: !!pickerRef,
-        });
-
-        if (!isClickInsideSwatch && !isClickInsidePicker && open()) {
-          handleClose();
-        }
-      }, 0);
-    };
-
-    // Use capture phase to catch the event before it bubbles
-    document.addEventListener("mousedown", handleClickOutside, true);
-    document.addEventListener("keydown", handleKeyDown);
-
-    onCleanup(() => {
-      document.removeEventListener("mousedown", handleClickOutside, true);
-      document.removeEventListener("keydown", handleKeyDown);
-    });
+    if (open()) {
+      document.addEventListener("keydown", handleKeyDown);
+      onCleanup(() => {
+        document.removeEventListener("keydown", handleKeyDown);
+      });
+    }
   });
-
   return (
-    <div class="relative group inline-block">
+    <div class="relative group">
       <div
         ref={swatchRef}
         class={`relative ${sizeClass} ${shapeClass} cursor-pointer border-2 border-white/70 hover:border-white transition-all hover:scale-110 shadow-sm`}
@@ -147,17 +139,11 @@ export default function TextColorPicker(props: TextColorPickerProps) {
             backgroundImage: `repeating-linear-gradient(45deg, #666 0px, #666 2px, transparent 2px, transparent 8px)`,
           }),
         }}
+        onMouseDown={handleMouseDown}
         title={
           props.label ||
           (hasColor() ? (props.color ?? "transparent") : "transparent")
         }
-        onMouseDown={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          saveSelection();
-        }}
-        onClick={handleClick}
       >
         {!hasColor() && (
           <div class="absolute top-1/2 left-1/2 w-full h-0.5 bg-red-500 rotate-135 -translate-x-1/2 -translate-y-1/2" />
@@ -173,17 +159,17 @@ export default function TextColorPicker(props: TextColorPickerProps) {
       <Show when={open()}>
         <Portal>
           <div
-            ref={pickerRef}
+            class="fixed inset-0 z-99998"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={handleClose}
+          />
+          <div
             class="fixed z-99999"
             style={{
               top: `${pickerPosition().top}px`,
               left: `${pickerPosition().left}px`,
             }}
-            onClick={(e) => e.stopPropagation()}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onMouseDown={(e) => e.preventDefault()}
           >
             <ChromePicker
               color={hasColor() ? props.color! : "#000000"}
