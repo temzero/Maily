@@ -1,6 +1,7 @@
 import { FaSolidSearch } from 'solid-icons/fa';
 import { createSignal, onMount, onCleanup } from 'solid-js';
 import { Motion } from 'solid-motionone';
+import {navHeight} from '~/constants/height';
 
 type Props = {
     value: string;
@@ -64,7 +65,9 @@ export default function SearchInput(props: Props) {
             }}
         >
             <div
-                class={` ${props.class || ''} flex items-center gap-2 lg:w-150 sm:w-80 p-1 px-1.5 rounded nav-panel`}
+                class={` ${props.class || ''} flex items-center gap-2 lg:w-150 sm:w-80 p-1 px-1.5 rounded-md nav-panel`}
+                style={{ height: `${navHeight}px` }}
+                // style={{ height: `${navHeight}px` }}
             >
                 <FaSolidSearch size={22} />
                 <input
@@ -75,7 +78,7 @@ export default function SearchInput(props: Props) {
                     onInput={props.onInput}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    class="w-full h-full text-xl outline-none focus:outline-none focus:ring-0 "
+                    class="w-full h-full text-xl outline-none focus:outline-none focus:ring-0"
                 />
             </div>
         </Motion>

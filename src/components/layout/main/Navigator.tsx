@@ -4,12 +4,6 @@ import { SlidingSelector } from '~/components/actions/SlidingSelector';
 import { navHeight } from '~/constants/height';
 import { NAVIGATION_ITEMS } from '~/data/constants';
 
-interface NavItem {
-    name: string;
-    href: string;
-    current: boolean;
-}
-
 const Navigator: Component = () => {
     const navigate = useNavigate();
     const location = useLocation();

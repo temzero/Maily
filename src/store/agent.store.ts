@@ -1,14 +1,14 @@
 // store/agent.store.ts
 import { createStore } from 'solid-js/store';
 
-export interface Message {
+export interface AgentMessage {
     text: string;
     isUserSender?: boolean;
     onClick?: () => void;
 }
 
 interface AgentState {
-    messages: Message[];
+    messages: AgentMessage[];
 }
 
 const [agentStore, setAgentStore] = createStore<AgentState>({
@@ -26,12 +26,12 @@ const [agentStore, setAgentStore] = createStore<AgentState>({
 // ====================
 export const getAgentMessages = () => agentStore.messages;
 
-export const setAgentMessages = (messages: Message[]) => {
+export const setAgentMessages = (messages: AgentMessage[]) => {
     setAgentStore('messages', messages);
 };
 
 export const addAgentMessage = (text: string, onClick: () => void, isUserSender?: boolean) => {
-    const newMessage: Message = {
+    const newMessage: AgentMessage = {
         text,
         isUserSender: isUserSender || false,
         onClick,

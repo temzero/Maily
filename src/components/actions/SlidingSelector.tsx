@@ -23,6 +23,12 @@ interface SlidingSelectorProps<T = string> {
 export const SlidingSelector = <T extends string | number | symbol>(
   props: SlidingSelectorProps<T>,
 ) => {
+  const height = props.height ?? 60;
+  const borderWidth = props.borderWidth ?? 2;
+  const totalHeight = height + borderWidth * 2;
+  const sliderHeight = height - borderWidth * 2;
+  const roundedClass = `rounded-full!`;
+
   let containerRef: HTMLDivElement | undefined;
   let sliderRef: HTMLDivElement | undefined;
   let buttonRefs: (HTMLButtonElement | null)[] = [];
@@ -148,17 +154,17 @@ export const SlidingSelector = <T extends string | number | symbol>(
   return (
     <div
       ref={containerRef}
-      style={{ height: `${props.height || 48}px` }}
-      class={`relative nav-panel rounded-full! select-none ${
+      style={{ height: `${totalHeight}px` }}
+      class={`relative nav-panel ${roundedClass} select-none ${
         props.className || ""
       }`}
       onMouseDown={handleContainerMouseDown}
     >
-      {props.borderWidth && props.borderWidth > 0 && (
+      {borderWidth > 0 && (
         <div
-          class="absolute inset-0 rounded-full pointer-events-none"
+          class={`absolute inset-0 ${roundedClass} pointer-events-none`}
           style={{
-            "box-shadow": `inset 0 0 0 ${props.borderWidth}px var(--border-dark)`,
+            "box-shadow": `inset 0 0 0 ${borderWidth}px var(--border-dark)`,
           }}
         />
       )}
@@ -167,12 +173,12 @@ export const SlidingSelector = <T extends string | number | symbol>(
         ref={sliderRef}
         style={{
           left: `${sliderLeft()}px`,
-          height: `${(props.height || 48) - (props.borderWidth || 0) * 2}px`,
+          height: `${sliderHeight}px`,
           width: `${sliderWidth()}px`,
           top: "50%",
           transform: "translateY(-50%)",
         }}
-        class={`absolute rounded-full bg-black/60 shadow-lg z-0 ${
+        class={`absolute ${roundedClass} bg-black/60 shadow-lg z-0 ${
           props.sliderClassName || ""
         }`}
       />
@@ -182,10 +188,10 @@ export const SlidingSelector = <T extends string | number | symbol>(
           <button
             ref={(el) => (buttonRefs[idx] = el)}
             onClick={() => handleClick(option.value, idx)}
-            style={{ height: `${props.height || 48}px` }}
-            class={`flex-1 px-4 rounded-full text-xl flex items-center justify-center cursor-pointer transition-colors duration-150 ${
+            style={{ height: `${height}px` }}
+            class={`flex-1 px-4 ${roundedClass} text-xl flex items-center justify-center cursor-pointer duration-150 transition-all duration-100 ease-out ${
               selectedIndex() === idx
-                ? "text-blue-400 font-bold"
+                ? "text-blue-400 scale-110 font-semibold"
                 : "opacity-80 hover:opacity-100"
             } ${props.buttonClassName || ""}`}
           >
