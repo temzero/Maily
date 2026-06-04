@@ -26,7 +26,7 @@ interface ActionButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> 
 
 const variantStyles: Record<ButtonVariant, string> = {
     primary:
-        'bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 hover:border-blue-700 active:bg-blue-800 focus-visible:ring-blue-500',
+        'bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 hover:border-blue-700 active:bg-blue-500 focus-visible:ring-blue-500',
     secondary:
         'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200 hover:border-gray-300 active:bg-gray-300 focus-visible:ring-gray-400',
     ghost: 'bg-transparent text-gray-700 border border-transparent hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200 focus-visible:ring-gray-400',
@@ -36,7 +36,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     warning:
         'bg-amber-500 text-white border border-amber-500 hover:bg-amber-600 hover:border-amber-600 active:bg-amber-700 focus-visible:ring-amber-400',
     outline:
-        'bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-50 active:bg-blue-100 focus-visible:ring-blue-500',
+        'bg-transparent text-white border-2! border-white/30! hover:bg-white/20 active:bg-white/30 focus-visible:ring-blue-500',
     link: 'bg-transparent text-blue-600 border border-transparent hover:underline hover:text-blue-700 active:text-blue-800 focus-visible:ring-blue-500',
 };
 

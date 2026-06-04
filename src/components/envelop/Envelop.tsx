@@ -1,6 +1,6 @@
 // components/envelope/EnvelopeLayout.tsx
 import { Component, JSX } from 'solid-js';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { BorderStyle, EnvelopeType } from '~/types/envelop/envelop.type';
 import { getEnvelopeBorderStyle } from './utils/getEnvelopBorderStyle.utils';
 import { FontFamily } from "~/types/font-family.enums";

@@ -7,7 +7,11 @@ import { Email } from "~/types/email/email.type";
 import RenderAttachments, {
   RenderAttachmentMode,
 } from "~/components/attachment/RenderAttachments";
+import { useDragAndDropAttachments } from "~/hooks/useDragAndDropAttachments";
 import ComposeEditor from "../actions/composeEditor/ComposeEditor";
+import { IoMailOpenSharp } from 'solid-icons/io';
+import { AiOutlineArrowDown } from "solid-icons/ai";
+import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
 
 type Props = {
   subject: Accessor<string>;
@@ -20,10 +24,20 @@ type Props = {
 };
 
 export default function ComposeStep(props: Props) {
+  let composeRef: HTMLDivElement | undefined;
   let subjectRef: HTMLTextAreaElement | undefined;
   let contentRef: HTMLDivElement | undefined;
 
+  const { isDragging, setup } = useDragAndDropAttachments({
+    attachments: props.attachments,
+    setAttachments: props.setAttachments,
+    target: () => composeRef,
+    pasteTarget: () => contentRef,
+  });
+
   onMount(() => {
+    setup();
+
     if (contentRef && props.content()) {
       contentRef.innerHTML = props.content();
     }
@@ -80,14 +94,36 @@ export default function ComposeStep(props: Props) {
   };
 
   return (
-    <div class="relative w-full min-h-screen flex-1 flex justify-center items-center">
+    <div ref={composeRef} class="relative w-full min-h-screen py-16 flex-1 flex justify-center items-center">
+      {isDragging() && (
+        <div class="fixed inset-0 z-99 pointer-events-none flex flex-col items-center justify-center bg-black/50 backdrop-blur">
+          <Motion
+            initial={{ y: -99, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3, easing: [0.42, 0, 0.58, 1] }}
+          >
+          <AiOutlineArrowDown  size={66} />
+          </Motion>
+          <IoMailOpenSharp  size={99} />
+        </div>
+      )}
+
       <ComposeEditor />
       <ComposeActions
         setAttachments={props.setAttachments}
         attachments={props.attachments}
       />
-      <Motion {...animations.slideUp} class="paper-width hardware-accelerated">
-        <div id="compose-paper" class="paper paper-min-height">
+      <Motion {...animations.slideUp}
+                    style={{
+                      width: `${mailContentWidth}px`,
+                    }}
+      >
+        <div id="compose-paper" class="paper"
+        style={{
+          'min-height': `${paperMinHeight}px`,
+          
+        }}
+        >
           <div>
             <textarea
               ref={subjectRef}
@@ -114,7 +150,6 @@ export default function ComposeStep(props: Props) {
           attachments={props.attachments()}
           mode={RenderAttachmentMode.COMPOSE}
           onRemove={handleRemoveAttachment}
-          class="pb-12"
         />
       </Motion>
     </div>

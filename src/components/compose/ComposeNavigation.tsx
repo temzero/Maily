@@ -13,9 +13,11 @@ export interface ComposeNavigationProps {
     isSendable: () => boolean;
     onSend: () => void;
 }
+const iconSize: number = 40;
+const backIconSise: number = 36;
 const buttonClass = 'hover:scale-110 transition-transform z-10';
-export const buttonBottomLeftClass = `fixed bottom-4 left-4 ${buttonClass}`;
-export const buttonBottomRightClass = `fixed bottom-4 right-4 ${buttonClass}`;
+export const buttonBottomLeftClass = `fixed bottom-6 right-26 ${buttonClass}`;
+export const buttonBottomRightClass = `fixed bottom-6 right-6 ${buttonClass}`;
 
 export default function ComposeNavigation(props: ComposeNavigationProps) {
     return (
@@ -24,7 +26,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
             <Match when={props.step() === ComposeStepType.COMPOSE && props.isComposeValid()}>
                 <ActionButton
                     onClick={() => props.setStep(ComposeStepType.SEND)}
-                    icon={<FiArrowRight size={36} />}
+                    icon={<FiArrowRight size={iconSize} />}
                     aria-label="Next"
                     variant="primary"
                     size="xl"
@@ -38,10 +40,10 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
             <Match when={props.step() === ComposeStepType.SEND}>
                 <ActionButton
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
-                    icon={<FiArrowLeft size={36} />}
+                    icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"
-                    variant="secondary"
-                    size="lg"
+                    variant="outline"
+                    size="xl"
                     class={buttonBottomLeftClass}
                     name="Back"
                 />
@@ -50,10 +52,10 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     <Match when={props.isSendable()}>
                         <ActionButton
                             onClick={props.onSend}
-                            icon={<BiRegularPaperPlane size={40} />}
+                            icon={<BiRegularPaperPlane size={iconSize} />}
                             aria-label="Send"
                             variant="primary"
-                            size="2xl"
+                            size="xl"
                             class={buttonBottomRightClass}
                             name="Send"
                         />
@@ -61,10 +63,10 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     <Match when={!props.isSendable()}>
                         <ActionButton
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
-                            icon={<AiFillEdit size={36} />}
+                            icon={<AiFillEdit size={iconSize} />}
                             aria-label="Edit"
                             variant="secondary"
-                            size="lg"
+                            size="xl"
                             class={buttonBottomRightClass}
                             name="Edit"
                         />
@@ -76,10 +78,10 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
             <Match when={props.step() === ComposeStepType.ENVELOPE}>
                 <ActionButton
                     onClick={() => props.setStep(ComposeStepType.SEND)}
-                    icon={<FiArrowLeft size={36} />}
+                    icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"
-                    variant="secondary"
-                    size="lg"
+                    variant="outline"
+                    size="xl"
                     class={buttonBottomLeftClass}
                     name="Back"
                 />

@@ -2,21 +2,25 @@ import { Portal } from 'solid-js/web';
 import { setSearchQuery, getSearchQuery } from '~/store/ui.store';
 import SearchInput from '~/components/ui/SearchInput';
 import ActionButton from '~/components/ui/ActionButton';
-import { headerHeight } from '~/constants/height';
+import { headerHeight } from '~/constants/dimensions';
 import { ImQuill } from 'solid-icons/im';
 import { openComposeNew } from '~/store/modal/composeModal.store';
 import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
 import { Agent } from './Agent';
+import { agentStore } from '~/store/agent.store';
+
 
 export default function Footer(props: { class: string }) {
+    const isAgentVisible = () => agentStore.isVisible;
+
     return (
         <footer
             style={{ height: `${headerHeight}px` }}
             class={`${props.class} fixed bottom-0 left-0 right-0 pointer-events-none bg-linear-to-t from-black/30 to-transparent`}
         >
 
-            <Agent/>
+             {isAgentVisible() && <Agent/>}
             
             <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto!">
                 <Motion {...getSlideAnimation(200, 0.9)}>

@@ -5,7 +5,7 @@ import { UnsealedMail } from './UnsealedMail';
 import { DraftMail } from './DraftMail';
 import { SentMail } from './SentMail';
 import { getRenderLabelIconsByIds } from '~/store/label.store';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { TiStarburst } from 'solid-icons/ti';
 
 interface MailProps {

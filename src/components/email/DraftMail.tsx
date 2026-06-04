@@ -1,7 +1,7 @@
 // components/email/DraftMail.tsx
 import { Component } from "solid-js";
 import { Email } from "~/types/email/email.type";
-import { mailDimensions } from "~/data/constants";
+import { mailDimensions } from "~/constants/constants";
 import { getSenderDisplayName, getEmailAddress } from "~/utils/emailParser";
 import { formatDate } from "~/utils/formatDate";
 import { ImQuill } from "solid-icons/im";

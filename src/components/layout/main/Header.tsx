@@ -2,7 +2,7 @@
 import Logo from '~/components/Logo';
 import Navigator from './Navigator';
 import { useNavigate } from '@solidjs/router';
-import { headerHeight } from '~/constants/height';
+import { headerHeight } from '~/constants/dimensions';
 import { FiUser, FiSettings, FiLogOut, FiHelpCircle } from 'solid-icons/fi';
 import { MenuItemType } from '~/components/menu/MenuItem';
 import { ContextMenu } from '~/components/menu/ContextMenu';

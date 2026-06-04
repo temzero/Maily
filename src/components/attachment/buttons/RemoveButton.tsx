@@ -13,7 +13,7 @@ export const RemoveButton = (props: Props) => {
             <button
                 onClick={() => props.onRemove?.()}
                 classList={{
-                    'w-8 h-8 flex items-center justify-center text-white/80 bg-(--border) hover:bg-red-600 rounded-full hover:text-white transition-colors': true,
+                    'w-8 h-8 flex items-center justify-center text-white/80 bg-black/50 custom-border hover:bg-red-600 rounded-full hover:text-white transition-colors': true,
                     ...(props.class && { [props.class]: true }),
                 }}
                 aria-label="Remove"

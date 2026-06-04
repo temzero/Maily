@@ -220,6 +220,7 @@ export default function Compose(props: ComposeProps) {
                     <SendStep
                         isSending={isSending}
                         onSend={() => setIsSending(true)}
+                        setStep={setStep}
                         subject={subject()}
                         recipientEmail={recipient()}
                         onRecipientChange={handleRecipientChange}

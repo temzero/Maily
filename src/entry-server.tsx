@@ -1,6 +1,6 @@
 // @refresh reload
 import { createHandler, StartServer } from "@solidjs/start/server";
-import { APP_NAME } from "./data/constants";
+import { APP_NAME } from "./constants/constants";
 
 export default createHandler(() => (
   <StartServer

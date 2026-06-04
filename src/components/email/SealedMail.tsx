@@ -1,7 +1,7 @@
 // components/email/SealedMail.tsx
 import { Component } from 'solid-js';
 import { Email } from '~/types/email/email.type';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { Envelope } from '../envelop/Envelop';
 import { getSenderDisplayName } from '~/utils/emailParser';
 import { formatDate } from '~/utils/formatDate';

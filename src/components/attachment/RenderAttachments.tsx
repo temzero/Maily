@@ -63,7 +63,7 @@ const RenderAttachments = (props: Props) => {
 
   return (
     <Show when={props.attachments.length > 0}>
-      <div class={`${props.class} w-full mt-4 overflow-visible`}>
+      <div class={`${props.class} w-full mt-5 overflow-visible`}>
         <Motion {...iconAnimation} class="relative group w-full">
           <div class="flex items-center justify-end gap-2 mb-1 ">
             {props.attachments.length > 1 && (
@@ -80,7 +80,7 @@ const RenderAttachments = (props: Props) => {
           </div>
         </Motion>
 
-        <div class="space-y-2">
+        <div class="space-y-3">
           <For each={sortedAttachments()}>
             {(attachment) => (
               <Presence>

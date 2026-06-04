@@ -1,5 +1,6 @@
 import { Show, onMount, onCleanup } from "solid-js";
-import { VsArrowRight, VsReply } from "solid-icons/vs";
+import { VsArrowRight } from "solid-icons/vs";
+import { MdFillReply } from 'solid-icons/md';
 import ActionButton from "~/components/ui/ActionButton";
 import { Email, EmailFolder } from "~/types/email/email.type";
 import { UnsealedMailDetail } from "./UnsealedMailDetail";
@@ -17,6 +18,7 @@ import { markAsRead } from "~/store/email/email.actions";
 import { setAgentMessages, clearAgentMessages } from "~/store/agent.store";
 import { mockAgentMessages } from "~/data/agent.mock";
 import {formatEmailWithName} from "~/utils/emailParser"
+import { paperMinHeight, mailContentWidth, envelopeWidth} from "~/constants/dimensions";
 
 interface MailContentProps {
   email: Email;
@@ -28,7 +30,7 @@ export function MailContent(props: MailContentProps) {
   const email = props.email;
   const attachments = email.attachments || [];
 
-  const replyIcon = <VsReply size={36} class="scale-x-[-1] rotate-180" />;
+  const replyIcon = <MdFillReply size={42} class="scale-x-[-1] rotate-180" />;
   const forwardIcon = <VsArrowRight size={36} />;
   const isSent = email.folder === EmailFolder.SENT;
   const animationProps = getMailLayoutAnimation();
@@ -56,7 +58,7 @@ export function MailContent(props: MailContentProps) {
       <Presence>
         <Motion {...animationProps}>
           <div
-            class="flex flex-col items-center justify-center transition-all ease-in-out paper-width min-h-screen"
+            class="flex flex-col items-center justify-center transition-all ease-in-out min-h-screen"
             classList={{
               "pb-16 scale-90": isOverlayMode(),
               "py-16": !isOverlayMode(),
@@ -64,7 +66,11 @@ export function MailContent(props: MailContentProps) {
           >
             <div
               id="writing-paper"
-              class="relative paper paper-min-height"
+              class="relative paper"
+              style={{
+                width: `${mailContentWidth}px`,
+                'min-height': `${paperMinHeight}px`,
+              }}
             >
               <h1 class="subject-text">{email.subject}</h1>
 
@@ -86,7 +92,7 @@ export function MailContent(props: MailContentProps) {
       </Presence>
 
       <div class="mb-10">
-        <UnsealedMailDetail email={email} />
+        <UnsealedMailDetail email={email} width={envelopeWidth} height={320} />
       </div>
 
       <Show when={!isOverlayMode()}>

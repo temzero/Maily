@@ -1,7 +1,7 @@
 // components/compose/SendStep.tsx
-import { createSignal, createEffect, Accessor, onMount } from 'solid-js';
+import { createSignal, createEffect, Accessor, onMount, onCleanup } from 'solid-js';
 import { Envelope } from '~/components/envelop/Envelop';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { Avatar } from '~/components/ui/Avatar';
 import { currentUser } from '~/store/auth.store';
 import { VsArrowRight } from 'solid-icons/vs';
@@ -10,11 +10,13 @@ import { envelopeStore } from '~/store/envelope.store';
 import { Motion } from 'solid-motionone';
 import { setAgentMessages } from '~/store/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
+import { ComposeStepType } from './Compose';
 
 type Props = {
     isSending?: Accessor<boolean>;
     onSend: () => void;
     onMotionComplete?: () => void;
+    setStep: (step: ComposeStepType) => void;
     subject: string;
     recipientEmail: string; // From parent
     onRecipientChange: (recipient: string, isValid: boolean) => void;
@@ -25,7 +27,8 @@ export default function SendStep(props: Props) {
     let recipientRef: HTMLInputElement | undefined;
 
     onMount(() => {
-        setAgentMessages(mockAgentMessages.sent);
+        setAgentMessages(mockAgentMessages.send(props.setStep));  // Hide agent when SendStep opens
+
     });
 
     createEffect(() => {

@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from '@solidjs/router';
 import { Component } from 'solid-js';
 import { SlidingSelector } from '~/components/actions/SlidingSelector';
-import { navHeight } from '~/constants/height';
-import { NAVIGATION_ITEMS } from '~/data/constants';
+import { navHeight } from '~/constants/dimensions';
+import { NAVIGATION_ITEMS } from '~/constants/constants';
 
 const Navigator: Component = () => {
     const navigate = useNavigate();

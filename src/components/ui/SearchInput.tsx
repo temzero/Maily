@@ -1,7 +1,7 @@
 import { FaSolidSearch } from 'solid-icons/fa';
 import { createSignal, onMount, onCleanup } from 'solid-js';
 import { Motion } from 'solid-motionone';
-import {navHeight} from '~/constants/height';
+import {navHeight} from '~/constants/dimensions';
 
 type Props = {
     value: string;

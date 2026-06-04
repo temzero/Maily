@@ -21,7 +21,7 @@ import {
 import { TbOutlineRestore } from 'solid-icons/tb';
 import { openComposeForward } from '~/store/modal/composeModal.store';
 import { getEmailById } from '~/store/email/email.selectors';
-import { labelSize } from '~/data/constants';
+import { labelSize } from '~/constants/constants';
 
 interface ReadMailActionsProps {
     emailId: string;

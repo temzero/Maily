@@ -2,7 +2,7 @@ import { createMemo, For, Show, createSignal } from 'solid-js';
 import { useParams } from '@solidjs/router';
 import { EmailFolder } from '~/types/email/email.type';
 import { Motion, Presence } from 'solid-motionone';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { GetEmailsOptions, getGroupedEmailIds, isGroupMarker } from '~/store/email/email.selectors';
 import { deleteEmail } from '~/store/email/email.actions';
 import { GroupLabel } from '~/components/GroupLabel';

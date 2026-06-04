@@ -1,7 +1,7 @@
 // components/email/SentMail.tsx
 import { Component } from 'solid-js';
 import { Email } from '~/types/email/email.type';
-import { mailDimensions } from '~/data/constants';
+import { mailDimensions } from '~/constants/constants';
 import { Envelope } from '../envelop/Envelop';
 import { getRecipientDisplayNames } from '~/utils/emailParser'; // New utility function
 import { formatDate } from '~/utils/formatDate';

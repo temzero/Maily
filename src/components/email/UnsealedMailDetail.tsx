@@ -61,8 +61,8 @@ export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
   return (
     <Envelope
       envelope={envelope()}
-      width={900}
-      height={320}
+      width={props.width}
+      height={props.height}
       onClick={props.onClick}
       borderWidth={12}
       isUnsealed={true}

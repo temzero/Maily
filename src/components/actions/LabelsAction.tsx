@@ -5,7 +5,7 @@ import { clearActiveLabels, useSortedLabels } from '~/store/label.store';
 import { createMemo } from 'solid-js';
 import { LabelIcon } from '../label/LabelIcon';
 import { updatePreference, getIsDateView } from '~/store/preferences.store';
-import { labelSize } from '~/data/constants';
+import { labelSize } from '~/constants/constants';
 
 
 const LabelsAction = () => {

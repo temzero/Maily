@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import { useNavigate } from "@solidjs/router"; // or 'solid-start' depending on your router
-import { APP_NAME } from "~/data/constants";
+import { APP_NAME } from "~/constants/constants";
 import LogoIcon from "~/assets/logo.svg";
 import logoIconRaw from "~/assets/logo.svg?raw";
 

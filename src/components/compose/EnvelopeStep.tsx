@@ -71,13 +71,15 @@ export default function EnvelopeStep(props: Props) {
         currentViewIndex={currentViewIndex()}
         onIndexChange={setCurrentViewIndex}
         dotsPosition="top"
-        showNavButtons={false}
+        onAccept={handleAccept}
+        // showNavButtons={false}
         renderItem={(envelope: EnvelopeType) => (
           <EnvelopePreview
             envelope={envelope}
             subject={props.subject}
             showSender={true}
             class="transition-all duration-300 transform scale-100"
+            
           />
         )}
       />
@@ -96,7 +98,7 @@ export default function EnvelopeStep(props: Props) {
         aria-label="Accept"
         variant="primary"
         size="xl"
-        class={`${buttonBottomRightClass} bg-green-600!`}
+        class={`${buttonBottomRightClass}`}
         name="Accept"
       />
     </div>

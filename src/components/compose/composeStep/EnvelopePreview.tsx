@@ -1,6 +1,6 @@
 // components/compose/EnvelopePreview.tsx
 import { Envelope } from "~/components/envelop/Envelop";
-import { mailDimensions } from "~/data/constants";
+import { mailDimensions } from "~/constants/constants";
 import { Avatar } from "~/components/ui/Avatar";
 import { currentUser } from "~/store/auth.store";
 import { EnvelopeType } from "~/types/envelop/envelop.type";

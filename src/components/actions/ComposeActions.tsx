@@ -12,7 +12,7 @@ import {
 } from "~/types/attachment/attachment.type";
 import InsertLinkForm from "~/components/form/InsertLinkForm";
 import { printMail } from "../email/MailPrint";
-import { labelSize } from "~/data/constants";
+import { labelSize } from "~/constants/constants";
 
 const EmojiPickerButton = clientOnly(
   () => import("~/components/colorPicker/EmojiPickerButton"),

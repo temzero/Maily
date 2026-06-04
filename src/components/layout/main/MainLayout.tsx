@@ -1,7 +1,7 @@
 import { JSX } from 'solid-js';
 import Header from './Header';
 import Footer from './Footer';
-import { headerHeight } from '~/constants/height';
+import { headerHeight } from '~/constants/dimensions';
 import { Overlay } from '~/components/Overlay';
 import { uiStore } from '~/store/ui.store';
 

@@ -1,4 +1,5 @@
-import { APP_NAME } from "./constants";
+import { ComposeStepType } from "~/components/compose/Compose";
+import { APP_NAME } from "../constants/constants";
 import { markAsRead } from "~/store/email/email.actions";
 
 export const mockAgentMessages = {
@@ -46,12 +47,24 @@ export const mockAgentMessages = {
     },
   ],
 
-  sent: [
+  send: (setStep: (step: ComposeStepType) => void) => [
     {
-      text: "You can sent now.",
+      text: "You can send now.",
+      onClick: () => {
+        // Handle send logic here
+      },
     },
     {
       text: "Or change your envelope",
+      onClick: () => {
+        setStep(ComposeStepType.ENVELOPE);
+      },
+    },
+    {
+      text: "Go back to Compose",
+      onClick: () => {
+        setStep(ComposeStepType.COMPOSE);
+      },
     },
   ],
 
