@@ -66,22 +66,32 @@ export const SlidingSelector = <T extends string | number | symbol>(
     }
   });
 
-  const handleContainerMouseDown = (e: MouseEvent) => {
-    e.preventDefault();
+  // Helper to get clientX from both mouse and touch events
+  const getClientX = (e: MouseEvent | TouchEvent): number => {
+    if (e instanceof TouchEvent && e.touches.length > 0) {
+      return e.touches[0].clientX;
+    }
+    if (e instanceof MouseEvent) {
+      return e.clientX;
+    }
+    return 0;
+  };
 
+  const handleDragStart = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault();
     setIsDragging(true);
 
-    startX = e.clientX;
+    startX = getClientX(e);
     startLeft = sliderLeft();
   };
 
-  const handleDragMove = (e: MouseEvent) => {
+  const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (!isDragging() || !containerRef) return;
 
-    const deltaX = e.clientX - startX;
+    const currentX = getClientX(e);
+    const deltaX = currentX - startX;
 
     const maxLeft = containerRef.offsetWidth - sliderWidth();
-
     const newLeft = Math.max(0, Math.min(startLeft + deltaX, maxLeft));
 
     setSliderLeft(newLeft);
@@ -110,10 +120,8 @@ export const SlidingSelector = <T extends string | number | symbol>(
       const buttonRect = button.getBoundingClientRect();
 
       const buttonCenter = (buttonRect.left + buttonRect.right) / 2;
-
       const sliderCenter =
         containerRect.left + sliderLeft() + sliderWidth() / 2;
-
       const distance = Math.abs(buttonCenter - sliderCenter);
 
       if (distance < minDistance) {
@@ -123,15 +131,12 @@ export const SlidingSelector = <T extends string | number | symbol>(
     });
 
     setSelectedIndex(closestIndex);
-
     props.onSelect(props.options[closestIndex].value);
   };
 
   const handleClick = (value: T, index: number) => {
     if (isDragging()) return;
-
     setSelectedIndex(index);
-
     props.onSelect(value);
   };
 
@@ -139,26 +144,50 @@ export const SlidingSelector = <T extends string | number | symbol>(
     syncSliderToIndex(selectedIndex());
   };
 
+  // Prevent scroll while dragging on touch devices
+  const handleTouchMove = (e: TouchEvent) => {
+    if (isDragging()) {
+      e.preventDefault();
+    }
+  };
+
   onMount(() => {
     window.addEventListener("resize", handleResize);
+    
+    // Mouse events
     window.addEventListener("mousemove", handleDragMove);
     window.addEventListener("mouseup", handleDragEnd);
+    
+    // Touch events
+    window.addEventListener("touchmove", handleDragMove, { passive: false });
+    window.addEventListener("touchend", handleDragEnd);
+    window.addEventListener("touchcancel", handleDragEnd);
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
   });
 
   onCleanup(() => {
     window.removeEventListener("resize", handleResize);
+    
+    // Mouse events
     window.removeEventListener("mousemove", handleDragMove);
     window.removeEventListener("mouseup", handleDragEnd);
+    
+    // Touch events
+    window.removeEventListener("touchmove", handleDragMove);
+    window.removeEventListener("touchend", handleDragEnd);
+    window.removeEventListener("touchcancel", handleDragEnd);
+    window.removeEventListener("touchmove", handleTouchMove);
   });
 
   return (
     <div
       ref={containerRef}
       style={{ height: `${totalHeight}px` }}
-      class={`relative nav-panel ${roundedClass} select-none ${
+      class={`relative nav-panel ${roundedClass} select-none touch-action-none ${
         props.className || ""
       }`}
-      onMouseDown={handleContainerMouseDown}
+      onMouseDown={handleDragStart}
+      onTouchStart={handleDragStart}
     >
       {borderWidth > 0 && (
         <div
@@ -189,7 +218,7 @@ export const SlidingSelector = <T extends string | number | symbol>(
             ref={(el) => (buttonRefs[idx] = el)}
             onClick={() => handleClick(option.value, idx)}
             style={{ height: `${height}px` }}
-            class={`flex-1 px-4 ${roundedClass} text-xl flex items-center justify-center cursor-pointer duration-150 transition-all duration-100 ease-out ${
+            class={`flex-1 px-4 ${roundedClass} text-xl flex items-center justify-center cursor-pointer transition-all duration-100 ease-out touch-manipulation ${
               selectedIndex() === idx
                 ? "text-blue-400 scale-110 font-semibold"
                 : "opacity-80 hover:opacity-100"

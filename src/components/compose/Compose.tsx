@@ -25,6 +25,7 @@ import toast from 'solid-toast';
 import { addEmail, updateEmail } from '~/store/email/email.actions';
 import { setAgentMessages, clearAgentMessages } from '~/store/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
+import { useMobile } from '~/hooks/useMobile';
 
 export const enum ComposeStepType {
     COMPOSE = 'compose',
@@ -38,6 +39,8 @@ export interface ComposeProps {
 }
 
 export default function Compose(props: ComposeProps) {
+    const { isMobile } = useMobile();
+    
     let composeType = composeModalStore.type; // Capture at component creation
 
     const [step, setStep] = createSignal<ComposeStepType>(
@@ -195,7 +198,9 @@ export default function Compose(props: ComposeProps) {
 
     return (
         <>
-            <ComposeTopIcon step={step} />
+            {!isMobile() && 
+                <ComposeTopIcon step={step} />
+            }
             <ComposeNavigation
                 step={step}
                 setStep={setStep}

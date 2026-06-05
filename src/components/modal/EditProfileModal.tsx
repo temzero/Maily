@@ -4,6 +4,7 @@ import { useAuth } from '~/store/auth.store';
 import Button from '~/components/ui/Button';
 import Modal from '~/components/modal/Modal';
 import { CloseButton } from '../ui/CloseButton';
+import { Position } from '~/types/positions.enum';
 
 interface EditProfileModalProps {
     field: string | null;
@@ -193,7 +194,7 @@ export default function EditProfileModal(props: EditProfileModalProps) {
                         onClose={closeModal}
                         size={30}
                         iconSize={26}
-                        // class="top-1.5! right-1.5!"
+                        position={Position.TOP_RIGHT}
                     />
 
                     <form onSubmit={handleSubmit}>

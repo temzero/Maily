@@ -12,6 +12,7 @@ import ComposeEditor from "../actions/composeEditor/ComposeEditor";
 import { IoMailOpenSharp } from 'solid-icons/io';
 import { AiOutlineArrowDown } from "solid-icons/ai";
 import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
+import { useMobile } from '~/hooks/useMobile';
 
 type Props = {
   subject: Accessor<string>;
@@ -27,6 +28,9 @@ export default function ComposeStep(props: Props) {
   let composeRef: HTMLDivElement | undefined;
   let subjectRef: HTMLTextAreaElement | undefined;
   let contentRef: HTMLDivElement | undefined;
+
+  const { isMobile } = useMobile();
+  
 
   const { isDragging, setup } = useDragAndDropAttachments({
     attachments: props.attachments,
@@ -107,18 +111,22 @@ export default function ComposeStep(props: Props) {
           <IoMailOpenSharp  size={99} />
         </div>
       )}
-
-      <ComposeEditor />
-      <ComposeActions
-        setAttachments={props.setAttachments}
-        attachments={props.attachments}
-      />
+      
+      {!isMobile() && 
+        <>
+          <ComposeEditor />
+          <ComposeActions
+            setAttachments={props.setAttachments}
+            attachments={props.attachments}
+          />
+        </>
+      }
       <Motion {...animations.slideUp}
-                    style={{
-                      width: `${mailContentWidth}px`,
-                    }}
+        style={{
+          width: `${mailContentWidth}px`,
+        }}
       >
-        <div id="compose-paper" class="paper"
+        <div id="compose-paper" class="paper w-full"
         style={{
           'min-height': `${paperMinHeight}px`,
           

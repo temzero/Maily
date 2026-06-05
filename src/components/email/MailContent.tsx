@@ -19,6 +19,7 @@ import { setAgentMessages, clearAgentMessages } from "~/store/agent.store";
 import { mockAgentMessages } from "~/data/agent.mock";
 import {formatEmailWithName} from "~/utils/emailParser"
 import { paperMinHeight, mailContentWidth, envelopeWidth} from "~/constants/dimensions";
+import { useMobile } from '~/hooks/useMobile';
 
 interface MailContentProps {
   email: Email;
@@ -27,6 +28,7 @@ interface MailContentProps {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function MailContent(props: MailContentProps) {
+  const { isMobile } = useMobile();
   const email = props.email;
   const attachments = email.attachments || [];
 
@@ -64,11 +66,11 @@ export function MailContent(props: MailContentProps) {
               "py-16": !isOverlayMode(),
             }}
           >
-            <div
+           <div
               id="writing-paper"
               class="relative paper"
               style={{
-                width: `${mailContentWidth}px`,
+                ...(!isMobile() && { width: `${mailContentWidth}px` }),
                 'min-height': `${paperMinHeight}px`,
               }}
             >
@@ -91,8 +93,13 @@ export function MailContent(props: MailContentProps) {
         </Motion>
       </Presence>
 
-      <div class="mb-10">
-        <UnsealedMailDetail email={email} width={envelopeWidth} height={320} />
+      <div class={`mb-10 w-full ${isMobile() ? '' : 'flex justify-center'}`}>
+        <UnsealedMailDetail 
+          email={email} 
+          width={envelopeWidth} 
+          height={320} 
+          isFullWidth={isMobile()}
+        />
       </div>
 
       <Show when={!isOverlayMode()}>
@@ -106,7 +113,9 @@ export function MailContent(props: MailContentProps) {
           class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
           name={isSent ? "Forward email" : `Reply to ${email.from}`}
         />
-        <ReadMailActions emailId={email.id} onClose={() => props.onClose?.()} />
+        {!isMobile() && 
+          <ReadMailActions emailId={email.id} onClose={() => props.onClose?.()} />
+        }
       </Show>
     </div>
   );

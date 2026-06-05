@@ -2,23 +2,21 @@
 import { createSignal, onMount, onCleanup, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Motion, Presence } from 'solid-motionone';
+import { useMobile } from '~/hooks/useMobile';
 import { clearFocusElementId, getFocusElementId } from '~/store/ui.store';
 import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
 
-const focusScale = 2.6;
-const focusAnimateDuration = 400;
+const focusScale: number = 2.6;
+const focusAnimateDuration: number = 400;
 const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
-const enum FocusModalState {
-    OPENING = 'opening',
-    ACTIVE = 'active',
-    CLOSING = 'closing',
-}
-
 export default function FocusElementModal(props: { zIndex?: number }) {
+    const { isMobile } = useMobile();
     const focusElementId = () => getFocusElementId();
     const [isMounted, setIsMounted] = createSignal(false);
     let overlayRef: HTMLDivElement | undefined;
+
+    const focusScaleValue: number = isMobile() ? 1 : focusScale
 
     const handleClose = () => {
         setIsMounted(false);
@@ -58,9 +56,6 @@ export default function FocusElementModal(props: { zIndex?: number }) {
                     position: 'fixed',
                     inset: 0,
                     'z-index': props.zIndex ?? 9999,
-                    // display: 'flex',
-                    // 'align-items': 'center',
-                    // 'justify-content': 'center',
                 }}
             >
                 <div
@@ -82,12 +77,20 @@ export default function FocusElementModal(props: { zIndex?: number }) {
                         const clone = originalElement.cloneNode(true) as HTMLElement;
                         clone.id = `focused-${focusElementId()}`;
                         clone.style.transition = `all ${focusAnimateDuration}ms ${easing}`;
+                        
+                        // Check if the original element has width: 100% and capture actual width
+                        const originalWidth = window.getComputedStyle(originalElement).width;
+                        if (originalWidth === '100%' || originalElement.style.width === '100%') {
+                            const rect = originalElement.getBoundingClientRect();
+                            clone.style.width = `${rect.width}px`;
+                        }
+                        
                         return clone.outerHTML;
                     })()}
                     style={getZoomAnimationStyle(
                         focusElementId()!,
                         isMounted(),
-                        focusScale
+                        focusScaleValue
                         // focusAnimateDuration,
                         // easing
                     )}

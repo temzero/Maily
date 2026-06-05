@@ -16,6 +16,8 @@ interface EnvelopeLayoutProps {
     borderWidth?: number;
     isUnsealed?: boolean;
     isShadow?: boolean;
+    isFullWidth?: boolean;
+    aspectRatio?: number;
 }
 
 const defaultSettings = {
@@ -50,19 +52,32 @@ export const Envelope: Component<EnvelopeLayoutProps> = (props) => {
         isUnsealed: props.isUnsealed ?? false,
     });
 
+    const getHeightStyle = () => {
+        if (props.isFullWidth && props.aspectRatio) {
+            // When using aspect ratio with full width, height is based on parent's width
+            return { height: 'auto', 'aspect-ratio': `${props.aspectRatio}` };
+        } else if (props.isFullWidth) {
+            return { height: `${height}px` };
+        } else {
+            return { height: `${height}px` };
+        }
+    };
+
     return (
-        <div class={`${isShadow && 'teared-shadow'}`}>
+        // <div class={` border-4 ${isShadow && 'teared-shadow'}`}>
             <div
                 id={`envelope ${props.envelope?.id}`}
-                class={`relative ${props.isUnsealed ? 'teared-shape' : ''}`}
+                class={`relative  ${props.isUnsealed ? 'teared-shape teared-shadow!' : ''} ${isShadow && 'teared-shadow'}`}
+                     style={{
+                        width: props.isFullWidth ? '100%' : `${width}px`,
+                        ...getHeightStyle(),
+                    }}
                 onClick={props.onClick}
             >
                 <div
                     id={`envelope-background ${props.envelope?.id}`}
-                    class={`overflow-hidden transition-all duration-200 ${props.class ?? ''}`}
+                    class={`w-full h-full overflow-hidden transition-all duration-200 ${props.class ?? ''}`}
                     style={{
-                        width: `${width}px`,
-                        height: `${height}px`,
                         'font-family': fontStyle,
                         ...getBackgroundStyle(backgroundColor, backgroundUrl),
                         'border-radius': props.isUnsealed ? '0 0 1px 1px' : '1px',
@@ -87,9 +102,11 @@ export const Envelope: Component<EnvelopeLayoutProps> = (props) => {
                         // 'pointer-events': 'none', // So clicks pass through to background
                     }}
                 >
-                    {props.children}
+                    <div class='relative w-full h-full'>
+                        {props.children}
+                    </div>
                 </div>
             </div>
-        </div>
+        // </div>
     );
 };

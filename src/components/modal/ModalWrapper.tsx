@@ -1,8 +1,10 @@
 // components/modal/ModalWrapper.tsx
-import { Show, onCleanup, onMount, JSX, Component } from 'solid-js';
+import { Show, onCleanup, onMount, JSX, Component, createMemo, createEffect } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Motion, Presence } from 'solid-motionone';
 import { CloseButton } from '../ui/CloseButton';
+import { Position } from '~/types/positions.enum';
+import { useMobile } from '~/hooks/useMobile';
 
 export const ModalAnimateDuration = 0.3;
 
@@ -20,6 +22,15 @@ interface ModalWrapperProps {
 }
 
 export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
+    const { isMobile } = useMobile();
+    const closeButtonPosition = createMemo(() => {
+        return isMobile() ? Position.TOP_LEFT : Position.TOP_RIGHT;
+    });
+
+    createEffect(() => {
+  console.log("position", closeButtonPosition());
+});
+
     let modalRef: HTMLDivElement | undefined;
     let previousOverflow: string = '';
     let previousPaddingRight: string = '';
@@ -126,7 +137,7 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
                             {props.children}
                         </div>
 
-                        {props.showCloseButton !== false && <CloseButton onClose={handleClose} />}
+                        {props.showCloseButton !== false && <CloseButton onClose={handleClose} position={closeButtonPosition()} />}
                     </Motion>
                 </Show>
             </Presence>

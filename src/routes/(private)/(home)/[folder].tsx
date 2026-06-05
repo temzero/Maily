@@ -7,12 +7,14 @@ import { GetEmailsOptions, getGroupedEmailIds, isGroupMarker } from '~/store/ema
 import { deleteEmail } from '~/store/email/email.actions';
 import { GroupLabel } from '~/components/GroupLabel';
 import { getIsDateView } from '~/store/preferences.store';
-import EmptyFolder from '~/components/ui/EmptyFolder';
 import { getSearchQuery } from '~/store/ui.store';
 import { getActiveLabelIds } from '~/store/label.store';
 import { EmailListItem } from '~/components/email/EmailListItem';
+import EmptyFolder from '~/components/ui/EmptyFolder';
+import { useMobile } from '~/hooks/useMobile';
 
 export default function FolderPage() {
+    const { isMobile } = useMobile();
     const params = useParams();
     const folder = createMemo(() => params.folder as EmailFolder);
     const isDateView = createMemo(() => getIsDateView());
@@ -152,7 +154,7 @@ export default function FolderPage() {
                                     return (
                                         <div class="flex flex-col gap-2">
                                             <GroupLabel marker={item} />
-                                            <div class="container-grid">
+                                            <div class={`${isMobile() ? '' : 'container-grid'}`}>
                                                 <For each={nextItems()}>
                                                     {(emailId) => (
                                                         <AnimatedEmailListItem emailId={emailId} />

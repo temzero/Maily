@@ -5,6 +5,7 @@ import { mailDimensions } from '~/constants/constants';
 import { Envelope } from '../envelop/Envelop';
 import { getSenderDisplayName } from '~/utils/emailParser';
 import { formatDate } from '~/utils/formatDate';
+import { useMobile } from '~/hooks/useMobile';
 
 interface SealedMailProps {
     email: Email;
@@ -15,6 +16,8 @@ interface SealedMailProps {
 }
 
 export const SealedMail: Component<SealedMailProps> = (props) => {
+    const { isMobile } = useMobile();
+
     const envelope = () => props.email.envelope;
     const displayName = () => getSenderDisplayName(props.email.from);
 
@@ -32,6 +35,7 @@ export const SealedMail: Component<SealedMailProps> = (props) => {
             height={props.height ?? mailDimensions.height}
             class={props.class}
             onClick={props.onClick}
+            isFullWidth={isMobile()}
         >
             <div class="flex flex-col gap-2 h-full min-h-0 select-none">
                 {/* Top Section - Subject & Stamp */}

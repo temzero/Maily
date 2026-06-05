@@ -7,7 +7,7 @@ export const mockUsers = {
         id: 'usr_1a2b3c4d5e',
         firstName: 'Nguyen',
         lastName: 'Nhan',
-        email: 'nguyentran.nhan@example.com',
+        email: 'nguyentrannhan.00@gmail.com',
         avatarUrl: avatarExample,
         role: UserRole.USER,
         displayName: 'Nguyen Nhan',

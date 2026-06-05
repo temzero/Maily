@@ -11,6 +11,7 @@ import { Motion } from 'solid-motionone';
 import { setAgentMessages } from '~/store/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
 import { ComposeStepType } from './Compose';
+import { useMobile } from '~/hooks/useMobile';
 
 type Props = {
     isSending?: Accessor<boolean>;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export default function SendStep(props: Props) {
+    const { isMobile } = useMobile();
     const [recipientError, setRecipientError] = createSignal(''); // Local error state only
     let recipientRef: HTMLInputElement | undefined;
 
@@ -102,42 +104,74 @@ export default function SendStep(props: Props) {
                 height={mailDimensions.height * 3}
                 borderWidth={16}
                 envelope={envelopeStore.getCurrentEnvelope()!}
+                isFullWidth={isMobile()}
+                aspectRatio={1.6}
             >
-                <div class="w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
-                    <h1 class="font-bold text-4xl p-1">{props.subject || '???'}</h1>
+                <div class="relative w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
 
-                    {/* footer input */}
-                    <div class="flex gap-2 items-end justify-between">
-                        <div class="flex items-center gap-2">
-                            <Avatar
-                                src={currentUser()?.avatarUrl}
-                                name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
-                                size="lg"
-                            />
-                            <div class="flex flex-col -space-y-1">
-                                <h1 class="font-bold text-xl">{`${currentUser()?.firstName} ${currentUser()?.lastName}`}</h1>
-                                <p>{`${currentUser()?.email}`}</p>
+                    {/* header input */}
+                    {/* <div> */}
+                        {isMobile() && 
+                        <div class="flex gap-2 justify-between">
+                            <VsArrowRight size={32} />
+
+                            <div class="space-y-1 flex-1 pointer-events-auto">
+                
+                                <input
+                                    ref={recipientRef}
+                                    type="email"
+                                    value={props.recipientEmail}
+                                    onInput={handleRecipientChange}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="recipient@example.com"
+                                    class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1 custom-border!
+                                    ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
+                                />
+                                {recipientError() && (
+                                    <p class="text-sm text-red-500">{recipientError()}</p>
+                                )}
                             </div>
                         </div>
 
-                        <VsArrowRight size={32} />
+                        }
+                        <h1 class="font-bold text-4xl p-1">{props.subject || '???'}</h1>
+                        
+                    {/* </div> */}
 
-                        <div class="space-y-1 flex-1 pointer-events-auto">
-                            {recipientError() && (
-                                <p class="text-sm text-red-500">{recipientError()}</p>
-                            )}
-                            <input
-                                ref={recipientRef}
-                                type="email"
-                                value={props.recipientEmail}
-                                onInput={handleRecipientChange}
-                                onKeyDown={handleKeyDown}
-                                placeholder="recipient@example.com"
-                                class={`w-full text-lg border-3 border-(--border) rounded outline-none px-1
-                                ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
-                            />
+                    {/* footer input */}
+                    {!isMobile() && 
+                        <div class="flex gap-2 items-end justify-between">
+                            <div class="flex items-center gap-2">
+                                <Avatar
+                                    src={currentUser()?.avatarUrl}
+                                    name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
+                                    size="lg"
+                                />
+                                <div class="flex flex-col -space-y-1">
+                                    <h1 class="font-bold text-xl">{`${currentUser()?.firstName} ${currentUser()?.lastName}`}</h1>
+                                    <p>{`${currentUser()?.email}`}</p>
+                                </div>
+                            </div>
+
+                            <VsArrowRight size={32} />
+
+                            <div class="space-y-1 flex-1 pointer-events-auto">
+                                {recipientError() && (
+                                    <p class="text-sm text-red-500">{recipientError()}</p>
+                                )}
+                                <input
+                                    ref={recipientRef}
+                                    type="email"
+                                    value={props.recipientEmail}
+                                    onInput={handleRecipientChange}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="recipient@example.com"
+                                    class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1
+                                    ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </Envelope>
         </Motion>

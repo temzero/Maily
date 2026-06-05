@@ -2,7 +2,7 @@
 import { createSignal, onMount, onCleanup } from "solid-js";
 import { envelopeStore } from "~/store/envelope.store";
 import { EnvelopeType } from "~/types/envelop/envelop.type";
-import { buttonBottomRightClass } from "./ComposeNavigation";
+import { actionButtonsPosition } from "./ComposeNavigation";
 import { ComposeStepType } from "./Compose";
 import { AiOutlineCheck } from "solid-icons/ai";
 import ActionButton from "../ui/ActionButton";
@@ -11,6 +11,7 @@ import { ItemsSlider } from "../ui/ItemsSlider";
 import EnvelopeEditor from "./composeStep/EnvelopeEditor";
 import { setAgentMessages, clearAgentMessages } from "~/store/agent.store";
 import { mockAgentMessages } from "~/data/agent.mock";
+import { useMobile } from "~/hooks/useMobile";
 
 type Props = {
   subject: string;
@@ -18,6 +19,8 @@ type Props = {
 };
 
 export default function EnvelopeStep(props: Props) {
+  const { isMobile } = useMobile();
+  
   // Local signals — copy from store on mount
   const [localEnvelopes, setLocalEnvelopes] = createSignal<EnvelopeType[]>(
     envelopeStore.store.envelopes.map((e) => ({ ...e })),
@@ -70,7 +73,7 @@ export default function EnvelopeStep(props: Props) {
         items={localEnvelopes()}
         currentViewIndex={currentViewIndex()}
         onIndexChange={setCurrentViewIndex}
-        dotsPosition="top"
+        dotsPosition={isMobile() ? "bottom" : "top"}
         onAccept={handleAccept}
         // showNavButtons={false}
         renderItem={(envelope: EnvelopeType) => (
@@ -78,19 +81,21 @@ export default function EnvelopeStep(props: Props) {
             envelope={envelope}
             subject={props.subject}
             showSender={true}
-            class="transition-all duration-300 transform scale-100"
-            
+            class="transition-all duration-300 transform scale-100 w-full h-full"
           />
         )}
       />
 
-      <EnvelopeEditor
-        envelope={currentViewedEnvelope()}
-        currentViewIndex={currentViewIndex()}
-        setCurrentViewIndex={setCurrentViewIndex}
-        localEnvelopes={localEnvelopes}
-        setLocalEnvelopes={setLocalEnvelopes}
-      />
+
+      {!isMobile() && 
+        <EnvelopeEditor
+          envelope={currentViewedEnvelope()}
+          currentViewIndex={currentViewIndex()}
+          setCurrentViewIndex={setCurrentViewIndex}
+          localEnvelopes={localEnvelopes}
+          setLocalEnvelopes={setLocalEnvelopes}
+        />
+      }
 
       <ActionButton
         onClick={handleAccept}
@@ -98,7 +103,7 @@ export default function EnvelopeStep(props: Props) {
         aria-label="Accept"
         variant="primary"
         size="xl"
-        class={`${buttonBottomRightClass}`}
+        class={`${actionButtonsPosition}`}
         name="Accept"
       />
     </div>

@@ -4,6 +4,7 @@ import { mailDimensions } from "~/constants/constants";
 import { Avatar } from "~/components/ui/Avatar";
 import { currentUser } from "~/store/auth.store";
 import { EnvelopeType } from "~/types/envelop/envelop.type";
+import { useMobile } from "~/hooks/useMobile";
 
 type EnvelopePreviewProps = {
   envelope: EnvelopeType | null;
@@ -16,6 +17,8 @@ type EnvelopePreviewProps = {
 };
 
 export default function EnvelopePreview(props: EnvelopePreviewProps) {
+  const { isMobile } = useMobile();
+
   return (
     <Envelope
       envelope={props.envelope}
@@ -24,6 +27,8 @@ export default function EnvelopePreview(props: EnvelopePreviewProps) {
       borderWidth={props.borderWidth || 16}
       class={`${props.class} shadow-none`}
       isShadow={false}
+      isFullWidth={isMobile()}
+      aspectRatio={1.6}
     >
       <div class="w-full h-full flex flex-col justify-between p-2 select-none">
         <h1

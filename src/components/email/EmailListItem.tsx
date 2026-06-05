@@ -111,7 +111,7 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
   return (
     <div
       id={`email-list-item-${email().id}`}
-      class={`flex items-center justify-center w-fit transition-transform cursor-pointer relative touch-manipulation ${
+      class={`flex items-center justify-center transition-transform cursor-pointer relative touch-manipulation ${
         props.class ?? ""
       } ${
         !isFocusing() && (isContextMenuOpen() ? "scale-110" : "hover:scale-105")

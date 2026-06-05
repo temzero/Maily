@@ -5,6 +5,7 @@ import { BiRegularPaperPlane } from 'solid-icons/bi';
 import { AiFillEdit, AiOutlineCheck } from 'solid-icons/ai';
 import ActionButton from '~/components/ui/ActionButton';
 import { ComposeStepType } from './Compose'; // or wherever it's defined
+import { useMobile } from '~/hooks/useMobile';
 
 export interface ComposeNavigationProps {
     step: () => ComposeStepType;
@@ -16,8 +17,8 @@ export interface ComposeNavigationProps {
 const iconSize: number = 40;
 const backIconSise: number = 36;
 const buttonClass = 'hover:scale-110 transition-transform z-10';
-export const buttonBottomLeftClass = `fixed bottom-6 right-26 ${buttonClass}`;
-export const buttonBottomRightClass = `fixed bottom-6 right-6 ${buttonClass}`;
+export const backButtonPosition = `fixed top-2 right-20 sm:top-auto sm:bottom-6 ${buttonClass}`;
+export const actionButtonsPosition = `fixed top-2 right-2 sm:top-auto sm:bottom-6 ${buttonClass}`;
 
 export default function ComposeNavigation(props: ComposeNavigationProps) {
     return (
@@ -30,7 +31,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Next"
                     variant="primary"
                     size="xl"
-                    class={buttonBottomRightClass}
+                    class={actionButtonsPosition}
                     name="Next"
                     disabled={!props.isComposeValid()}
                 />
@@ -44,7 +45,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Back"
                     variant="outline"
                     size="xl"
-                    class={buttonBottomLeftClass}
+                    class={backButtonPosition}
                     name="Back"
                 />
 
@@ -56,7 +57,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                             aria-label="Send"
                             variant="primary"
                             size="xl"
-                            class={buttonBottomRightClass}
+                            class={actionButtonsPosition}
                             name="Send"
                         />
                     </Match>
@@ -67,7 +68,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                             aria-label="Edit"
                             variant="secondary"
                             size="xl"
-                            class={buttonBottomRightClass}
+                            class={actionButtonsPosition}
                             name="Edit"
                         />
                     </Match>
@@ -82,7 +83,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Back"
                     variant="outline"
                     size="xl"
-                    class={buttonBottomLeftClass}
+                    class={backButtonPosition}
                     name="Back"
                 />
             </Match>

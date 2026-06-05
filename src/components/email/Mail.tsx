@@ -7,6 +7,7 @@ import { SentMail } from './SentMail';
 import { getRenderLabelIconsByIds } from '~/store/label.store';
 import { mailDimensions } from '~/constants/constants';
 import { TiStarburst } from 'solid-icons/ti';
+import { useMobile } from '~/hooks/useMobile';
 
 interface MailProps {
     email: Email;
@@ -18,6 +19,8 @@ interface MailProps {
 }
 
 export const Mail: Component<MailProps> = (props) => {
+    const { isMobile } = useMobile();
+    
     const isRead = () => props.email.isRead ?? false;
     const isSent = () => props.email.folder === EmailFolder.SENT;
     const isDraft = () => props.email.folder === EmailFolder.DRAFTS;
@@ -37,7 +40,7 @@ export const Mail: Component<MailProps> = (props) => {
             ref={props.ref}
             class={`relative ${props.class}`}
             style={{
-                width: `${width}px`,
+                width: isMobile() ? '100%' : `${width}px`,
                 height: `${height}px`,
             }}
         >

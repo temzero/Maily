@@ -6,13 +6,14 @@ import { addedMails } from '~/data/email.mock';
 import { addEmail } from '~/store/email/email.actions';
 import { setAgentMessages } from '~/store/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
+import { useMobile } from '~/hooks/useMobile';
 
 interface HomeLayoutProps extends ParentProps {
     isGrid?: boolean;
 }
 
 export default function HomeLayout(props: HomeLayoutProps) {
-    const location = useLocation();
+    const { isMobile } = useMobile();
 
     onMount(() => {
         setAgentMessages(mockAgentMessages.home);
@@ -40,7 +41,7 @@ export default function HomeLayout(props: HomeLayoutProps) {
     return (
         <MainLayout>
             {props.children}
-            <LabelsAction />
+            {!isMobile() && <LabelsAction />}
         </MainLayout>
     );
 }

@@ -11,8 +11,10 @@ import { currentUser, logout } from '~/store/auth.store';
 import { Avatar } from '~/components/ui/Avatar';
 import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
+import { useMobile } from '~/hooks/useMobile';
 
 export default function Header(props: { class: string }) {
+    const { isMobile } = useMobile();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -56,11 +58,13 @@ export default function Header(props: { class: string }) {
         >
             <Logo class="pointer-events-auto pr-1 rounded backdrop-blur" />
 
-            <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
-                <Motion {...getSlideAnimation(-200, 0.9)}>
-                    <Navigator />
-                </Motion>
-            </div>
+            {!isMobile() &&         
+                <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
+                    <Motion {...getSlideAnimation(-200, 0.9)}>
+                        <Navigator />
+                    </Motion>
+                </div>
+            }
 
             <ContextMenu items={menuItems} position={MenuPosition.BOTTOM_RIGHT}>
                 <Avatar

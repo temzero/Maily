@@ -13,9 +13,10 @@ import { AiOutlineArrowRight } from "solid-icons/ai";
 
 interface SealedMailProps {
   email: Email;
-  width?: number; // default: 270
-  height?: number; // default: 190
+  width?: number;
+  height?: number;
   class?: string;
+  isFullWidth?: boolean;
   onClick?: () => void;
 }
 
@@ -66,6 +67,7 @@ export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
       onClick={props.onClick}
       borderWidth={12}
       isUnsealed={true}
+      isFullWidth={props.isFullWidth}
     >
       {/* Bottom Section */}
       <div class="h-full w-full flex-1 flex justify-between items-end p-2">

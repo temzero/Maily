@@ -112,20 +112,20 @@ export function ItemsSlider<T>(props: Props<T>) {
           </Show>
         </Show>
 
-            <Show when={!!props.dotsPosition}>
-        <div
-          class={`absolute ${props.dotsPosition === "top" ? "top-4" : "bottom-4"} left-0 right-0 flex justify-center gap-2 z-10`}
-        >
-          <For each={props.items}>
-            {(_, index) => (
-              <button
-                onClick={() => props.onIndexChange(index())}
-                class={`h-1.5 rounded-full transition-all ${props.currentViewIndex === index() ? "bg-blue-500 w-3" : "bg-white/50 w-1.5"}`}
-              />
-            )}
-          </For>
-        </div>
-      </Show>
+        <Show when={!!props.dotsPosition}>
+          <div
+            class={`absolute ${props.dotsPosition === "top" ? "top-4" : "bottom-4"} left-0 right-0 flex justify-center gap-2 z-10`}
+          >
+            <For each={props.items}>
+              {(_, index) => (
+                <button
+                  onClick={() => props.onIndexChange(index())}
+                  class={`h-1.5 rounded-full transition-all ${props.currentViewIndex === index() ? "bg-blue-500 w-3" : "bg-white/50 w-1.5"}`}
+                />
+              )}
+            </For>
+          </div>
+        </Show>
 
         <div
           ref={scrollRef}
@@ -138,7 +138,7 @@ export function ItemsSlider<T>(props: Props<T>) {
             {(item, index) => (
               <div
                 onClick={() => onItemClick(index())}
-                class="cursor-pointer transition-all duration-300"
+                class="cursor-pointer transition-all duration-300 shrink-0 w-full"
                 style={{
                   opacity:
                     props.currentViewIndex === index()
@@ -150,10 +150,12 @@ export function ItemsSlider<T>(props: Props<T>) {
                       : `scale(${sideScale()})`,
                 }}
               >
+
                 {props.renderItem(item, index())}
               </div>
             )}
           </For>
+          
           <div style={{ "min-width": `${spacerWidth()}px`, flex: "none" }} />
         </div>
       </Motion>

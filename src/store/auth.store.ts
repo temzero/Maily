@@ -38,6 +38,18 @@ export function initAuth() {
   loadFromStorage();
 }
 
+export function updateUser(updatedUserData: Partial<User>) {
+  const currentUserData = user();
+  if (!currentUserData) return;
+
+  const mergedUser = { ...currentUserData, ...updatedUserData };
+  setUser(mergedUser);
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("user", JSON.stringify(mergedUser));
+  }
+}
+
 // Demo login
 export function demoLogin() {
   const demoUser = { ...mockUsers.standard };
@@ -82,11 +94,14 @@ export function logout() {
   }
 }
 
+
+
 // Simple hook
 export function useAuth() {
   return {
     user: user(),
     isAuthenticated: isAuthenticated(),
+    updateUser,
     login,
     demoLogin,
     logout,

@@ -59,6 +59,7 @@ export function Agent() {
     return (
         <Portal>
             <div
+                class='shadow-xl border-2 rounded-full'
                 style={{
                     position: 'fixed',
                     'z-index': 999999,
@@ -69,7 +70,7 @@ export function Agent() {
                 <img
                     src={AgentAvatar}
                     alt="AI Avatar"
-                    class="w-16 h-16 rounded-full border-2 border-(--border) object-cover shrink-0 select-none hover:scale-125 transition-transform cursor-pointer pointer-events-auto"
+                    class="w-16 h-16 rounded-full border-2 border-(--border) object-cover shrink-0 select-none hover:scale-110 transition-transform cursor-pointer pointer-events-auto"
                     onClick={handleAvatarClick}
                 />
             </div>

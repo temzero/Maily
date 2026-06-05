@@ -9,9 +9,11 @@ import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
 import { Agent } from './Agent';
 import { agentStore } from '~/store/agent.store';
+import { useMobile } from '~/hooks/useMobile';
 
 
 export default function Footer(props: { class: string }) {
+    const { isMobile } = useMobile();
     const isAgentVisible = () => agentStore.isVisible;
 
     return (
@@ -20,7 +22,7 @@ export default function Footer(props: { class: string }) {
             class={`${props.class} fixed bottom-0 left-0 right-0 pointer-events-none bg-linear-to-t from-black/30 to-transparent`}
         >
 
-             {isAgentVisible() && <Agent/>}
+             {!isMobile() && isAgentVisible() && <Agent/>}
             
             <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto!">
                 <Motion {...getSlideAnimation(200, 0.9)}>
