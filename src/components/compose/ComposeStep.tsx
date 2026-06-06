@@ -13,6 +13,11 @@ import { IoMailOpenSharp } from 'solid-icons/io';
 import { AiOutlineArrowDown } from "solid-icons/ai";
 import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
 import { useMobile } from '~/hooks/useMobile';
+import { NavigationContainer } from "./NavigationContainer";
+import ActionButton from "../ui/ActionButton";
+import { ComposeStepType } from "./Compose";
+import { FiArrowRight } from "solid-icons/fi";
+import { getActionButtonSize } from "~/utils/button.utils";
 
 type Props = {
   subject: Accessor<string>;
@@ -21,6 +26,8 @@ type Props = {
   setSubject: Setter<string>;
   setContent: Setter<string>;
   setAttachments: Setter<Attachment[]>;
+  setStep: (step: ComposeStepType) => void;
+  isComposeValid: Accessor<boolean>;
   originalEmail?: Accessor<Email | null>;
 };
 
@@ -121,6 +128,20 @@ export default function ComposeStep(props: Props) {
           />
         </>
       }
+
+      {props.isComposeValid() && 
+        <NavigationContainer>
+          <ActionButton
+              onClick={() => props.setStep(ComposeStepType.SEND)}
+              icon={<FiArrowRight size={40} />}
+              aria-label="Next"
+              variant="primary"
+              size={getActionButtonSize(isMobile())}
+              name="Next"
+            />
+        </NavigationContainer>
+      }
+      
       <Motion {...animations.slideUp}
         style={{
           width: `${mailContentWidth}px`,

@@ -1,17 +1,25 @@
 // EnvelopeStep.tsx
-import { createSignal, onMount, onCleanup } from "solid-js";
-import { envelopeStore } from "~/store/envelope.store";
-import { EnvelopeType } from "~/types/envelop/envelop.type";
-import { actionButtonsPosition } from "./ComposeNavigation";
-import { ComposeStepType } from "./Compose";
 import { AiOutlineCheck } from "solid-icons/ai";
-import ActionButton from "../ui/ActionButton";
-import EnvelopePreview from "./composeStep/EnvelopePreview";
-import { ItemsSlider } from "../ui/ItemsSlider";
-import EnvelopeEditor from "./composeStep/EnvelopeEditor";
-import { setAgentMessages, clearAgentMessages } from "~/store/agent.store";
+import { FiArrowLeft } from "solid-icons/fi";
+import { createSignal, onCleanup, onMount } from "solid-js";
+
 import { mockAgentMessages } from "~/data/agent.mock";
 import { useMobile } from "~/hooks/useMobile";
+import {
+  clearAgentMessages,
+  setAgentMessages,
+} from "~/store/agent.store";
+import { envelopeStore } from "~/store/envelope.store";
+import { EnvelopeType } from "~/types/envelop/envelop.type";
+
+import { ComposeStepType } from "./Compose";
+import EnvelopeEditor from "./composeStep/EnvelopeEditor";
+import EnvelopePreview from "./composeStep/EnvelopePreview";
+import { NavigationContainer } from "./NavigationContainer";
+
+import ActionButton from "../ui/ActionButton";
+import { ItemsSlider } from "../ui/ItemsSlider";
+import { getActionButtonSize } from "~/utils/button.utils";
 
 type Props = {
   subject: string;
@@ -20,7 +28,7 @@ type Props = {
 
 export default function EnvelopeStep(props: Props) {
   const { isMobile } = useMobile();
-  
+
   // Local signals — copy from store on mount
   const [localEnvelopes, setLocalEnvelopes] = createSignal<EnvelopeType[]>(
     envelopeStore.store.envelopes.map((e) => ({ ...e })),
@@ -44,9 +52,11 @@ export default function EnvelopeStep(props: Props) {
 
   const handleAccept = () => {
     const viewedEnvelope = currentViewedEnvelope();
+
     if (viewedEnvelope) {
       envelopeStore.selectEnvelopeById(viewedEnvelope.id);
     }
+
     props.setStep(ComposeStepType.SEND);
   };
 
@@ -69,25 +79,27 @@ export default function EnvelopeStep(props: Props) {
 
   return (
     <div>
-      <ItemsSlider
-        items={localEnvelopes()}
-        currentViewIndex={currentViewIndex()}
-        onIndexChange={setCurrentViewIndex}
-        dotsPosition={isMobile() ? "bottom" : "top"}
-        onAccept={handleAccept}
-        // showNavButtons={false}
-        renderItem={(envelope: EnvelopeType) => (
-          <EnvelopePreview
-            envelope={envelope}
-            subject={props.subject}
-            showSender={true}
-            class="transition-all duration-300 transform scale-100 w-full h-full"
-          />
-        )}
-      />
+      <NavigationContainer>
+        <ActionButton
+          onClick={() => props.setStep(ComposeStepType.COMPOSE)}
+          icon={<FiArrowLeft size={36} />}
+          aria-label="Back"
+          variant="outline"
+          size={getActionButtonSize(isMobile())}
+          name="Back"
+        />
 
+        <ActionButton
+          onClick={handleAccept}
+          icon={<AiOutlineCheck size={40} />}
+          aria-label="Accept"
+          variant="primary"
+          size={getActionButtonSize(isMobile())}
+          name="Accept"
+        />
+      </NavigationContainer>
 
-      {!isMobile() && 
+      {!isMobile() && (
         <EnvelopeEditor
           envelope={currentViewedEnvelope()}
           currentViewIndex={currentViewIndex()}
@@ -95,16 +107,23 @@ export default function EnvelopeStep(props: Props) {
           localEnvelopes={localEnvelopes}
           setLocalEnvelopes={setLocalEnvelopes}
         />
-      }
+      )}
 
-      <ActionButton
-        onClick={handleAccept}
-        icon={<AiOutlineCheck size={40} />}
-        aria-label="Accept"
-        variant="primary"
-        size="xl"
-        class={`${actionButtonsPosition}`}
-        name="Accept"
+      <ItemsSlider
+        items={localEnvelopes()}
+        currentViewIndex={currentViewIndex()}
+        onIndexChange={setCurrentViewIndex}
+        dotsPosition={isMobile() ? "bottom" : "top"}
+        onAccept={handleAccept}
+        renderItem={(envelope: EnvelopeType) => (
+          <div class="w-full h-full flex items-center justify-center">
+            <EnvelopePreview
+              envelope={envelope}
+              subject={props.subject}
+              showSender={true}
+            />
+          </div>
+        )}
       />
     </div>
   );

@@ -6,7 +6,6 @@ import { AiFillEdit, AiOutlineCheck } from 'solid-icons/ai';
 import ActionButton from '~/components/ui/ActionButton';
 import { ComposeStepType } from './Compose'; // or wherever it's defined
 import { useMobile } from '~/hooks/useMobile';
-import { envelopeStore } from '~/store/envelope.store';
 
 export interface ComposeNavigationProps {
     step: () => ComposeStepType;
@@ -19,7 +18,7 @@ const iconSize: number = 40;
 const backIconSise: number = 36;
 const buttonClass = 'hover:scale-110 transition-transform z-10';
 export const backButtonPosition = `fixed top-2 right-22 sm:top-auto sm:bottom-6 ${buttonClass}`;
-export const actionButtonsPosition = `fixed top-4 right-4 sm:top-auto sm:bottom-6 ${buttonClass}`;
+export const actionButtonsPosition = `fixed top-2 right-4 sm:top-auto sm:bottom-6 ${buttonClass}`;
 
 export default function ComposeNavigation(props: ComposeNavigationProps) {
     const { isMobile } = useMobile();
@@ -27,7 +26,6 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
     
 
     return (
-        <div class={actionButtonsPosition}>
         <Switch>
             {/* COMPOSE STEP */}
             <Match when={props.step() === ComposeStepType.COMPOSE && props.isComposeValid()}>
@@ -37,7 +35,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Next"
                     variant="primary"
                     size={buttonSize()}
-                    // class={actionButtonsPosition}
+                    class={actionButtonsPosition}
                     name="Next"
                     disabled={!props.isComposeValid()}
                 />
@@ -51,7 +49,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Back"
                     variant="outline"
                     size={buttonSize()}
-                    // class={backButtonPosition}
+                    class={backButtonPosition}
                     name="Back"
                 />
 
@@ -63,7 +61,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                             aria-label="Send"
                             variant="primary"
                             size={buttonSize()}
-                            // class={actionButtonsPosition}
+                            class={actionButtonsPosition}
                             name="Send"
                         />
                     </Match>
@@ -74,7 +72,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                             aria-label="Edit"
                             variant="secondary"
                             size={buttonSize()}
-                            // class={actionButtonsPosition}
+                            class={actionButtonsPosition}
                             name="Edit"
                         />
                     </Match>
@@ -89,11 +87,10 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     aria-label="Back"
                     variant="outline"
                     size={buttonSize()}
-                    // class={backButtonPosition}
+                    class={backButtonPosition}
                     name="Back"
                 />
             </Match>
         </Switch>
-        </div>
     );
 }

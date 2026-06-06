@@ -28,3 +28,22 @@
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 }
+
+.container-grid-mobile {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+/* Make each card sit on top of the previous one */
+.container-grid-mobile > * {
+    position: relative;
+    margin-top: -3rem;
+}
+
+.container-grid-mobile > :first-child {
+    margin-top: 0;
+}
+
+/* .container-grid-mobile > :hover {
+    margin-top: 0;
+} */

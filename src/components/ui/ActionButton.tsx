@@ -93,7 +93,7 @@ const ActionButton: Component<ActionButtonProps> = (props) => {
     const isDisabled = () => local.disabled || local.loading;
 
     const baseStyles =
-        'custom-border inline-flex items-center justify-center font-medium transition-all duration-150 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none rounded-full !p-0 shrink-0';
+        'custom-border inline-flex items-center justify-center font-medium transition-all duration-150 cursor-pointer select-none active:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none rounded-full !p-0 shrink-0';
 
     return (
         <button

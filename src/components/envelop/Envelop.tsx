@@ -67,7 +67,7 @@ export const Envelope: Component<EnvelopeLayoutProps> = (props) => {
         // <div class={` border-4 ${isShadow && 'teared-shadow'}`}>
             <div
                 id={`envelope ${props.envelope?.id}`}
-                class={`relative  ${props.isUnsealed ? 'teared-shape teared-shadow!' : ''} ${isShadow && 'teared-shadow'}`}
+                class={`relative ${props.isUnsealed ? 'teared-shape teared-shadow!' : ''} ${isShadow && 'teared-shadow'}`}
                      style={{
                         width: props.isFullWidth ? '100%' : `${width}px`,
                         ...getHeightStyle(),

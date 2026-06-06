@@ -131,8 +131,7 @@ export default function FolderPage() {
     return (
         <Presence initial={false}>
             <Show when={groupedEmailIds().length > 0} fallback={<EmptyFolder folder={folder()} />}>
-                <div class="flex flex-col items-center justify-center gap-6 w-fit h-fit">
-                    <div class="flex flex-col gap-10 w-full">
+                    <div class={`${isMobile() ? 'w-full' : ''} h-full flex flex-col gap-10`}>
                         <For each={groupedEmailIds()}>
                             {(item, index) => {
                                 if (isGroupMarker(item)) {
@@ -154,7 +153,7 @@ export default function FolderPage() {
                                     return (
                                         <div class="flex flex-col gap-2">
                                             <GroupLabel marker={item} />
-                                            <div class={`${isMobile() ? '' : 'container-grid'}`}>
+                                            <div class={`${isMobile() ? 'container-grid-mobile' : 'container-grid'}`}>
                                                 <For each={nextItems()}>
                                                     {(emailId) => (
                                                         <AnimatedEmailListItem emailId={emailId} />
@@ -169,7 +168,6 @@ export default function FolderPage() {
                             }}
                         </For>
                     </div>
-                </div>
             </Show>
         </Presence>
     );

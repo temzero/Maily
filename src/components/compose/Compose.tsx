@@ -201,13 +201,13 @@ export default function Compose(props: ComposeProps) {
             {!isMobile() && 
                 <ComposeTopIcon step={step} />
             }
-            <ComposeNavigation
+            {/* <ComposeNavigation
                 step={step}
                 setStep={setStep}
                 isComposeValid={isComposeValid}
                 isSendable={isSendable}
                 onSend={handleSend}
-            />
+            /> */}
             <Switch>
                 <Match when={step() === ComposeStepType.COMPOSE}>
                     <ComposeStep
@@ -217,7 +217,9 @@ export default function Compose(props: ComposeProps) {
                         setSubject={setSubject}
                         setContent={setContent}
                         setAttachments={setAttachments}
+                        setStep={setStep}
                         originalEmail={originalEmail}
+                        isComposeValid={isComposeValid}
                     />
                 </Match>
 
@@ -229,6 +231,7 @@ export default function Compose(props: ComposeProps) {
                         subject={subject()}
                         recipientEmail={recipient()}
                         onRecipientChange={handleRecipientChange}
+                        isSendable={isSendable}
                         onMotionComplete={() => {
                             if (isSending()) {
                                 executeSend();

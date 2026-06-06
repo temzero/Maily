@@ -1,5 +1,5 @@
 // components/compose/SendStep.tsx
-import { createSignal, createEffect, Accessor, onMount, onCleanup } from 'solid-js';
+import { createSignal, createEffect, Accessor, onMount, Switch, Match } from 'solid-js';
 import { Envelope } from '~/components/envelop/Envelop';
 import { mailDimensions } from '~/constants/constants';
 import { Avatar } from '~/components/ui/Avatar';
@@ -12,6 +12,12 @@ import { setAgentMessages } from '~/store/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
 import { ComposeStepType } from './Compose';
 import { useMobile } from '~/hooks/useMobile';
+import { NavigationContainer } from "./NavigationContainer";
+import ActionButton from "../ui/ActionButton";
+import { FiArrowLeft } from 'solid-icons/fi';
+import { BiRegularPaperPlane } from 'solid-icons/bi';
+import { AiFillEdit } from 'solid-icons/ai';
+import { getActionButtonSize } from "~/utils/button.utils";
 
 type Props = {
     isSending?: Accessor<boolean>;
@@ -21,6 +27,7 @@ type Props = {
     subject: string;
     recipientEmail: string; // From parent
     onRecipientChange: (recipient: string, isValid: boolean) => void;
+    isSendable: () => boolean;
 };
 
 export default function SendStep(props: Props) {
@@ -90,90 +97,100 @@ export default function SendStep(props: Props) {
     });
 
     return (
-        <Motion
-            {...getSendStepAnimation(props.isSending?.() || false)}
-            onMotionComplete={() => {
-                if (props.isSending?.() && props.onMotionComplete) {
-                    props.onMotionComplete();
-                }
-            }}
-            class="fixed inset-0 flex items-center justify-center pointer-events-none"
-        >
-            <Envelope
-                width={mailDimensions.width * 3}
-                height={mailDimensions.height * 3}
-                borderWidth={16}
-                envelope={envelopeStore.getCurrentEnvelope()!}
-                isFullWidth={isMobile()}
-                aspectRatio={1.6}
+        <div class='relative w-full h-full'>
+            <NavigationContainer>
+                <ActionButton
+                    onClick={() => props.setStep(ComposeStepType.COMPOSE)}
+                    icon={<FiArrowLeft size={36} />}
+                    aria-label="Back"
+                    variant="outline"
+                    size={getActionButtonSize(isMobile())}
+            
+                    name="Back"
+                />
+
+                <Switch>
+                    <Match when={props.isSendable()}>
+                        <ActionButton
+                            onClick={props.onSend}
+                            icon={<BiRegularPaperPlane size={40} />}
+                            aria-label="Send"
+                            variant="primary"
+                            size={getActionButtonSize(isMobile())}                            name="Send"
+                        />
+                    </Match>
+                    <Match when={!props.isSendable()}>
+                        <ActionButton
+                            onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
+                            icon={<AiFillEdit size={40} />}
+                            aria-label="Edit"
+                            variant="secondary"
+                            size={getActionButtonSize(isMobile())}
+                           name="Edit"
+                        />
+                    </Match>
+                </Switch>
+            </NavigationContainer>
+
+            <Motion
+                {...getSendStepAnimation(props.isSending?.() || false)}
+                onMotionComplete={() => {
+                    if (props.isSending?.() && props.onMotionComplete) {
+                        props.onMotionComplete();
+                    }
+                }}
+                class="fixed inset-0 flex items-center justify-center pointer-events-none"
             >
-                <div class="relative w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
+                <Envelope
+                    width={mailDimensions.width * 3}
+                    height={mailDimensions.height * 3}
+                    borderWidth={isMobile() ? 8 : 16}
+                    envelope={envelopeStore.getCurrentEnvelope()!}
+                    isFullWidth={isMobile()}
+                    aspectRatio={1.6}
+                >
+                    <div class="relative w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
+                        <h1 class={`font-bold text-4xl p-1 ${isMobile() ? 'text-2xl' : 'text-4xl'}`}>{props.subject || '???'}</h1>
+                            
+                        {/* footer input */}
+                            <div class="flex gap-2 items-end justify-between">
+                                {!isMobile() && 
+                                
+                                <div class="flex items-center gap-2">
+                                    <Avatar
+                                        src={currentUser()?.avatarUrl}
+                                        name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
+                                        size="lg"
+                                    />
+                                    <div class="flex flex-col -space-y-1">
+                                        <h1 class="font-bold text-xl">{`${currentUser()?.firstName} ${currentUser()?.lastName}`}</h1>
+                                        <p>{`${currentUser()?.email}`}</p>
+                                    </div>
+                                </div>
+                                }
 
-                    {/* header input */}
-                    {/* <div> */}
-                        {isMobile() && 
-                        <div class="flex gap-2 justify-between">
-                            <VsArrowRight size={32} />
+                                <VsArrowRight size={32} />
 
-                            <div class="space-y-1 flex-1 pointer-events-auto">
-                
-                                <input
-                                    ref={recipientRef}
-                                    type="email"
-                                    value={props.recipientEmail}
-                                    onInput={handleRecipientChange}
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="recipient@example.com"
-                                    class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1 custom-border!
-                                    ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
-                                />
-                                {recipientError() && (
-                                    <p class="text-sm text-red-500">{recipientError()}</p>
-                                )}
-                            </div>
-                        </div>
-
-                        }
-                        <h1 class="font-bold text-4xl p-1">{props.subject || '???'}</h1>
-                        
-                    {/* </div> */}
-
-                    {/* footer input */}
-                    {!isMobile() && 
-                        <div class="flex gap-2 items-end justify-between">
-                            <div class="flex items-center gap-2">
-                                <Avatar
-                                    src={currentUser()?.avatarUrl}
-                                    name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
-                                    size="lg"
-                                />
-                                <div class="flex flex-col -space-y-1">
-                                    <h1 class="font-bold text-xl">{`${currentUser()?.firstName} ${currentUser()?.lastName}`}</h1>
-                                    <p>{`${currentUser()?.email}`}</p>
+                                <div class="space-y-1 flex-1 pointer-events-auto">
+                                    {recipientError() && (
+                                        <p class="text-sm text-red-500">{recipientError()}</p>
+                                    )}
+                                    <input
+                                        ref={recipientRef}
+                                        type="email"
+                                        value={props.recipientEmail}
+                                        onInput={handleRecipientChange}
+                                        onKeyDown={handleKeyDown}
+                                        placeholder="recipient@example.com"
+                                        class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1
+                                        ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
+                                    />
                                 </div>
                             </div>
-
-                            <VsArrowRight size={32} />
-
-                            <div class="space-y-1 flex-1 pointer-events-auto">
-                                {recipientError() && (
-                                    <p class="text-sm text-red-500">{recipientError()}</p>
-                                )}
-                                <input
-                                    ref={recipientRef}
-                                    type="email"
-                                    value={props.recipientEmail}
-                                    onInput={handleRecipientChange}
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="recipient@example.com"
-                                    class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1
-                                    ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
-                                />
-                            </div>
-                        </div>
-                    }
-                </div>
-            </Envelope>
-        </Motion>
+                    </div>
+                </Envelope>
+            </Motion>
+        </div>
+    
     );
 }
