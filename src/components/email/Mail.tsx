@@ -2,6 +2,7 @@ import { Component, Match, Switch, Show } from 'solid-js';
 import { Email, EmailFolder } from '~/types/email/email.type';
 import { SealedMail } from './SealedMail';
 import { UnsealedMail } from './UnsealedMail';
+import { UnsealedMailMobile } from './UnsealedMailMobile';
 import { DraftMail } from './DraftMail';
 import { SentMail } from './SentMail';
 import { getRenderLabelIconsByIds } from '~/store/label.store';
@@ -27,11 +28,24 @@ export const Mail: Component<MailProps> = (props) => {
     const hasAttachments = () => props.email.attachments && props.email.attachments.length > 0;
 
     const width = props.width || mailDimensions.width;
-    const height = props.height || mailDimensions.height;
 
     const labels = () => {
         if (!props.email.labelIds?.length) return null;
         return getRenderLabelIconsByIds(props.email.labelIds);
+    };
+
+    const labelPosition = () => {
+        // if (isRead()) {
+        //     return isMobile() ? 'right-4 top-0' : 'right-1 -bottom-2.5';
+        // }
+        return isMobile() ? 'right-0 -top-2' : 'right-1 -bottom-2.5';
+    };
+
+    const attachmentlabelPosition = () => {
+        // if (isRead()) {
+        //     return isMobile() ? 'top-5 right-4' : 'top-0 right-0';
+        // }
+        return isMobile() ? 'top-3 -right-3' : '-top-1 -right-1';
     };
 
     return (
@@ -41,7 +55,8 @@ export const Mail: Component<MailProps> = (props) => {
             class={`relative ${props.class}`}
             style={{
                 width: isMobile() ? '100%' : `${width}px`,
-                height: `${height}px`,
+                'aspect-ratio': mailDimensions.aspectRatio
+                
             }}
         >
             <Show when={props.email.isNew && !props.email.isRead}>
@@ -56,7 +71,7 @@ export const Mail: Component<MailProps> = (props) => {
             </Show>
 
             {/* Labels */}
-            <div class="absolute -bottom-2.5 right-1 z-10 flex gap-0.5">
+            <div class={`absolute z-10 flex gap-0.5 ${labelPosition()}`}>
                 {labels()?.map((label) => (
                     <div
                         style={{
@@ -74,33 +89,39 @@ export const Mail: Component<MailProps> = (props) => {
             {/* Attachment */}
             {hasAttachments() && (
                 <svg
-                    class={`absolute -top-1 -right-1 z-10 w-5 h-8 fill-current bg-black/60 text-white backdrop-blur rounded-xl py-0.5 ${
+                    class={`absolute z-10 rotate-30 w-5 h-8 fill-current bg-black/60 text-white backdrop-blur rounded-xl py-0.5 ${
                         isRead() ? 'opacity-60' : ''
-                    }`}
+                    } ${attachmentlabelPosition()}`}
                     viewBox="2 0 20 24"
                 >
                     <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z" />
                 </svg>
             )}
 
-            {/* Envelope */}
+            {/* Envelopes */}
             <Switch>
                 <Match when={isDraft()}>
-                    <DraftMail email={props.email} width={width} height={mailDimensions.height} />
+                    <DraftMail email={props.email} width={width} />
                 </Match>
                 <Match when={isSent()}>
-                    <SentMail email={props.email} width={width} height={height} />
+                    <SentMail email={props.email} width={width} />
                 </Match>
                 <Match when={isRead()}>
-                    <UnsealedMail
-                        email={props.email}
-                        class={props.isFocusing ? 'opacity-100!' : ''}
-                        width={width}
-                        height={height}
-                    />
+                    {isMobile() ?
+                        <UnsealedMailMobile
+                            email={props.email}
+                            class={props.isFocusing ? 'opacity-100!' : 'opacity-60!'}
+                            width={width}/>
+                    : 
+                        <UnsealedMail
+                            email={props.email}
+                            class={props.isFocusing ? 'opacity-100!' : ''}
+                            width={width}
+                        />
+                    }
                 </Match>
                 <Match when={!isRead()}>
-                    <SealedMail email={props.email} width={width} height={height} />
+                    <SealedMail email={props.email} width={width} />
                 </Match>
             </Switch>
         </div>

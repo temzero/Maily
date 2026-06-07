@@ -37,11 +37,29 @@
 /* Make each card sit on top of the previous one */
 .container-grid-mobile > * {
     position: relative;
-    margin-top: -3rem;
+    margin-top: -4rem;
+    /* margin-top: 0; */
 }
 
 .container-grid-mobile > :first-child {
     margin-top: 0;
+}
+
+/* Alternating left positions - repeats every 4 items */
+.container-grid-mobile > :nth-child(4n+1) {
+    left: 0;
+}
+
+.container-grid-mobile > :nth-child(4n+2) {
+    left: 0.2rem;
+}
+
+.container-grid-mobile > :nth-child(4n+3) {
+    left: 0;
+}
+
+.container-grid-mobile > :nth-child(4n+4) {
+    left: -0.2rem;
 }
 
 /* .container-grid-mobile > :hover {

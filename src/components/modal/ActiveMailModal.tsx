@@ -10,6 +10,8 @@ import { audioManager } from '~/utils/audioManager';
 import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
 import { getEmailById } from '~/store/email/email.selectors';
 import { openComposeDraft } from '~/store/modal/composeModal.store';
+import { useMobile } from '~/hooks/useMobile';
+import { Position } from '~/types/positions.enum';
 
 export const transitionZoomDuration = 400;
 // const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -22,6 +24,7 @@ interface EmailModalProps {
 }
 
 export function ActiveEmailModal(props: EmailModalProps) {
+    const { isMobile } = useMobile();
     const emailId = () => uiStore.activeEmailId;
 
     const [isOpen, setIsOpen] = createSignal(false);
@@ -137,7 +140,7 @@ export function ActiveEmailModal(props: EmailModalProps) {
                                         isDraft={isDraft}
                                         onClose={handleClose}
                                     />
-                                    <CloseButton onClose={handleClose} zIndex={102} />
+                                    <CloseButton onClose={handleClose} zIndex={102} position={isMobile() ? Position.TOP_LEFT : Position.TOP_RIGHT} />
                                 </Show>
                             </div>
                         </div>

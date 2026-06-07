@@ -77,7 +77,8 @@ export default function FocusElementModal(props: { zIndex?: number }) {
                         const clone = originalElement.cloneNode(true) as HTMLElement;
                         clone.id = `focused-${focusElementId()}`;
                         clone.style.transition = `all ${focusAnimateDuration}ms ${easing}`;
-                        
+                        clone.style.boxShadow = 'none';
+                        clone.style.textShadow = 'none';
                         // Check if the original element has width: 100% and capture actual width
                         const originalWidth = window.getComputedStyle(originalElement).width;
                         if (originalWidth === '100%' || originalElement.style.width === '100%') {

@@ -10,6 +10,7 @@ import {
 } from "~/utils/emailParser";
 import { currentUser } from "~/store/auth.store";
 import { AiOutlineArrowRight } from "solid-icons/ai";
+import { useMobile } from '~/hooks/useMobile';
 
 interface SealedMailProps {
   email: Email;
@@ -21,6 +22,7 @@ interface SealedMailProps {
 }
 
 export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
+  const { isMobile } = useMobile();
   const envelope = () => props.email.envelope;
 
   // Get sender info
@@ -59,21 +61,28 @@ export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
     return (first + last).toUpperCase() || displayEmail.charAt(0).toUpperCase();
   };
 
+  const avatarSizeClass = () => isMobile() ? 'h-8 w-8' : 'h-11 w-11';
+  
+  // Text size classes based on mobile
+  const nameTextClass = () => isMobile() ? 'text-sm! font-bold' : 'small-subject-text';
+  const emailTextClass = () => isMobile() ? 'text-xs!' : 'content-text';
+  const dateTextClass = () => isMobile() ? 'text-xs!' : 'content-text';
+
   return (
     <Envelope
       envelope={envelope()}
       width={props.width}
+      isFullWidth={props.isFullWidth}
       height={props.height}
       onClick={props.onClick}
       borderWidth={12}
       isUnsealed={true}
-      isFullWidth={props.isFullWidth}
     >
       {/* Bottom Section */}
       <div class="h-full w-full flex-1 flex justify-between items-end p-2">
         <div class="flex items-center">
           {isSender && (
-            <AiOutlineArrowRight size={40} class="-ml-2 opacity-70" />
+            <AiOutlineArrowRight size={isMobile() ? 24 : 40} class="-ml-2 opacity-70" />
           )}
           {/* Avatar + Name - Bottom Left */}
           <div class="flex items-end gap-2">
@@ -82,27 +91,27 @@ export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
               <img
                 src={props.email.avatar}
                 alt="Avatar"
-                class="w-11 h-11 rounded-full object-cover pointer-events-none select-none"
+                class={`${avatarSizeClass()} rounded-full object-cover pointer-events-none select-none`}
               />
             ) : (
-              <div class="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold pointer-events-none select-none">
+              <div class={`${avatarSizeClass()} rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold pointer-events-none select-none`}>
                 {getInitials()}
               </div>
             )}
 
             {/* First Name + Last Name */}
             <div>
-              <h1 class="small-subject-text leading-none!">
+              <h1 class={`${nameTextClass()} leading-none!`}>
                 {getFirstAndLastName().firstName}{" "}
                 {getFirstAndLastName().lastName}
               </h1>
-              <p class="content-text leading-none! opacity-70">{displayEmail}</p>
+              <p class={`${emailTextClass()} leading-none! opacity-70`}>{displayEmail}</p>
             </div>
           </div>
         </div>
 
         {/* Created At - Bottom Right */}
-        <div class="opacity-60 font-sans content-text leading-none!">
+        <div class={`${dateTextClass()} opacity-60 font-sans leading-none!`}>
           {formatFullDateTime(props.email.createdAt)}
         </div>
       </div>

@@ -23,12 +23,10 @@ export default function EnvelopePreview(props: EnvelopePreviewProps) {
     <Envelope
       envelope={props.envelope}
       width={props.width || mailDimensions.width * 3}
-      height={props.height || mailDimensions.height * 3}
+      isFullWidth={isMobile()}
       borderWidth={props.borderWidth || 16}
       class={`${props.class} shadow-none`}
       isShadow={false}
-      isFullWidth={isMobile()}
-      aspectRatio={1.6}
     >
       <div class="w-full h-full flex flex-col justify-between p-2 select-none">
         <h1

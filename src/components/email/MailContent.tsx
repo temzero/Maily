@@ -97,24 +97,38 @@ export function MailContent(props: MailContentProps) {
         <UnsealedMailDetail 
           email={email} 
           width={envelopeWidth} 
-          height={320} 
+          height={isMobile() ? 75 : 100} 
           isFullWidth={isMobile()}
         />
       </div>
 
       <Show when={!isOverlayMode()}>
-        <ActionButton
-          onClick={() =>
-            isSent ? openComposeForward(email) : openComposeReply(email)
-          }
-          icon={isSent ? forwardIcon : replyIcon}
-          variant="primary"
-          size="xl"
-          class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
-          name={isSent ? "Forward email" : `Reply to ${email.from}`}
-        />
-        {!isMobile() && 
+       
+        {isMobile() ?
+          <ActionButton
+            onClick={() =>
+              isSent ? openComposeForward(email) : openComposeReply(email)
+            }
+            icon={isSent ? forwardIcon : replyIcon}
+            variant="primary"
+            size="md"
+            class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
+            name={isSent ? "Forward email" : `Reply to ${email.from}`}
+          />
+        :
+        <>
+         <ActionButton
+            onClick={() =>
+              isSent ? openComposeForward(email) : openComposeReply(email)
+            }
+            icon={isSent ? forwardIcon : replyIcon}
+            variant="primary"
+            size="xl"
+            class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
+            name={isSent ? "Forward email" : `Reply to ${email.from}`}
+          />
           <ReadMailActions emailId={email.id} onClose={() => props.onClose?.()} />
+        </>
         }
       </Show>
     </div>

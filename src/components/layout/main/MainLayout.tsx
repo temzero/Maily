@@ -15,7 +15,7 @@ export default function MainLayout(props: HomeLayoutProps): JSX.Element {
 
             {/* Scrollable content area */}
             <main
-                class={`relative flex-1 flex justify-center px-6 py-20  overflow-y-auto z-0 ${props.class}`}
+                class={`relative flex-1 flex justify-center px-6 py-20 overflow-y-auto z-0 ${props.class}`}
             >
                 {props.children}
             </main>

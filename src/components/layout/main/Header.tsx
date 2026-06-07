@@ -56,14 +56,18 @@ export default function Header(props: { class: string }) {
             style={{ height: `${headerHeight}px` }}
             class={`${props.class} fixed inset-x-0 top-0 bg-linear-to-b from-black/30 to-transparent pointer-events-none flex items-center justify-between px-4`}
         >
-            <Logo class="pointer-events-auto pr-1 rounded backdrop-blur" />
 
-            {!isMobile() &&         
-                <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
-                    <Motion {...getSlideAnimation(-200, 0.9)}>
-                        <Navigator />
-                    </Motion>
-                </div>
+            {isMobile() ?
+                <div class='text-3xl font-bold px-1 backdrop-blur rounded'>Inbox</div>
+            :
+                <>
+                    <Logo class="pointer-events-auto pr-1 rounded backdrop-blur" />
+                    <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
+                        <Motion {...getSlideAnimation(-200, 0.9)}>
+                            <Navigator />
+                        </Motion>
+                    </div>
+                </>
             }
 
             <ContextMenu items={menuItems} position={MenuPosition.BOTTOM_RIGHT}>

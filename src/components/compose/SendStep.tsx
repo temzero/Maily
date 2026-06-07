@@ -143,11 +143,9 @@ export default function SendStep(props: Props) {
             >
                 <Envelope
                     width={mailDimensions.width * 3}
-                    height={mailDimensions.height * 3}
+                    isFullWidth={isMobile()}
                     borderWidth={isMobile() ? 8 : 16}
                     envelope={envelopeStore.getCurrentEnvelope()!}
-                    isFullWidth={isMobile()}
-                    aspectRatio={1.6}
                 >
                     <div class="relative w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
                         <h1 class={`font-bold text-4xl p-1 ${isMobile() ? 'text-2xl' : 'text-4xl'}`}>{props.subject || '???'}</h1>

@@ -5,16 +5,18 @@ import { mailDimensions } from "~/constants/constants";
 import { Envelope } from "../envelop/Envelop";
 import { getEmailAddress, getSenderDisplayName } from "~/utils/emailParser";
 import { formatDate } from "~/utils/formatDate";
+import { useMobile } from "~/hooks/useMobile";
 
 interface SealedMailProps {
   email: Email;
-  width?: number; // default: 270
-  height?: number; // default: 190
+  width?: number;
+  height?: number;
   class?: string;
   onClick?: () => void;
 }
 
 export const UnsealedMail: Component<SealedMailProps> = (props) => {
+  const { isMobile } = useMobile();
   const envelope = () => props.email.envelope;
 
   // Using utility functions
@@ -46,18 +48,27 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
     .replace(/<[^>]*>/g, "")
     .slice(0, 200);
 
+  const getWidthStyle = () => {
+    if (isMobile()) {
+      return '100%';
+    }
+    return `${props.width || mailDimensions.width}px`;
+  };
+
+
   return (
     <div
-      class={`relative flex flex-col items-center justify-end opacity-50 select-none ${props.class}`}
+      class={`relative flex flex-col items-center justify-end select-none envelope-shadow ${isMobile() ? "" : "opacity-50"} ${props.class}`}
       style={{
-        width: `${props.width || mailDimensions.width}px`,
-        height: `${props.height || mailDimensions.height}px`,
+        width: getWidthStyle(),
+        'aspect-ratio': mailDimensions.aspectRatio
+        
       }}
     >
       {/* Mail Content - Behind the envelope */}
       <div
         id="mail-content"
-        class={`bg-white text-black p-3 overflow-hidden mb-1 `}
+        class={`bg-white text-black p-3 overflow-hidden mb-1`}
         style={{
           width: "90%",
           height: "calc(100% - 16px)", // Height from top to above envelope
@@ -74,6 +85,7 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
         <Envelope
           envelope={envelope()}
           width={props.width}
+          isFullWidth={isMobile()}
           onClick={props.onClick}
           isUnsealed={true}
           isShadow={true}
@@ -102,7 +114,7 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
             </div>
 
             {/* Created At - Bottom Right */}
-            <div class="text-[10px] opacity-60 font-sans">
+            <div class="text-xs opacity-60 font-sans">
               {formatDate(props.email.createdAt)}
             </div>
           </div>
