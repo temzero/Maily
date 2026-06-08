@@ -110,6 +110,27 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+.button-effect {
+  cursor: pointer;
+  transition-property: background-color, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  overflow: hidden;
+}
+
+.button-effect:hover {
+  background-color: var(--border);
+}
+
+.button-effect:active {
+  background-color: var(--primary); /* blue-600 */
+  /* transform: scale(1.1); */
+}
+
+.button-effect-scale:active {
+  transform: scale(1.1);
+}
+
 .panel {
   background: rgb(255, 255, 255, 0.5);
   color: black;

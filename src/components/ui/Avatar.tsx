@@ -82,16 +82,17 @@ export function Avatar(props: AvatarProps) {
         roundedClasses[local.rounded === true ? 'full' : local.rounded || 'full'];
     const statusSizeClass = () => statusSizeClasses[local.size || 'md'];
     const statusColorClass = () => statusColorClasses[local.status || 'offline'];
+    const isClickable = () => !!local.onClick;
 
     return (
         <div
             class={`
-                relative inline-flex shrink-0 pointer-events-none select-none
+                relative inline-flex shrink-0 select-none
+                ${isClickable() ? 'cursor-pointer hover:scale-110 transition-transform' : 'pointer-events-none'}
                 ${sizeClass()}
                 ${local.class || ''}
             `}
             onClick={local.onClick}
-            style={{ cursor: local.onClick ? 'pointer' : 'default' }}
         >
             <img
                 src={local.src || fallbackUrl()}
@@ -99,7 +100,6 @@ export function Avatar(props: AvatarProps) {
                 class={`
                     w-full h-full object-cover
                     ${roundedClass()}
-                    ${local.onClick ? 'hover:scale-105 transition-transform' : ''}
                 `}
                 onError={handleImageError}
                 {...others}

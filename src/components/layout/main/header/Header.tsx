@@ -1,4 +1,5 @@
 // components/Header.tsx
+import { createSignal, createMemo, createEffect, Show } from 'solid-js';
 import Logo from '~/components/Logo';
 import Navigator from './Navigator';
 import { useNavigate } from '@solidjs/router';
@@ -12,6 +13,7 @@ import { Avatar } from '~/components/ui/Avatar';
 import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
 import { useMobile } from '~/hooks/useMobile';
+import HeaderMobile from './HeaderMobile';
 
 export default function Header(props: { class: string }) {
     const { isMobile } = useMobile();
@@ -50,37 +52,36 @@ export default function Header(props: { class: string }) {
             danger: true,
         },
     ];
+ 
 
     return (
         <header
             style={{ height: `${headerHeight}px` }}
             class={`${props.class} fixed inset-x-0 top-0 bg-linear-to-b from-black/30 to-transparent pointer-events-none flex items-center justify-between px-4`}
         >
-
-            {isMobile() ?
-                <div class='text-3xl font-bold px-1 backdrop-blur rounded'>Inbox</div>
-            :
+            <Show when={!isMobile()} fallback={<HeaderMobile/>}>
                 <>
                     <Logo class="pointer-events-auto pr-1 rounded backdrop-blur" />
+
                     <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
                         <Motion {...getSlideAnimation(-200, 0.9)}>
                             <Navigator />
                         </Motion>
                     </div>
-                </>
-            }
 
-            <ContextMenu items={menuItems} position={MenuPosition.BOTTOM_RIGHT}>
-                <Avatar
-                    src={currentUser()?.avatarUrl}
-                    name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
-                    size="sm"
-                    rounded="full"
-                    status="online"
-                    class="pointer-events-auto!"
-                    onClick={() => navigate('/profile')}
-                />
-            </ContextMenu>
+                    <ContextMenu items={menuItems} position={MenuPosition.BOTTOM_RIGHT}>
+                        <Avatar
+                            src={currentUser()?.avatarUrl}
+                            name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
+                            size="sm"
+                            rounded="full"
+                            status="online"
+                            class="pointer-events-auto!"
+                            onClick={() => navigate('/profile')}
+                        />
+                    </ContextMenu>
+                </>
+            </Show>
         </header>
     );
 }

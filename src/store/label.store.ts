@@ -110,7 +110,7 @@ export const getRenderLabelIconsByIds = (labelIds: number[], size: number = 16):
         });
 };
 
-export const getRenderActiveLabels = (): RenderActiveLabel[] => {
+export const getRenderActiveLabels = (size: number = 20): RenderActiveLabel[] => {
     const activeLabelIds = labelStore.activeLabelIds;
     const labelsMap = new Map(labelStore.labels.map((label) => [label.id, label]));
 
@@ -120,7 +120,7 @@ export const getRenderActiveLabels = (): RenderActiveLabel[] => {
             const label = labelsMap.get(id)!;
             return {
                 ...label,
-                iconElement: () => getIcon(label.iconId, 'solid', 20, label.color) as JSX.Element,
+                iconElement: () => getIcon(label.iconId, 'solid', size, label.color) as JSX.Element,
             };
         });
 };

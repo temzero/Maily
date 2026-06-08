@@ -17,7 +17,7 @@ import EnvelopeEditor from "./composeStep/EnvelopeEditor";
 import EnvelopePreview from "./composeStep/EnvelopePreview";
 import { NavigationContainer } from "./NavigationContainer";
 
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import { ItemsSlider } from "../ui/ItemsSlider";
 import { getActionButtonSize } from "~/utils/button.utils";
 
@@ -80,7 +80,7 @@ export default function EnvelopeStep(props: Props) {
   return (
     <div>
       <NavigationContainer>
-        <ActionButton
+        <Button
           onClick={() => props.setStep(ComposeStepType.COMPOSE)}
           icon={<FiArrowLeft size={36} />}
           aria-label="Back"
@@ -89,7 +89,7 @@ export default function EnvelopeStep(props: Props) {
           name="Back"
         />
 
-        <ActionButton
+        <Button
           onClick={handleAccept}
           icon={<AiOutlineCheck size={40} />}
           aria-label="Accept"

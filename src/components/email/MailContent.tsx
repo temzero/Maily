@@ -1,7 +1,7 @@
 import { Show, onMount, onCleanup } from "solid-js";
 import { VsArrowRight } from "solid-icons/vs";
 import { MdFillReply } from 'solid-icons/md';
-import ActionButton from "~/components/ui/ActionButton";
+import Button from "~/components/ui/Button";
 import { Email, EmailFolder } from "~/types/email/email.type";
 import { UnsealedMailDetail } from "./UnsealedMailDetail";
 import {
@@ -105,7 +105,7 @@ export function MailContent(props: MailContentProps) {
       <Show when={!isOverlayMode()}>
        
         {isMobile() ?
-          <ActionButton
+          <Button
             onClick={() =>
               isSent ? openComposeForward(email) : openComposeReply(email)
             }
@@ -117,7 +117,7 @@ export function MailContent(props: MailContentProps) {
           />
         :
         <>
-         <ActionButton
+         <Button
             onClick={() =>
               isSent ? openComposeForward(email) : openComposeReply(email)
             }

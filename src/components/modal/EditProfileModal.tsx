@@ -1,10 +1,10 @@
 // components/modals/EditProfileModal.tsx
 import { createSignal, Show, createMemo, onMount } from 'solid-js';
 import { useAuth } from '~/store/auth.store';
-import Button from '~/components/ui/Button';
 import Modal from '~/components/modal/Modal';
 import { CloseButton } from '../ui/CloseButton';
 import { Position } from '~/types/positions.enum';
+import Button from '../ui/Button';
 
 interface EditProfileModalProps {
     field: string | null;
@@ -207,14 +207,6 @@ export default function EditProfileModal(props: EditProfileModalProps) {
                         </Show>
 
                         <div class="flex justify-end gap-3">
-                            {/* <Button
-                                type="button"
-                                variant="outline"
-                                onClick={closeModal} // Use Modal's close function
-                                disabled={isLoading()}
-                            >
-                                Cancel
-                            </Button> */}
                             <Button
                                 type="submit"
                                 variant="primary"

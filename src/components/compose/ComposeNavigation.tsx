@@ -3,7 +3,7 @@ import { Switch, Match } from 'solid-js';
 import { FiArrowRight, FiArrowLeft } from 'solid-icons/fi';
 import { BiRegularPaperPlane } from 'solid-icons/bi';
 import { AiFillEdit, AiOutlineCheck } from 'solid-icons/ai';
-import ActionButton from '~/components/ui/ActionButton';
+import Button from '~/components/ui/Button';
 import { ComposeStepType } from './Compose'; // or wherever it's defined
 import { useMobile } from '~/hooks/useMobile';
 import { envelopeStore } from '~/store/envelope.store';
@@ -31,7 +31,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
         <Switch>
             {/* COMPOSE STEP */}
             <Match when={props.step() === ComposeStepType.COMPOSE && props.isComposeValid()}>
-                <ActionButton
+                <Button
                     onClick={() => props.setStep(ComposeStepType.SEND)}
                     icon={<FiArrowRight size={iconSize} />}
                     aria-label="Next"
@@ -45,7 +45,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
 
             {/* SEND STEP */}
             <Match when={props.step() === ComposeStepType.SEND}>
-                <ActionButton
+                <Button
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
                     icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"
@@ -57,7 +57,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
 
                 <Switch>
                     <Match when={props.isSendable()}>
-                        <ActionButton
+                        <Button
                             onClick={props.onSend}
                             icon={<BiRegularPaperPlane size={iconSize} />}
                             aria-label="Send"
@@ -68,7 +68,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                         />
                     </Match>
                     <Match when={!props.isSendable()}>
-                        <ActionButton
+                        <Button
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
                             icon={<AiFillEdit size={iconSize} />}
                             aria-label="Edit"
@@ -83,7 +83,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
 
             {/* ENVELOPE STEP */}
             <Match when={props.step() === ComposeStepType.ENVELOPE}>
-                <ActionButton
+                <Button
                     onClick={() => props.setStep(ComposeStepType.SEND)}
                     icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"

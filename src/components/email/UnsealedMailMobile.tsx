@@ -64,7 +64,7 @@ export const UnsealedMailMobile: Component<SealedMailProps> = (props) => {
 
 
                         {/* Top Section - Subject & Stamp */}
-                        <div class="flex justify-between gap-1 min-h-0 p-1">
+                        <div class="flex justify-between gap-1 min-h-0 px-1">
                             <h1 class="small-subject-text">
                                 {props.email.subject || '(No Subject)'}
                             </h1>

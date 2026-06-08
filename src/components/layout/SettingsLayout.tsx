@@ -1,5 +1,8 @@
 // components/layout/SettingsLayout.tsx
 import { JSX } from 'solid-js';
+import Button from '../ui/Button';
+import { VsArrowLeft } from 'solid-icons/vs';
+import { useNavigate } from '@solidjs/router';
 
 interface SettingsLayoutProps {
     children: JSX.Element;
@@ -9,10 +12,23 @@ interface SettingsLayoutProps {
 }
 
 export default function SettingsLayout(props: SettingsLayoutProps) {
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+            navigate(-1);
+    }
+
     return (
         <div class="min-h-screen  bg-(--blackOrWhite)">
-            <div class="max-w-4xl mx-auto px-4 py-8">
-                <div class="flex gap-1.5 items-center mb-6">
+            <div class="max-w-4xl mx-auto p-4">
+                <Button
+                    onClick={handleBack}
+                    icon={<VsArrowLeft size={32} />}
+                    variant="outline"
+                    size="sm"
+                    name="Close sidebar"
+                />
+                <div class="flex gap-1.5 items-center mb-6 mt-2">
                     {props.icon}
                     <h1 class="text-4xl font-bold">{props.title}</h1>
                 </div>

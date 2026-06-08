@@ -13,7 +13,7 @@ import { mockAgentMessages } from '~/data/agent.mock';
 import { ComposeStepType } from './Compose';
 import { useMobile } from '~/hooks/useMobile';
 import { NavigationContainer } from "./NavigationContainer";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import { FiArrowLeft } from 'solid-icons/fi';
 import { BiRegularPaperPlane } from 'solid-icons/bi';
 import { AiFillEdit } from 'solid-icons/ai';
@@ -99,19 +99,18 @@ export default function SendStep(props: Props) {
     return (
         <div class='relative w-full h-full'>
             <NavigationContainer>
-                <ActionButton
+                <Button
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
                     icon={<FiArrowLeft size={36} />}
                     aria-label="Back"
                     variant="outline"
                     size={getActionButtonSize(isMobile())}
-            
                     name="Back"
                 />
 
                 <Switch>
                     <Match when={props.isSendable()}>
-                        <ActionButton
+                        <Button
                             onClick={props.onSend}
                             icon={<BiRegularPaperPlane size={40} />}
                             aria-label="Send"
@@ -120,7 +119,7 @@ export default function SendStep(props: Props) {
                         />
                     </Match>
                     <Match when={!props.isSendable()}>
-                        <ActionButton
+                        <Button
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
                             icon={<AiFillEdit size={40} />}
                             aria-label="Edit"

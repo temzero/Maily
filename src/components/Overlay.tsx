@@ -81,14 +81,13 @@ export function Overlay(props: OverlayProps) {
                         variant="ghost"
                         size="xl"
                         onClick={handleClose}
-                        leftIcon={<VsClose size={24} />} // 32 is a bit large
+                        icon={<VsClose size={24} />}
                         class={`absolute top-2 right-2 z-20 text-white hover:bg-white/20 transition-all duration-300 ${
                             isVisible() && !isClosing()
                                 ? 'opacity-100 scale-100'
                                 : 'opacity-0 scale-50'
                         }`}
                         aria-label="Close"
-                        isRounded={true}
                     />
                 )}
 

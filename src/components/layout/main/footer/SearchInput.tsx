@@ -67,7 +67,6 @@ export default function SearchInput(props: Props) {
             <div
                 class={` ${props.class || ''} flex items-center gap-2 lg:w-150 sm:w-80 p-1 px-1.5 rounded-md nav-panel`}
                 style={{ height: `${navHeight}px` }}
-                // style={{ height: `${navHeight}px` }}
             >
                 <FaSolidSearch size={22} />
                 <input

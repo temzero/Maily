@@ -1,14 +1,13 @@
 // routes/settings/profile.tsx (or routes/profile.tsx)
 import SettingsLayout from '~/components/layout/SettingsLayout';
-import Button from '~/components/ui/Button';
 import { For, Show, createMemo, createSignal } from 'solid-js';
-import { currentUser, logout, useAuth } from '~/store/auth.store';
+import { currentUser, logout } from '~/store/auth.store';
 import { useNavigate } from '@solidjs/router';
 import { Avatar } from '~/components/ui/Avatar';
 import { formatDate } from '~/utils/formatDate';
 import { BiSolidPencil } from 'solid-icons/bi';
 import EditProfileModal from '~/components/modal/EditProfileModal';
-// import { User, Mail, Phone, MapPin, Calendar, Edit, ChevronRight } from 'lucide-solid';
+import Button from '~/components/ui/Button';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -161,7 +160,7 @@ export default function Profile() {
                                 </div>
                             </div>
                         </div>
-                        <Button size="sm" variant="link" onClick={handleLogout} class='text-red-500! hover:text-red-400!'>
+                        <Button size="sm" variant="outline" onClick={handleLogout} class='text-red-500! hover:text-red-400!'>
                             Logout
                         </Button>
                     </div>

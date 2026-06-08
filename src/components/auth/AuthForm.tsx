@@ -1,6 +1,6 @@
 // components/auth/AuthForm.tsx
 import { Component, JSX } from 'solid-js';
-import Button from '~/components/ui/Button';
+import Button from '../ui/Button';
 
 interface AuthFormProps {
     header: string;
@@ -30,7 +30,7 @@ const AuthForm: Component<AuthFormProps> = (props) => {
                         type="submit"
                         variant={props.button.variant || 'primary'}
                         size="sm"
-                        fullWidth
+                        isFullWidth
                         loading={props.button.loading || false}
                     >
                         {props.button.text}

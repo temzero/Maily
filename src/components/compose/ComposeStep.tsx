@@ -14,7 +14,7 @@ import { AiOutlineArrowDown } from "solid-icons/ai";
 import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
 import { useMobile } from '~/hooks/useMobile';
 import { NavigationContainer } from "./NavigationContainer";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import { ComposeStepType } from "./Compose";
 import { FiArrowRight } from "solid-icons/fi";
 import { getActionButtonSize } from "~/utils/button.utils";
@@ -131,7 +131,7 @@ export default function ComposeStep(props: Props) {
 
       {props.isComposeValid() && 
         <NavigationContainer>
-          <ActionButton
+          <Button
               onClick={() => props.setStep(ComposeStepType.SEND)}
               icon={<FiArrowRight size={40} />}
               aria-label="Next"
