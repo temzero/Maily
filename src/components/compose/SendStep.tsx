@@ -13,10 +13,11 @@ import { mockAgentMessages } from '~/data/agent.mock';
 import { ComposeStepType } from './Compose';
 import { useMobile } from '~/hooks/useMobile';
 import { NavigationContainer } from "./NavigationContainer";
-import Button from "../ui/Button";
+import Button from "../ui/button/Button";
 import { FiArrowLeft } from 'solid-icons/fi';
+import { VsChevronLeft } from 'solid-icons/vs';
 import { BiRegularPaperPlane } from 'solid-icons/bi';
-import { AiFillEdit } from 'solid-icons/ai';
+import { VsEdit } from 'solid-icons/vs'
 import { getActionButtonSize } from "~/utils/button.utils";
 
 type Props = {
@@ -101,9 +102,9 @@ export default function SendStep(props: Props) {
             <NavigationContainer>
                 <Button
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
-                    icon={<FiArrowLeft size={36} />}
+                    icon={<VsChevronLeft size={36} />}
                     aria-label="Back"
-                    variant="outline"
+                    variant="glass"
                     size={getActionButtonSize(isMobile())}
                     name="Back"
                 />
@@ -112,20 +113,21 @@ export default function SendStep(props: Props) {
                     <Match when={props.isSendable()}>
                         <Button
                             onClick={props.onSend}
-                            icon={<BiRegularPaperPlane size={40} />}
+                            icon={<BiRegularPaperPlane size={isMobile() ? 32 : 40} />}
                             aria-label="Send"
                             variant="primary"
-                            size={getActionButtonSize(isMobile())}                            name="Send"
+                            size={getActionButtonSize(isMobile())}
+                            name="Send"
                         />
                     </Match>
                     <Match when={!props.isSendable()}>
                         <Button
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
-                            icon={<AiFillEdit size={40} />}
+                            icon={<VsEdit size={32} />}
                             aria-label="Edit"
-                            variant="secondary"
+                            variant="glass"
                             size={getActionButtonSize(isMobile())}
-                           name="Edit"
+                            name="Edit"
                         />
                     </Match>
                 </Switch>

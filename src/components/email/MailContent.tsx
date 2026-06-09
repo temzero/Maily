@@ -1,7 +1,7 @@
 import { Show, onMount, onCleanup } from "solid-js";
 import { VsArrowRight } from "solid-icons/vs";
 import { MdFillReply } from 'solid-icons/md';
-import Button from "~/components/ui/Button";
+import Button from "~/components/ui/button/Button";
 import { Email, EmailFolder } from "~/types/email/email.type";
 import { UnsealedMailDetail } from "./UnsealedMailDetail";
 import {

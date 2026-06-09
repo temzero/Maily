@@ -14,10 +14,11 @@ import { AiOutlineArrowDown } from "solid-icons/ai";
 import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
 import { useMobile } from '~/hooks/useMobile';
 import { NavigationContainer } from "./NavigationContainer";
-import Button from "../ui/Button";
+import Button from "../ui/button/Button";
 import { ComposeStepType } from "./Compose";
-import { FiArrowRight } from "solid-icons/fi";
+import { VsChevronRight } from 'solid-icons/vs';
 import { getActionButtonSize } from "~/utils/button.utils";
+import { easings } from '~/constants/easings';
 
 type Props = {
   subject: Accessor<string>;
@@ -111,7 +112,10 @@ export default function ComposeStep(props: Props) {
           <Motion
             initial={{ y: -99, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, easing: [0.42, 0, 0.58, 1] }}
+            transition={{ 
+              duration: 0.5, 
+              easing: easings.bounceHeavy
+            }}
           >
           <AiOutlineArrowDown  size={66} />
           </Motion>
@@ -133,7 +137,7 @@ export default function ComposeStep(props: Props) {
         <NavigationContainer>
           <Button
               onClick={() => props.setStep(ComposeStepType.SEND)}
-              icon={<FiArrowRight size={40} />}
+              icon={<VsChevronRight size={40} />}
               aria-label="Next"
               variant="primary"
               size={getActionButtonSize(isMobile())}

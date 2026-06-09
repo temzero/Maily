@@ -2,7 +2,7 @@
 import { Show, onCleanup, onMount, JSX, Component, createMemo, createEffect } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Motion, Presence } from 'solid-motionone';
-import { CloseButton } from '../ui/CloseButton';
+import { BackButton } from '../ui/button/BackButton';
 import { Position } from '~/types/positions.enum';
 import { useMobile } from '~/hooks/useMobile';
 
@@ -137,7 +137,7 @@ export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
                             {props.children}
                         </div>
 
-                        {props.showCloseButton !== false && <CloseButton onClose={handleClose} position={closeButtonPosition()} />}
+                        {props.showCloseButton !== false && <BackButton onClose={handleClose} isFixed={true}/>}
                     </Motion>
                 </Show>
             </Presence>

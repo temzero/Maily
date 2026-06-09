@@ -55,7 +55,7 @@ const ResetPassword: Component = () => {
                         </div>
                     </div>
                     <div class="text-sm text-center">
-                        <a href="login" class="font-medium text-blue-600 hover:text-blue-500">
+                        <a href="login" class="font-medium text-(--primary) hover:text-blue-500">
                             Sign in with your new password
                         </a>
                     </div>

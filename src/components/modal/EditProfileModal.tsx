@@ -2,9 +2,9 @@
 import { createSignal, Show, createMemo, onMount } from 'solid-js';
 import { useAuth } from '~/store/auth.store';
 import Modal from '~/components/modal/Modal';
-import { CloseButton } from '../ui/CloseButton';
+import { CloseButton } from '../ui/button/CloseButton';
 import { Position } from '~/types/positions.enum';
-import Button from '../ui/Button';
+import Button from '../ui/button/Button';
 
 interface EditProfileModalProps {
     field: string | null;

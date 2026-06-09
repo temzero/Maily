@@ -1,6 +1,6 @@
 // EnvelopeStep.tsx
 import { AiOutlineCheck } from "solid-icons/ai";
-import { FiArrowLeft } from "solid-icons/fi";
+import { VsChevronLeft } from 'solid-icons/vs'
 import { createSignal, onCleanup, onMount } from "solid-js";
 
 import { mockAgentMessages } from "~/data/agent.mock";
@@ -17,7 +17,7 @@ import EnvelopeEditor from "./composeStep/EnvelopeEditor";
 import EnvelopePreview from "./composeStep/EnvelopePreview";
 import { NavigationContainer } from "./NavigationContainer";
 
-import Button from "../ui/Button";
+import Button from "../ui/button/Button";
 import { ItemsSlider } from "../ui/ItemsSlider";
 import { getActionButtonSize } from "~/utils/button.utils";
 
@@ -77,15 +77,17 @@ export default function EnvelopeStep(props: Props) {
     });
   });
 
+  const buttonSize = () => getActionButtonSize(isMobile());
+
   return (
     <div>
       <NavigationContainer>
         <Button
           onClick={() => props.setStep(ComposeStepType.COMPOSE)}
-          icon={<FiArrowLeft size={36} />}
+          icon={<VsChevronLeft size={36} />}
           aria-label="Back"
-          variant="outline"
-          size={getActionButtonSize(isMobile())}
+          variant="glass"
+          size={buttonSize()}
           name="Back"
         />
 
@@ -94,7 +96,7 @@ export default function EnvelopeStep(props: Props) {
           icon={<AiOutlineCheck size={40} />}
           aria-label="Accept"
           variant="primary"
-          size={getActionButtonSize(isMobile())}
+          size={buttonSize()}
           name="Accept"
         />
       </NavigationContainer>

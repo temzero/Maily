@@ -51,7 +51,7 @@ const ActionBar = (props: ActionBarProps) => {
         else if (props.position === 'left') borderRadius = 'rounded-r-xl';
         else if (props.position === 'right') borderRadius = 'rounded-l-xl';
 
-        return `fixed z-50 flex shadow-lg action-panel ${positionClasses()} ${borderRadius}`;
+        return `fixed z-50 flex shadow-lg glass-panel p-0.5 ${positionClasses()} ${borderRadius}`;
     };
 
     const dividerClasses = () => {

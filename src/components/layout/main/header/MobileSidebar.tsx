@@ -1,16 +1,16 @@
 // components/mobile/MobileSidebar.tsx
-import { createSignal, JSX, onCleanup, onMount, Show } from 'solid-js';
+import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { useNavigate, useLocation } from '@solidjs/router';
-import { FiX, FiInbox, FiSend, FiFileText, FiAlertCircle, FiTrash2, FiStar, FiHelpCircle, FiSettings, FiLogOut } from 'solid-icons/fi';
+import { FiInbox, FiSend, FiFileText, FiAlertCircle, FiTrash2, FiStar, FiHelpCircle, FiSettings, FiLogOut } from 'solid-icons/fi';
 import { NAVIGATION_ITEMS } from '~/constants/constants';
 import { Avatar } from '~/components/ui/Avatar';
 import { currentUser, logout } from '~/store/auth.store';
 import { IoMailUnreadOutline } from 'solid-icons/io'
-import { VsArrowLeft } from 'solid-icons/vs'
 import { Motion, Presence } from "solid-motionone";
 import { getUnreadEmailCount } from '~/store/email/email.selectors';
-import Button from '~/components/ui/Button';
+import { BackButton } from '~/components/ui/button/BackButton';
+import { easings } from '~/constants/easings';
 
 interface MobileSidebarProps {
     isOpen: boolean;
@@ -155,19 +155,13 @@ export default function MobileSidebar(props: MobileSidebarProps) {
                         exit={{ x: '-100%' }}
                         transition={{ 
                             duration: 0.5, 
-                            easing: [0.32, 0.72, 0, 1]
+                            easing: easings.bounceMedium
                         }}
-                        class="fixed inset-y-0 left-0 w-full flex flex-col gap-5 p-3 bg-(--blackOrWhite) text-white shadow-xl z-50"
+                        class="fixed inset-y-0 left-0 w-full flex flex-col gap-5 p-5 bg-(--blackOrWhite) text-white shadow-xl z-50"
                     >
                         {/* Header */}
                         <div class="flex items-center justify-between">
-                            <Button
-                                onClick={props.onClose}
-                                icon={<VsArrowLeft size={32} />}
-                                variant="outline"
-                                size="md"
-                                name="Close sidebar"
-                            />
+                            <BackButton onClose={props.onClose}/>
 
                             <Avatar
                                 src={currentUser()?.avatarUrl}
@@ -192,18 +186,12 @@ export default function MobileSidebar(props: MobileSidebarProps) {
                                     }}
                                     class={`w-full flex items-center gap-4 px-4 py-3 border-b border-(--border) button-effect ${
                                         location.pathname === action.href
-                                            ? 'bg-blue-200 text-blue-600 font-semibold'
+                                            ? 'bg-(--primary) text-white! font-semibold'
                                             : 'hover:bg-(--border)'
                                     }`}
                                 >
-                                    <span class={`${location.pathname === action.href ? 'text-blue-600' : ''}`}>
-                                        {action.icon}
-                                    </span>
-                                    <span class={`text-md ${
-                                        location.pathname === action.href ? 'text-blue-600 font-semi-bold' : ''
-                                    }`}>
-                                        {action.name}
-                                    </span>
+                                    <span>{action.icon}</span>
+                                    <span>{action.name}</span>
                                     {action.showBadge && (
                                         <span class="ml-auto bg-red-500 text-white text-md px-2 rounded-full">
                                             {getUnreadEmailCount()}
@@ -213,6 +201,8 @@ export default function MobileSidebar(props: MobileSidebarProps) {
                             ))}
                         </div>
 
+                        {/* <AllButtons/> */}
+
                         {/* System Navigation */}
                         <div class="mt-auto bg-(--background) custom-border rounded-lg overflow-hidden">
                             {getSystemActions().map((action) => (
@@ -220,24 +210,14 @@ export default function MobileSidebar(props: MobileSidebarProps) {
                                     onClick={action.onClick}
                                     class={`w-full flex items-center gap-4 px-4 py-3 border-b border-(--border) button-effect ${
                                         action.isDanger
-                                            ? 'text-red-600 hover:bg-red-50'
+                                            ? 'text-red-500 hover:bg-red-50'
                                             : location.pathname === `/${action.name.toLowerCase()}`
-                                                ? 'bg-blue-200 text-blue-600 font-semibold'
+                                                ? 'bg-blue-200 text-(--primary) font-semibold'
                                                 : 'hover:bg-(--border)'
                                     } ${action.isDanger ? 'last:border-b-0' : ''}`}
                                 >
-                                    <span class={`${action.isDanger ? 'text-red-600' : location.pathname === `/${action.name.toLowerCase()}` ? 'text-blue-600' : ''}`}>
-                                        {action.icon}
-                                    </span>
-                                    <span class={`text-md ${
-                                        !action.isDanger && location.pathname === `/${action.name.toLowerCase()}`
-                                            ? 'text-blue-600 font-semi-bold'
-                                            : action.isDanger
-                                                ? 'text-red-600'
-                                                : ''
-                                    }`}>
-                                        {action.name}
-                                    </span>
+                                    <span>{action.icon}</span>
+                                    <span>{action.name}</span>
                                 </button>
                             ))}
                         </div>

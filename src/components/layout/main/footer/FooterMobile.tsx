@@ -1,12 +1,14 @@
 import { setSearchQuery, getSearchQuery } from '~/store/ui.store';
-import Button from '~/components/ui/Button';
 import { ImQuill } from 'solid-icons/im';
 import { openComposeNew } from '~/store/modal/composeModal.store';
-import { FiFilter } from 'solid-icons/fi'
 import { FaSolidSearch } from 'solid-icons/fa';
 import { createSignal, Show, onCleanup, createMemo } from 'solid-js';
 import { LabelMenu } from '~/components/menu/LabelMenu';
 import { getActiveLabels, getRenderActiveLabels } from '~/store/label.store';
+import { TbOutlineFilter2 } from 'solid-icons/tb'
+import { Motion, Presence } from 'solid-motionone';
+import { easings } from '~/constants/easings';
+import Button from '~/components/ui/button/Button';
 
 export default function FooterMobile() {
     const [showLabelMenu, setShowLabelMenu] = createSignal(false);
@@ -18,13 +20,12 @@ export default function FooterMobile() {
     const activeLabelNames = createMemo(() => activeLabels().map(l => l.name).join(', '));
     const renderActiveLabels = createMemo(() => getRenderActiveLabels(24));
     
-    // Get the first active label's icon or default to FiFilter
     const activeIcon = createMemo(() => {
         const activeRenderLabels = renderActiveLabels();
         if (activeRenderLabels.length > 0) {
             return activeRenderLabels[0].iconElement();
         }
-        return <FiFilter size={24} />;
+        return <TbOutlineFilter2 size={24} />;
     });
 
     // Handle click outside
@@ -46,42 +47,68 @@ export default function FooterMobile() {
     });
     
     return (
-        <div class='relative flex p-4 gap-4 items-end w-full h-full justify-between pointer-events-auto!'>
+        <div class='relative flex p-4 px-6 gap-4 items-end w-full h-full justify-between pointer-events-auto!'>
+            <LabelMenu isOpen={showLabelMenu()} onClose={() => setShowLabelMenu(false)}/>
+
             {/* Filter Label Button */}
-            <Show when={!showLabelMenu()} fallback={<LabelMenu onClose={() => setShowLabelMenu(false)}/>}>
-                <Button
-                    icon={activeIcon()}
-                    aria-label="Filter Label"
-                    variant="outline"
-                    size="sm"
-                    class={`shadow-xl pointer-events-auto! ${hasActiveLabels() ? 'relative' : ''}`}
-                    name={hasActiveLabels() ? activeLabelNames() : "Filter Label"}
-                    onClick={() => setShowLabelMenu(prev => !prev)}
-                />
+            <Show when={!showLabelMenu()}>
+                <Motion 
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.4, easing: easings.bounceHeavy }}
+                    style={{ "transform-origin": "bottom left" }}
+                >
+                    <Button
+                        icon={activeIcon()}
+                        aria-label="Filter Label"
+                        variant="glass"
+                        size="sm"
+                        class={`shadow-xl pointer-events-auto! ${hasActiveLabels() ? 'relative' : ''}`}
+                        name={hasActiveLabels() ? activeLabelNames() : "Filter Label"}
+                        onClick={() => setShowLabelMenu(prev => !prev)}
+                    />
+                </Motion>
 
                 {/* Search Bar */}
-                <div class="flex-1 pointer-events-auto! flex gap-2 px-2 items-center h-10 border rounded-full border-2 border-(--border) bg-(--border) backdrop-blur shadow-xl">
+                <Motion 
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.4, easing: easings.bounceHeavy }}
+                    style={{ "transform-origin": "bottom center" }}
+                    class="h-10 flex-1 flex gap-2 px-2 items-center nav-panel pointer-events-auto!"
+                >
                     <FaSolidSearch size={18} />
                     <input
                         type="text"
                         value={getSearchQuery()}
                         placeholder="Search mail..."
                         onInput={(e) => setSearchQuery(e.currentTarget.value)}
-                        class="w-full bg-transparent outline-none"
+                        class="w-full outline-none"
                     />
-                </div>
+                </Motion>
 
                 {/* Compose Button */}
-                <Button
-                    onClick={openComposeNew}
-                    icon={<ImQuill size={28} />}
-                    aria-label="Compose new email"
-                    variant="primary"
-                    size="sm"
-                    class="shadow-lg hover:scale-105 transition-transform active:scale-95 pointer-events-auto!"
-                    name="Write"
-                />
+                <Motion 
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.4, easing: easings.bounceHeavy }}
+                    style={{ "transform-origin": "bottom right" }}
+                >
+                    <Button
+                        onClick={openComposeNew}
+                        icon={<ImQuill size={24} />}
+                        aria-label="Compose new email"
+                        variant="primary"
+                        size="sm"
+                        class="shadow-lg hover:scale-105 transition-transform active:scale-95 pointer-events-auto!"
+                        name="Write"
+                    />
+                </Motion>
             </Show>
+            {/* </Presence> */}
         </div>
     );
 }

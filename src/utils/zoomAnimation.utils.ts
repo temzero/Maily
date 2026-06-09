@@ -1,4 +1,5 @@
 import { JSX } from 'solid-js';
+import { easings } from '~/constants/easings';
 
 export const getZoomAnimationStyle = (
     sourceElementId: string,
@@ -9,7 +10,7 @@ export const getZoomAnimationStyle = (
 ): JSX.CSSProperties => {
     let sourceElement = document.getElementById(sourceElementId);
     const transitionDuration = duration ?? 400;
-    const transitionEasing = easing ?? 'cubic-bezier(0.4, 0, 0.2, 1)';
+    const transitionEasing = easing ?? easings.smooth;
 
     const rect = sourceElement?.getBoundingClientRect();
 

@@ -36,7 +36,7 @@ export default function ComposeTopIcon(props: ComposeTopIconProps) {
     };
 
     return (
-        <div class="fixed top-4 left-4 hidden sm:inline-flex shrink-0 transition-transform z-10">
+        <div class="fixed top-4 right-4 hidden sm:inline-flex shrink-0 transition-transform z-10">
             {getIcon()}
         </div>
     );

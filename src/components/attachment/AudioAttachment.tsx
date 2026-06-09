@@ -110,7 +110,7 @@ export const AudioAttachment = (props: Props) => {
                 {/* Progress Bar */}
                 <button
                     onClick={togglePlay}
-                    class="w-10 h-10  flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 custom-border"
+                    class="w-10 h-10  flex items-center justify-center rounded-full bg-blue-500 hover:bg-(--primary) custom-border"
                     aria-label={isPlaying() ? 'Pause' : 'Play'}
                 >
                     {isPlaying() ? <MdFillPause size={24} /> : <ImPlay3 size={24} />}

@@ -1,6 +1,6 @@
 // components/layout/SettingsLayout.tsx
 import { JSX } from 'solid-js';
-import Button from '../ui/Button';
+import Button from '../ui/button/Button';
 import { VsArrowLeft } from 'solid-icons/vs';
 import { useNavigate } from '@solidjs/router';
 
@@ -24,7 +24,7 @@ export default function SettingsLayout(props: SettingsLayoutProps) {
                 <Button
                     onClick={handleBack}
                     icon={<VsArrowLeft size={32} />}
-                    variant="outline"
+                    variant="glass"
                     size="sm"
                     name="Close sidebar"
                 />

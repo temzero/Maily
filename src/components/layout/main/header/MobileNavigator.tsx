@@ -20,7 +20,7 @@ const MobileNavigator: Component<MobileNavigatorProps> = (props) => {
 
     return (
         <button 
-            class={`button-effect button-effect-scale rounded-lg backdrop-blur px-2 text-3xl font-bold cursor-pointer active:scale-110 transition-all cursor-pointer pointer-events-auto! ${props.class}`}
+            class={`button-effect button-effect-scale rounded-lg backdrop-blur px-2 text-3xl font-bold cursor-pointer active:scale-110 transition-all cursor-pointer select-none pointer-events-auto! ${props.class}`}
             onClick={() => props.onClick?.()}
         >
             {getCurrentTitle()}

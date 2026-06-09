@@ -34,19 +34,8 @@ export const Mail: Component<MailProps> = (props) => {
         return getRenderLabelIconsByIds(props.email.labelIds);
     };
 
-    const labelPosition = () => {
-        // if (isRead()) {
-        //     return isMobile() ? 'right-4 top-0' : 'right-1 -bottom-2.5';
-        // }
-        return isMobile() ? 'right-0 -top-2' : 'right-1 -bottom-2.5';
-    };
-
-    const attachmentlabelPosition = () => {
-        // if (isRead()) {
-        //     return isMobile() ? 'top-5 right-4' : 'top-0 right-0';
-        // }
-        return isMobile() ? 'top-3 -right-3' : '-top-1 -right-1';
-    };
+    const labelPosition = () => isMobile() ? 'right-0 -top-2' : 'right-1 -bottom-2.5';
+    const attachmentlabelPosition = () => isMobile() ? 'top-3 -right-3' : '-top-1 -right-1';
 
     return (
         <div
@@ -110,7 +99,7 @@ export const Mail: Component<MailProps> = (props) => {
                     {isMobile() ?
                         <UnsealedMailMobile
                             email={props.email}
-                            class={props.isFocusing ? 'opacity-100!' : 'opacity-60!'}
+                            class={props.isFocusing ? 'opacity-100!' : 'opacity-40!'}
                             width={width}/>
                     : 
                         <UnsealedMail

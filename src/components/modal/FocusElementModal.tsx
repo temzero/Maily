@@ -2,13 +2,14 @@
 import { createSignal, onMount, onCleanup, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Motion, Presence } from 'solid-motionone';
+import { easings } from '~/constants/easings';
 import { useMobile } from '~/hooks/useMobile';
 import { clearFocusElementId, getFocusElementId } from '~/store/ui.store';
 import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
 
 const focusScale: number = 2.6;
 const focusAnimateDuration: number = 400;
-const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+const easing = easings.smooth;
 
 export default function FocusElementModal(props: { zIndex?: number }) {
     const { isMobile } = useMobile();
@@ -92,8 +93,6 @@ export default function FocusElementModal(props: { zIndex?: number }) {
                         focusElementId()!,
                         isMounted(),
                         focusScaleValue
-                        // focusAnimateDuration,
-                        // easing
                     )}
                     onTransitionEnd={(e) => {
                         if (e.propertyName === 'transform') {

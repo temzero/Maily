@@ -3,7 +3,7 @@ import { Switch, Match } from 'solid-js';
 import { FiArrowRight, FiArrowLeft } from 'solid-icons/fi';
 import { BiRegularPaperPlane } from 'solid-icons/bi';
 import { AiFillEdit, AiOutlineCheck } from 'solid-icons/ai';
-import Button from '~/components/ui/Button';
+import Button from '~/components/ui/button/Button';
 import { ComposeStepType } from './Compose'; // or wherever it's defined
 import { useMobile } from '~/hooks/useMobile';
 import { envelopeStore } from '~/store/envelope.store';
@@ -49,7 +49,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
                     icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"
-                    variant="outline"
+                    variant="glass"
                     size={buttonSize()}
                     // class={backButtonPosition}
                     name="Back"
@@ -72,7 +72,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
                             icon={<AiFillEdit size={iconSize} />}
                             aria-label="Edit"
-                            variant="secondary"
+                            variant="glass"
                             size={buttonSize()}
                             // class={actionButtonsPosition}
                             name="Edit"
@@ -87,7 +87,7 @@ export default function ComposeNavigation(props: ComposeNavigationProps) {
                     onClick={() => props.setStep(ComposeStepType.SEND)}
                     icon={<FiArrowLeft size={backIconSise} />}
                     aria-label="Back"
-                    variant="outline"
+                    variant="glass"
                     size={buttonSize()}
                     // class={backButtonPosition}
                     name="Back"

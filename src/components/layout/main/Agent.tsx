@@ -6,6 +6,7 @@ import { Motion } from 'solid-motionone';
 import { getUnreadEmailCount } from '~/store/email/email.selectors';
 import { useNavigate } from '@solidjs/router';
 import AgentAvatar from '~/assets/images/AI-avatar.jpg';
+import { easings } from '~/constants/easings';
 
 const messageDisplayDelay = 1650;
 
@@ -83,7 +84,7 @@ export function Agent() {
                                 initial={{ scale: 0.5, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{
-                                    easing: [0.25, 1.5, 0.5, 1],
+                                    easing: easings.bounceHeavy,
                                     duration: 0.5,
                                 }}
                                 style={{

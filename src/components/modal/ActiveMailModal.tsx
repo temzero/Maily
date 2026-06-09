@@ -1,7 +1,7 @@
 // components/email/ActiveEmailModal.tsx
 import { Portal } from 'solid-js/web';
 import { createEffect, createSignal, onCleanup, Show, onMount } from 'solid-js';
-import { CloseButton } from '~/components/ui/CloseButton';
+import { BackButton } from '~/components/ui/button/BackButton';
 import Compose from '../compose/Compose';
 import { MailContent } from '../email/MailContent';
 import { Email, EmailFolder } from '~/types/email/email.type';
@@ -135,12 +135,13 @@ export function ActiveEmailModal(props: EmailModalProps) {
 
                             <div class="h-full overflow-y-auto">
                                 <Show when={showActiveElement() && isOpen()}>
+                                    <BackButton onClose={handleClose} isFixed={true} />
+
                                     <ActiveComponent
                                         email={email}
                                         isDraft={isDraft}
                                         onClose={handleClose}
                                     />
-                                    <CloseButton onClose={handleClose} zIndex={102} position={isMobile() ? Position.TOP_LEFT : Position.TOP_RIGHT} />
                                 </Show>
                             </div>
                         </div>

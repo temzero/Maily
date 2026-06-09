@@ -7,7 +7,7 @@ import { Avatar } from '~/components/ui/Avatar';
 import { formatDate } from '~/utils/formatDate';
 import { BiSolidPencil } from 'solid-icons/bi';
 import EditProfileModal from '~/components/modal/EditProfileModal';
-import Button from '~/components/ui/Button';
+import Button from '~/components/ui/button/Button';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -160,7 +160,7 @@ export default function Profile() {
                                 </div>
                             </div>
                         </div>
-                        <Button size="sm" variant="outline" onClick={handleLogout} class='text-red-500! hover:text-red-400!'>
+                        <Button size="sm" variant="glass" onClick={handleLogout} class='text-red-500! hover:text-red-400!'>
                             Logout
                         </Button>
                     </div>

@@ -29,7 +29,7 @@ export const UnsealedMailMobile: Component<SealedMailProps> = (props) => {
 
     return (
         <div class='envelope-shadow'>
-            <div class='relative envelope-shadow teared-shape-light'>
+            <div class='relative bg-(--blackOrWhite) envelope-shadow teared-shape-mobile'>
                 <Envelope
                     envelope={envelope()}
                     width={props.width ?? mailDimensions.width}

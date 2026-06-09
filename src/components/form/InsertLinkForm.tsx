@@ -146,7 +146,7 @@ export default function InsertLinkForm(props: InsertLinkFormProps) {
 
                         <button
                             onClick={handleInsert}
-                            class="h-full aspect-square flex items-center justify-center p-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors"
+                            class="h-full aspect-square flex items-center justify-center p-2 text-sm font-medium text-white bg-(--primary) rounded-full hover:bg-blue-700 transition-colors"
                         >
                             <TbOutlineLinkPlus size={36} />
                         </button>

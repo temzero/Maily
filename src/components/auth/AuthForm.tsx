@@ -1,12 +1,13 @@
 // components/auth/AuthForm.tsx
 import { Component, JSX } from 'solid-js';
-import Button from '../ui/Button';
+import Button, { ButtonVariant } from '../ui/button/Button';
+import { useMobile } from '~/hooks/useMobile';
 
 interface AuthFormProps {
     header: string;
     button: {
         text: string;
-        variant?: 'primary' | 'secondary' | 'outline';
+        variant?: ButtonVariant;
         loading?: boolean;
         onSubmit: (e: Event) => void;
     };
@@ -18,6 +19,8 @@ interface AuthFormProps {
 }
 
 const AuthForm: Component<AuthFormProps> = (props) => {
+    const { isMobile } = useMobile();
+
     return (
         <div class="max-w-md w-full">
             <h2 class="text-center text-3xl font-extrabold">{props.header}</h2>
@@ -43,7 +46,7 @@ const AuthForm: Component<AuthFormProps> = (props) => {
                             <div>
                                 <a
                                     href={link.href}
-                                    class="font-medium text-blue-600  hover:text-blue-500   hover:underline"
+                                    class="font-medium text-(--primary)  hover:text-blue-500   hover:underline"
                                 >
                                     {link.text}
                                 </a>

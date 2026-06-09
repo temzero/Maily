@@ -12,6 +12,7 @@ import { getActiveLabelIds } from '~/store/label.store';
 import { EmailListItem } from '~/components/email/EmailListItem';
 import EmptyFolder from '~/components/ui/EmptyFolder';
 import { useMobile } from '~/hooks/useMobile';
+import { easings } from '~/constants/easings';
 
 export default function FolderPage() {
     const { isMobile } = useMobile();
@@ -116,10 +117,10 @@ export default function FolderPage() {
         return (
             <Motion
                 initial={isEntering() ? { opacity: 0, x: -mailDimensions.width } : false}
-                animate={isExiting() ? { opacity: 0, scale: 0 } : { opacity: 1, x: 0, scale: 1 }}
+                animate={isExiting() ? { opacity: 0, scale: 0, zIndex: -1 } : { opacity: 1, x: 0, scale: 1 }}
                 transition={{
                     duration: isExiting() ? 0.6 : 1.2,
-                    easing: [0.22, 1, 0.36, 1],
+                    easing: easings.bounceMedium,
                 }}
                 onMotionComplete={() => onMotionComplete(emailId(), isExiting())}
             >

@@ -25,9 +25,6 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
 
   const focusId = `mail-item-${email().id}`;
 
-  let holdTimer: number | undefined;
-  let longPressTriggered = false;
-
   const isOpening = (): boolean => {
     return getActiveEmailId() === email().id;
   };
@@ -56,14 +53,7 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
   };
 
   const handleClick = () => {
-    // prevent click after long press
-    if (longPressTriggered) {
-      longPressTriggered = false;
-      return;
-    }
-
     setActiveEmailId(email().id);
-
     console.log("Clicked email", email().id);
   };
 
@@ -74,44 +64,10 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
     openContextMenu(e.clientX, e.clientY);
   };
 
-  const clearHoldTimer = () => {
-    if (holdTimer) {
-      clearTimeout(holdTimer);
-      holdTimer = undefined;
-    }
-  };
-
-  const handlePointerDown = (e: PointerEvent) => {
-    // mobile only
-    if (e.pointerType !== "touch") return;
-
-    longPressTriggered = false;
-
-    clearHoldTimer();
-
-    holdTimer = window.setTimeout(() => {
-      longPressTriggered = true;
-
-      openContextMenu(e.clientX, e.clientY);
-    }, 500);
-  };
-
-  const handlePointerUp = () => {
-    clearHoldTimer();
-  };
-
-  const handlePointerLeave = () => {
-    clearHoldTimer();
-  };
-
-  const handlePointerCancel = () => {
-    clearHoldTimer();
-  };
-
   return (
     <div
       id={`email-list-item-${email().id}`}
-      class={`flex items-center justify-center transition-transform cursor-pointer relative touch-manipulation ${
+      class={`flex items-center justify-center transition-transform cursor-pointer relative touch-manipulation active:scale-110 ${
         props.class ?? ""
       } ${
         !isFocusing() && (isContextMenuOpen() ? "scale-110" : "hover:scale-105")
@@ -122,10 +78,6 @@ export const EmailListItem: Component<EmailListItemProps> = (props) => {
       }}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerLeave}
-      onPointerCancel={handlePointerCancel}
     >
       <Mail email={email()} isFocusing={isFocusing()} />
     </div>

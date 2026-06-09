@@ -2,7 +2,7 @@
 import { ParentProps, onCleanup, createEffect, onMount, createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { VsClose } from 'solid-icons/vs';
-import Button from './ui/Button';
+import Button from './ui/button/Button';
 
 interface OverlayProps extends ParentProps {
     isOpen: boolean;

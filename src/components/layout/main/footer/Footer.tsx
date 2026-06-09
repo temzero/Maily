@@ -1,7 +1,7 @@
 import { Portal, Show } from 'solid-js/web';
 import { setSearchQuery, getSearchQuery } from '~/store/ui.store';
 import SearchInput from '~/components/layout/main/footer/SearchInput';
-import Button from '~/components/ui/Button';
+import Button from '~/components/ui/button/Button';
 import { headerHeight } from '~/constants/dimensions';
 import { ImQuill } from 'solid-icons/im';
 import { openComposeNew } from '~/store/modal/composeModal.store';
