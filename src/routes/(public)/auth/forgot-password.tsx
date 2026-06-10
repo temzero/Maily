@@ -65,7 +65,7 @@ const ForgotPassword: Component = () => {
                 loading: loading(),
                 onSubmit: handleSubmit,
             }}
-            links={[{ text: 'く Back to Login', href: 'login' }]}
+            links={[{ text: 'く Back to Login', href: '/auth/login' }]}
         >
             <p class="text-sm opacity-60">
                 Enter your email address and we'll send you a link to reset your password.

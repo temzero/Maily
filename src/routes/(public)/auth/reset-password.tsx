@@ -72,7 +72,7 @@ const ResetPassword: Component = () => {
                 loading: loading(),
                 onSubmit: handleSubmit,
             }}
-            links={[{ text: 'く Back to Login', href: 'login' }]}
+            links={[{ text: 'く Back to Login', href: '/auth/login' }]}
         >
             <div>
                 <p class="text-sm text-center opacity-60 mb-4">

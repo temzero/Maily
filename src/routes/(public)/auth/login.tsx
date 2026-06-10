@@ -26,8 +26,8 @@ const Login: Component = () => {
                 onSubmit: handleSubmit,
             }}
             links={[
-                { text: 'Forgot your password?', href: 'forgot-password' },
-                { text: "Create new account!", href: 'register' },
+                { text: 'Forgot your password?', href: '/auth/forgot-password' },
+                { text: "Create new account!", href: '/auth/register' },
             ]}
         >
             <div class='flex flex-col'>

@@ -3,7 +3,8 @@ import { useLocation } from "@solidjs/router";
 import { isAuthenticated, demoLogin } from "~/store/auth.store";
 import { isDevelopment, isPreviewMode } from "~/lib/env-helpers";
 
-
+export const demoPath: string = '/auth/start-demo'
+export const loginPath: string = '/auth/login'
 
 export function AuthGuard(props: { children: any }) {
   const location = useLocation();
@@ -13,10 +14,8 @@ export function AuthGuard(props: { children: any }) {
   //   demoLogin();
   //   return <>{props.children}</>;
   // }
-  
-  const demoPath: string = '/start-demo'
-  const loginPath: string = '/auth/login'
-  
+
+
   const isAuth = isAuthenticated();
   const isAuthPage = location.pathname.startsWith("/auth");
   const isStartDemoPage = location.pathname === demoPath;

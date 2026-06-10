@@ -5,16 +5,14 @@ import { demoLogin } from "~/store/auth.store";
 import { useMobile } from '~/hooks/useMobile';
 import AuthForm from "~/components/auth/AuthForm";
 import toast from "solid-toast";
-import Logo from "~/components/Logo";
 import Button from "~/components/ui/button/Button";
-import { getActionButtonSize } from "~/utils/button.utils";
 
 const BUTTON_TEXT = 'Start Demo';
-const BACK_LINK = { text: "< Back to regular login", href: "/auth/login" };
+const BACK_LINK = { text: "Just use Regular Login", href: "/auth/login" };
 
 // Consolidated description with everything included
-const Description: Component = () => (
-  <div class='text-center space-y-3'>
+const Description: Component<{ class?: string }> = (props) => (
+  <div class={`text-center space-y-3 ${props.class || ''}`}>
     <h1 class='text-4xl mb-6'>Try Demo</h1>
     <p class='text-sm opacity-70'>
       Experience the future of email with clean envelope interface with AI-powered smart labels.
@@ -23,23 +21,6 @@ const Description: Component = () => (
       No email • No password • No time limits
     </p>
   </div>
-);
-
-const MobileContent: Component<{ loading: boolean; onSubmit: (e: Event) => void }> = (props) => (
-  <>
-    <Description />
-    <Button
-      type="submit"
-      variant='primary'
-      size="sm"
-      rounded='full'
-      isFullWidth
-      onClick={props.onSubmit}
-      disabled={props.loading}
-    >
-      {BUTTON_TEXT}
-    </Button>
-  </>
 );
 
 const DemoStart: Component = () => {
@@ -66,30 +47,43 @@ const DemoStart: Component = () => {
     setLoading(false);
   };
 
-  return (
-    <div 
-      class='relative w-full h-screen p-6 flex flex-col items-center justify-between'
-      style="background: var(--gradient-bg)"
-    >
-      <Logo size='xl' class='pt-15' />
-
-      {isMobile() ? (
-        <MobileContent loading={loading()} onSubmit={handleSubmit} />
-      ) : (
-        <AuthForm
-          button={{
-            text: BUTTON_TEXT,
-            loading: loading(),
-            onSubmit: handleSubmit,
-          }}
-          links={[BACK_LINK]}
-          class="border-2 border-(--border) rounded-md p-8 bg-(--blackOrWhite) absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+return (
+  <>
+    {isMobile() ? (
+      <div class='w-full h-full flex flex-col justify-between'>
+        <div/>
+        <Description />
+        <Button
+          variant="link"
+          onClick={() => navigate(BACK_LINK.href)}
+          size="sm"
         >
-          <Description />
-        </AuthForm>
-      )}
-    </div>
-  );
-};
+          {BACK_LINK.text}
+        </Button>
+        <Button
+          variant="primary"
+          isFullWidth
+          rounded="full"
+          loading={loading()}
+          onClick={handleSubmit}
+        >
+          {BUTTON_TEXT}
+        </Button>
+      </div>
+    ) : (
+      <AuthForm
+        button={{
+          text: BUTTON_TEXT,
+          loading: loading(),
+          onSubmit: handleSubmit,
+        }}
+        links={[BACK_LINK]}
+      >
+        <Description />
+      </AuthForm>
+    )}
+  </>
+);
+}
 
 export default DemoStart;

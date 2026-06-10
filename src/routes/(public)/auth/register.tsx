@@ -29,7 +29,7 @@ const Register: Component = () => {
                 loading: loading(),
                 onSubmit: handleSubmit,
             }}
-            links={[{ text: 'く Back to Login', href: 'login' }]}
+            links={[{ text: 'く Back to Login', href: '/auth/login' }]}
         >
             <div class="">
                 <div>

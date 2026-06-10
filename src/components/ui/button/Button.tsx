@@ -3,6 +3,7 @@ import { Component, JSX, splitProps, mergeProps } from 'solid-js';
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type ButtonVariant =
+    'none'
     | 'primary'
     | 'glass'
     | 'ghost'
@@ -28,6 +29,7 @@ interface ButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
 // ─── Style Maps ───────────────────────────────────────────────────────────────
 
 const variantStyles: Record<ButtonVariant, string> = {
+    none: 'border-none!', 
     primary:
         'bg-[var(--primary-glass)] text-white border-[var(--primary)] hover:bg-[var(--primary)] hover:border-[var(--primary)] active:bg-[var(--primary)] focus-visible:ring-[var(--primary)]',
 
@@ -62,11 +64,11 @@ const roundedStyles: Record<ButtonRounded, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, { button: string; spinner: string; padding: string }> = {
-    xs: { button: 'w-8 h-8', spinner: 'w-3 h-3', padding: 'px-2 py-1' },
-    sm: { button: 'w-10 h-10', spinner: 'w-3.5 h-3.5', padding: 'px-3 py-1.5' },
-    md: { button: 'w-12 h-12', spinner: 'w-5 h-5', padding: 'px-4 py-2' },
-    lg: { button: 'w-14 h-14', spinner: 'w-7 h-7', padding: 'px-5 py-2.5' },
-    xl: { button: 'w-16 h-16', spinner: 'w-9 h-9', padding: 'px-6 py-3' },
+    xs: { button: 'w-8 h-8 text-xs!', spinner: 'w-3 h-3', padding: 'px-2 py-1 text-xs!' },
+    sm: { button: 'w-10 h-10 text-sm!', spinner: 'w-3.5 h-3.5', padding: 'px-3 py-1.5 text-sm!' },
+    md: { button: 'w-12 h-12 text-base!', spinner: 'w-5 h-5', padding: 'px-4 py-2 text-base!' },
+    lg: { button: 'w-14 h-14 text-lg!', spinner: 'w-7 h-7', padding: 'px-5 py-2.5 text-lg!' },
+    xl: { button: 'w-16 h-16 text-xl!', spinner: 'w-9 h-9', padding: 'px-6 py-3 text-xl!' },
 };
 
 const baseStyles =
@@ -103,7 +105,7 @@ const Spinner: Component<{ size: ButtonSize }> = (props) => (
 const Button: Component<ButtonProps> = (props) => {
     const defaults = mergeProps(
         {
-            variant: 'primary',
+            variant: 'none',
             size: 'md',
             rounded: 'md',
         } as const,

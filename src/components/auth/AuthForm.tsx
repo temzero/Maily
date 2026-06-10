@@ -1,6 +1,6 @@
-// components/auth/AuthForm.tsx
 import { Component, JSX } from 'solid-js';
 import Button, { ButtonVariant } from '../ui/button/Button';
+import { useNavigate } from '@solidjs/router';
 import { useMobile } from '~/hooks/useMobile';
 
 interface AuthFormProps {
@@ -21,9 +21,14 @@ interface AuthFormProps {
 }
 
 const AuthForm: Component<AuthFormProps> = (props) => {
+    const navigate = useNavigate();
+    const { isMobile } = useMobile();
+
     return (
-        <form class={`max-w-md w-full space-y-6 ${props.class}`} onSubmit={props.button.onSubmit}>
-            <h2 class="text-3xl font-bold">{props.header}</h2>
+        <form class={`max-w-md w-full rounded-md space-y-6 ${isMobile() ? '' : 'bg-(--blackOrWhite) border-2 border-(--border) shadow-xl p-10'} ${props.class}`} 
+            onSubmit={props.button.onSubmit}
+            >
+            {props.header && <h2 class="text-3xl font-bold">{props.header}</h2>}
 
             <div class="rounded-md space-y-3">{props.children}</div>
 
@@ -41,16 +46,17 @@ const AuthForm: Component<AuthFormProps> = (props) => {
             </div>
 
             {props.links && props.links.length > 0 && (
-                <div class="space-y-3 text-sm text-center">
+                <div class="flex flex-col gap-1">
                     {props.links.map((link) => (
-                        <div>
-                            <a
-                                href={link.href}
-                                class="font-medium text-(--primary)  hover:text-blue-500   hover:underline"
-                            >
-                                {link.text}
-                            </a>
-                        </div>
+                        <Button
+                            type="button"
+                            variant='link'
+                            size="xs"
+                            class='text-(--primary) hover:text-blue-500 hover:underline'
+                            onClick={() => navigate(link.href)}
+                        >
+                            {link.text}
+                        </Button>
                     ))}
                 </div>
             )}

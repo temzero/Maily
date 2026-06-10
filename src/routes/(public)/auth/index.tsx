@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { onMount } from "solid-js";
+import { demoPath, loginPath } from "~/components/guard/AuthGuard";
 import { isPreviewMode } from "~/lib/env-helpers";
-
 
 export default function AuthIndex() {
   console.log("index");
@@ -9,9 +9,9 @@ export default function AuthIndex() {
 
   onMount(() => {
     if (isPreviewMode()) {
-      navigate("login-demo", { replace: true });
+      navigate(demoPath, { replace: true });
     } else {
-      navigate("login", { replace: true });
+      navigate(loginPath, { replace: true });
     }
   });
 
