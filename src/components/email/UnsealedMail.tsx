@@ -1,5 +1,5 @@
 // components/email/UnsealedMail.tsx
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 import { Email } from "~/types/email/email.type";
 import { mailDimensions } from "~/constants/constants";
 import { Envelope } from "../envelop/Envelop";
@@ -12,11 +12,11 @@ interface SealedMailProps {
   width?: number;
   height?: number;
   class?: string;
+  isDarken: boolean;
   onClick?: () => void;
 }
 
 export const UnsealedMail: Component<SealedMailProps> = (props) => {
-  const { isMobile } = useMobile();
   const envelope = () => props.email.envelope;
 
   // Using utility functions
@@ -49,16 +49,13 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
     .slice(0, 200);
 
   const getWidthStyle = () => {
-    if (isMobile()) {
-      return '100%';
-    }
     return `${props.width || mailDimensions.width}px`;
   };
 
 
   return (
     <div
-      class={`relative flex flex-col items-center justify-end select-none envelope-shadow ${isMobile() ? "" : "opacity-50"} ${props.class}`}
+      class={`relative flex flex-col items-center justify-end select-none envelope-shadow ${props.class}`}
       style={{
         width: getWidthStyle(),
         'aspect-ratio': mailDimensions.aspectRatio
@@ -68,12 +65,15 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
       {/* Mail Content - Behind the envelope */}
       <div
         id="mail-content"
-        class={`bg-white text-black p-3 overflow-hidden mb-1`}
+        class={`relative bg-white text-black p-3 overflow-hidden! mb-1`}
         style={{
           width: "90%",
           height: "calc(100% - 16px)", // Height from top to above envelope
         }}
       >
+        <Show when={props.isDarken}>
+          <div class="darken-overlay" />
+        </Show>
         <h1 class="tiny-subject-text">
           {props.email.subject || "(No Subject)"}
         </h1>
@@ -85,10 +85,10 @@ export const UnsealedMail: Component<SealedMailProps> = (props) => {
         <Envelope
           envelope={envelope()}
           width={props.width}
-          isFullWidth={isMobile()}
           onClick={props.onClick}
           isUnsealed={true}
           isShadow={true}
+          isDarken={props.isDarken}
         >
           {/* Bottom Section */}
           <div class="h-full w-full flex justify-between items-end">

@@ -130,40 +130,56 @@ export default function Profile() {
         return 'Recently';
     });
 
+    const ProfileHeader = () => {
+        return (
+            <div class="flex justify-between py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <Avatar
+                            src={currentUser()?.avatarUrl}
+                            name={userFullName()}
+                            size="lg"
+                            rounded="full"
+                        />
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                                {userFullName()}
+                            </h2>
+                            <p class="text-gray-600 dark:text-gray-400">
+                                @{userUsername()}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const ProfileFooter = () => {
+        return (
+            <div class='space-y-4 py-2'>
+                <Button isFullWidth size="md" variant="glass" onClick={handleLogout} class='text-red-600! active:text-red-400!'>
+                    Logout
+                </Button>
+                <h1 class="opacity-60">Member since {memberSince()}</h1>
+            </div>
+        );
+    }
+
     return (
         <>
             <SettingsLayout
                 title="Profile"
-                footer={<h1 class="text-sm opacity-60">Member since {memberSince()}</h1>}
+                header={<ProfileHeader/>}
+                footer={<ProfileFooter/>}
             >
+                {/* Profile Header */}
+                   
                 <Show
                     when={currentUser()}
                     fallback={<div class="p-8 text-center">Loading profile...</div>}
                 >
-                    {/* Profile Header */}
-                    <div class="flex justify-between p-4 border-b border-(--border)">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <Avatar
-                                    src={currentUser()?.avatarUrl}
-                                    name={userFullName()}
-                                    size="lg"
-                                    rounded="full"
-                                />
-                                <div>
-                                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                                        {userFullName()}
-                                    </h2>
-                                    <p class="text-gray-600 dark:text-gray-400">
-                                        @{userUsername()}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <Button size="sm" variant="glass" onClick={handleLogout} class='text-red-500! hover:text-red-400!'>
-                            Logout
-                        </Button>
-                    </div>
+                    
 
                     {/* Profile Information */}
                     <div class="divide-y divide-(--border)">

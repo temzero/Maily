@@ -43,6 +43,7 @@ export default function Footer(props: { class: string }) {
                     <Button
                         onClick={openComposeNew}
                         icon={<ImQuill size={36} />}
+                        rounded='full'
                         aria-label="Compose new email"
                         variant="primary"
                         size={isMobile() ? 'lg' : 'xl'}

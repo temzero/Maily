@@ -6,6 +6,7 @@ import { useNavigate } from '@solidjs/router';
 
 interface SettingsLayoutProps {
     children: JSX.Element;
+    header?: JSX.Element;
     footer?: JSX.Element;
     title: string;
     icon?: JSX.Element;
@@ -24,6 +25,7 @@ export default function SettingsLayout(props: SettingsLayoutProps) {
                 <Button
                     onClick={handleBack}
                     icon={<VsArrowLeft size={32} />}
+                    rounded='full'
                     variant="glass"
                     size="sm"
                     name="Close sidebar"
@@ -32,7 +34,13 @@ export default function SettingsLayout(props: SettingsLayoutProps) {
                     {props.icon}
                     <h1 class="text-4xl font-bold">{props.title}</h1>
                 </div>
-                <div class="bg-(--background) rounded-lg border border-(--border) shadow overflow-hidden">
+
+                {props.header && (
+                    <div class="mb-4">
+                        {props.header}
+                    </div>
+                )}
+                <div class="bg-(--background) rounded-lg border-2 border-(--border) shadow overflow-hidden">
                     {props.children}
                 </div>
                 {props.footer && (

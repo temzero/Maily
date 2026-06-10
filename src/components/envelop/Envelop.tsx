@@ -17,6 +17,7 @@ interface EnvelopeLayoutProps {
     borderWidth?: number;
     isUnsealed?: boolean;
     isShadow?: boolean;
+    isDarken?: boolean;
 }
 
 const DEFAULT_SETTINGS = {
@@ -106,27 +107,30 @@ export const Envelope: Component<EnvelopeLayoutProps> = (props) => {
         <div
             id={`envelope ${props.envelope?.id}`}
             classList={{ 'envelope-shadow': isShadow() }}
-            class="relative"
             style={containerStyle()}
             onClick={props.onClick}
         >
             <div
-                id={`envelope-background ${props.envelope?.id}`}
-                class={`w-full h-full overflow-hidden transition-all duration-200 ${props.class ?? ''} ${props.isUnsealed ? 'teared-shape' : ''}`}
-                style={backgroundStyle()}
-            />
-            
-            <Show when={props.children}>
-                <div
-                    id={`envelope-content ${props.envelope?.id}`}
-                    class="transition-all"
-                    style={contentStyle()}
-                >
-                    <div class='relative w-full h-full'>
-                        {props.children}
+                class={`relative w-full h-full overflow-hidden ${props.class ?? ''} ${props.isUnsealed ? 'teared-shape' : ''} ${isShadow() && 'envelope-shadow'}`}
+            >   
+                <div class={`w-full h-full`} style={backgroundStyle()}/>
+                <Show when={props.children}>
+                    <div
+                        id={`envelope-content ${props.envelope?.id}`}
+                        class="transition-all"
+                        style={contentStyle()}
+                    >
+                        <div class='relative w-full h-full'>
+                            {props.children}
+                        </div>
                     </div>
-                </div>
-            </Show>
+                </Show>
+
+                <Show when={props.isDarken}>
+                    <div class="darken-overlay" />
+                </Show>
+            </div>
+            
         </div>
     );
 };

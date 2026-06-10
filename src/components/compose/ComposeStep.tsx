@@ -138,6 +138,7 @@ export default function ComposeStep(props: Props) {
           <Button
               onClick={() => props.setStep(ComposeStepType.SEND)}
               icon={<VsChevronRight size={40} />}
+              rounded='full'
               aria-label="Next"
               variant="primary"
               size={getActionButtonSize(isMobile())}

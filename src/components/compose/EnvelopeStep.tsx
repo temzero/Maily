@@ -85,6 +85,7 @@ export default function EnvelopeStep(props: Props) {
         <Button
           onClick={() => props.setStep(ComposeStepType.COMPOSE)}
           icon={<VsChevronLeft size={36} />}
+          rounded='full'
           aria-label="Back"
           variant="glass"
           size={buttonSize()}
@@ -94,6 +95,7 @@ export default function EnvelopeStep(props: Props) {
         <Button
           onClick={handleAccept}
           icon={<AiOutlineCheck size={40} />}
+          rounded='full'
           aria-label="Accept"
           variant="primary"
           size={buttonSize()}

@@ -1,5 +1,5 @@
 // components/email/UnsealedMailMobile.tsx
-import { Component } from 'solid-js';
+import { Component, Show } from 'solid-js';
 import { Email } from '~/types/email/email.type';
 import { mailDimensions } from '~/constants/constants';
 import { Envelope } from '../envelop/Envelop';
@@ -12,6 +12,7 @@ interface SealedMailProps {
     width?: number;
     height?: number;
     class?: string;
+    isDarken: boolean;
     onClick?: () => void;
 }
 
@@ -29,15 +30,16 @@ export const UnsealedMailMobile: Component<SealedMailProps> = (props) => {
 
     return (
         <div class='envelope-shadow'>
-            <div class='relative bg-(--blackOrWhite) envelope-shadow teared-shape-mobile'>
+            <div class='relative envelope-shadow teared-shape-mobile'>
                 <Envelope
                     envelope={envelope()}
                     width={props.width ?? mailDimensions.width}
                     isFullWidth={isMobile()}
                     class={props.class}
                     onClick={props.onClick}
+                    isDarken={props.isDarken}
                 >
-                    <div class="flex flex-col h-full min-h-0 select-none opacity-50">
+                    <div class="flex flex-col h-full min-h-0 select-none">
 
                         <div class="flex items-center justify-between p-1 pt-2! pb-0 shrink-0">
                             <div class="flex items-end gap-1">
@@ -58,8 +60,7 @@ export const UnsealedMailMobile: Component<SealedMailProps> = (props) => {
                                 <div class="small-content-text">{displayName()}</div>
                             </div>
 
-                            {/* Created At - Bottom Right */}
-                            <div class="text-xs opacity-70">{formatDate(props.email.createdAt)}</div>
+                            <div class="text-xs">{formatDate(props.email.createdAt)}</div>
                         </div>
 
 

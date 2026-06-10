@@ -18,7 +18,7 @@ export default function FolderPage() {
     const { isMobile } = useMobile();
     const params = useParams();
     const folder = createMemo(() => params.folder as EmailFolder);
-    const isDateView = createMemo(() => getIsDateView());
+    const isDateView = createMemo(() => isMobile || getIsDateView());
 
     // Track previous state
     let prevIds = new Set<string>();
@@ -42,7 +42,7 @@ export default function FolderPage() {
         } else {
             options = { folder: folder(), isSpam: false, isDeleted: false };
         }
-        options.isShortByDate = isDateView() ?? false;
+        options.isShortByDate = isDateView()() ?? false;
         return options;
     });
 

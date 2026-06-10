@@ -93,7 +93,7 @@ export function MailContent(props: MailContentProps) {
         </Motion>
       </Presence>
 
-      <div class={`mb-10 w-full ${isMobile() ? '' : 'flex justify-center'}`}>
+      <div class={`w-full ${isMobile() ? '' : 'flex justify-center'}`}>
         <UnsealedMailDetail 
           email={email} 
           width={envelopeWidth} 
@@ -110,6 +110,7 @@ export function MailContent(props: MailContentProps) {
               isSent ? openComposeForward(email) : openComposeReply(email)
             }
             icon={isSent ? forwardIcon : replyIcon}
+            rounded='full'
             variant="primary"
             size="md"
             class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"
@@ -122,6 +123,7 @@ export function MailContent(props: MailContentProps) {
               isSent ? openComposeForward(email) : openComposeReply(email)
             }
             icon={isSent ? forwardIcon : replyIcon}
+            rounded='full'
             variant="primary"
             size="xl"
             class="fixed right-4 bottom-4 hidden sm:inline-flex shrink-0 hover:scale-110 transition-transform z-10"

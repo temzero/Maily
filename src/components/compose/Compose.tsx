@@ -6,7 +6,6 @@ import { Email } from '~/types/email/email.type';
 import SendStep from '~/components/compose/SendStep';
 import ComposeStep from '~/components/compose/ComposeStep';
 import EnvelopeStep from './EnvelopeStep';
-import ComposeNavigation from './ComposeNavigation';
 import ComposeTopIcon from './ComposeTopIcon';
 import { envelopeStore } from '~/store/envelope.store';
 import { Attachment } from '~/types/attachment/attachment.type';
@@ -201,13 +200,6 @@ export default function Compose(props: ComposeProps) {
             {!isMobile() && 
                 <ComposeTopIcon step={step} />
             }
-            {/* <ComposeNavigation
-                step={step}
-                setStep={setStep}
-                isComposeValid={isComposeValid}
-                isSendable={isSendable}
-                onSend={handleSend}
-            /> */}
             <Switch>
                 <Match when={step() === ComposeStepType.COMPOSE}>
                     <ComposeStep

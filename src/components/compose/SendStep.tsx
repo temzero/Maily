@@ -103,6 +103,7 @@ export default function SendStep(props: Props) {
                 <Button
                     onClick={() => props.setStep(ComposeStepType.COMPOSE)}
                     icon={<VsChevronLeft size={36} />}
+                    rounded='full'
                     aria-label="Back"
                     variant="glass"
                     size={getActionButtonSize(isMobile())}
@@ -114,6 +115,7 @@ export default function SendStep(props: Props) {
                         <Button
                             onClick={props.onSend}
                             icon={<BiRegularPaperPlane size={isMobile() ? 32 : 40} />}
+                            rounded='full'
                             aria-label="Send"
                             variant="primary"
                             size={getActionButtonSize(isMobile())}
@@ -124,6 +126,7 @@ export default function SendStep(props: Props) {
                         <Button
                             onClick={() => props.setStep(ComposeStepType.ENVELOPE)}
                             icon={<VsEdit size={32} />}
+                            rounded='full'
                             aria-label="Edit"
                             variant="glass"
                             size={getActionButtonSize(isMobile())}

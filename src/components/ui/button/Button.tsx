@@ -14,16 +14,18 @@ type ButtonVariant =
 
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
+type ButtonRounded = 'none' | 'sm' | 'md' | 'lg' | 'full';
+
 interface ButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant;
     size?: ButtonSize;
+    rounded?: ButtonRounded;
     loading?: boolean;
     icon?: JSX.Element;
-    label?: string;
     isFullWidth?: boolean;
 }
 
-// ─── Style Maps (static, never recreated) ─────────────────────────────────────
+// ─── Style Maps ───────────────────────────────────────────────────────────────
 
 const variantStyles: Record<ButtonVariant, string> = {
     primary:
@@ -45,10 +47,18 @@ const variantStyles: Record<ButtonVariant, string> = {
         'bg-amber-500/70 text-white border-amber-500 hover:bg-amber-600 hover:border-amber-600 active:bg-amber-700 focus-visible:ring-amber-400',
 
     outline:
-        'bg-transparent border-(--border) hover:border-[var(--primary)]! active:border-[var(--primary)]! active:text-[var(--primary)] focus-visible:ring-[var(--primary)]',
+        'bg-transparent border-(--border) hover:border-[var(--primary)] active:border-[var(--primary)] active:text-[var(--primary)] focus-visible:ring-[var(--primary)]',
 
     link:
         'bg-transparent text-[var(--primary)] border-none! underline hover:opacity-80 active:opacity-60 focus-visible:ring-[var(--primary)]',
+};
+
+const roundedStyles: Record<ButtonRounded, string> = {
+    none: 'rounded-none',
+    sm: 'rounded-sm',
+    md: 'rounded-md',
+    lg: 'rounded-lg',
+    full: 'rounded-full',
 };
 
 const sizeStyles: Record<ButtonSize, { button: string; spinner: string; padding: string }> = {
@@ -59,9 +69,10 @@ const sizeStyles: Record<ButtonSize, { button: string; spinner: string; padding:
     xl: { button: 'w-16 h-16', spinner: 'w-9 h-9', padding: 'px-6 py-3' },
 };
 
-const baseStyles = 'active:scale-110 border-2 backdrop-blur inline-flex items-center justify-center font-medium transition-all duration-150 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none shrink-0';
+const baseStyles =
+    'active:scale-110 border-2 backdrop-blur inline-flex items-center justify-center font-medium transition-all duration-150 cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none shrink-0';
 
-// ─── Spinner Component (no unnecessary memo) ─────────────────────────────────
+// ─── Spinner ──────────────────────────────────────────────────────────────────
 
 const Spinner: Component<{ size: ButtonSize }> = (props) => (
     <svg
@@ -71,30 +82,60 @@ const Spinner: Component<{ size: ButtonSize }> = (props) => (
         viewBox="0 0 24 24"
         aria-hidden="true"
     >
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+        />
+        <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
     </svg>
 );
 
-// ─── Button Component (optimized for Solid's fine-grained reactivity) ─────────
+// ─── Button ───────────────────────────────────────────────────────────────────
 
 const Button: Component<ButtonProps> = (props) => {
-    const defaults = mergeProps({ variant: 'primary', size: 'md' } as const, props);
-    const [local, rest] = splitProps(defaults, ['variant', 'size', 'loading', 'icon', 'label', 'class', 'disabled', 'isFullWidth']);
+    const defaults = mergeProps(
+        {
+            variant: 'primary',
+            size: 'md',
+            rounded: 'md',
+        } as const,
+        props
+    );
 
-    // Direct computations - Solid handles granular updates automatically
+    const [local, rest] = splitProps(defaults, [
+        'variant',
+        'size',
+        'rounded',
+        'loading',
+        'icon',
+        'class',
+        'disabled',
+        'isFullWidth',
+        'children',
+    ]);
+
     const isDisabled = () => local.disabled || local.loading;
-    const isIconOnly = () => local.icon && !local.label && !props.children;
-    
-    // Get size config once per render (object lookup is cheap)
+
+    const isIconOnly = () => local.icon && !local.children;
+
     const sizeConfig = sizeStyles[local.size];
-    
-    // Compute classes directly - Solid will only update what changes
+
     const getClassName = () => {
-        const roundedClass = isIconOnly() ? 'rounded-full' : 'rounded-lg';
-        const sizeClass = isIconOnly() ? sizeConfig.button : sizeConfig.padding;
-        const widthClass = local.isFullWidth ? 'w-full' : '';
+        // Use rounded prop instead of conditional logic
+        const roundedClass = roundedStyles[local.rounded];
+        const shouldUseFixedSize = isIconOnly();
+        const sizeClass = shouldUseFixedSize ? sizeConfig.button : sizeConfig.padding;
         
+        const widthClass = local.isFullWidth ? 'w-full' : '';
+
         return `${baseStyles} ${roundedClass} ${variantStyles[local.variant]} ${sizeClass} ${widthClass} ${local.class || ''}`.trim();
     };
 
@@ -102,7 +143,6 @@ const Button: Component<ButtonProps> = (props) => {
         <button
             {...rest}
             disabled={isDisabled()}
-            aria-label={local.label || (isIconOnly() ? 'icon button' : undefined)}
             aria-busy={local.loading || undefined}
             class={getClassName()}
         >
@@ -110,14 +150,18 @@ const Button: Component<ButtonProps> = (props) => {
                 <Spinner size={local.size} />
             ) : (
                 <>
-                    {local.icon && <span class={local.label ? 'mr-2' : ''}>{local.icon}</span>}
-                    {local.label}
-                    {props.children}
+                    {local.icon && (
+                        <span class={local.children ? 'mr-2' : ''}>
+                            {local.icon}
+                        </span>
+                    )}
+
+                    {local.children}
                 </>
             )}
         </button>
     );
 };
 
-export type { ButtonProps, ButtonVariant, ButtonSize };
+export type { ButtonProps, ButtonVariant, ButtonSize, ButtonRounded };
 export default Button;

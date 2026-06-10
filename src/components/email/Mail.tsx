@@ -34,8 +34,8 @@ export const Mail: Component<MailProps> = (props) => {
         return getRenderLabelIconsByIds(props.email.labelIds);
     };
 
-    const labelPosition = () => isMobile() ? 'right-0 -top-2' : 'right-1 -bottom-2.5';
-    const attachmentlabelPosition = () => isMobile() ? 'top-3 -right-3' : '-top-1 -right-1';
+    const labelPosition = () => isMobile() ? 'right-0 -top-1' : 'right-1 -bottom-2.5';
+    const attachmentlabelPosition = () => isMobile() ? 'top-4 -right-3' : '-top-1 -right-1';
 
     return (
         <div
@@ -67,10 +67,14 @@ export const Mail: Component<MailProps> = (props) => {
                             background: label.color,
                             width: '20px',
                             height: '20px',
+                            position: 'relative',
                         }}
                         class="rounded flex items-center justify-center text-white"
                     >
                         {label.iconElement}
+                        {props.email.isRead && (
+                            <div class="darken-overlay"/>
+                        )}
                     </div>
                 ))}
             </div>
@@ -99,13 +103,15 @@ export const Mail: Component<MailProps> = (props) => {
                     {isMobile() ?
                         <UnsealedMailMobile
                             email={props.email}
-                            class={props.isFocusing ? 'opacity-100!' : 'opacity-40!'}
-                            width={width}/>
+                            width={width}
+                            isDarken={!props.isFocusing} 
+                        />
+                            
                     : 
                         <UnsealedMail
                             email={props.email}
-                            class={props.isFocusing ? 'opacity-100!' : ''}
                             width={width}
+                            isDarken={!props.isFocusing}
                         />
                     }
                 </Match>

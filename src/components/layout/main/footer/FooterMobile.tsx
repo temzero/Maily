@@ -61,6 +61,7 @@ export default function FooterMobile() {
                 >
                     <Button
                         icon={activeIcon()}
+                        rounded='full'
                         aria-label="Filter Label"
                         variant="glass"
                         size="sm"
@@ -100,6 +101,7 @@ export default function FooterMobile() {
                     <Button
                         onClick={openComposeNew}
                         icon={<ImQuill size={24} />}
+                        rounded='full'
                         aria-label="Compose new email"
                         variant="primary"
                         size="sm"

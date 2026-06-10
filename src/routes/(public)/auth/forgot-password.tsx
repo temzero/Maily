@@ -1,6 +1,7 @@
 // routes/forgot-password.tsx
 import { Component, createSignal } from 'solid-js';
 import AuthForm from '~/components/auth/AuthForm';
+import { MdFillSend } from 'solid-icons/md'
 
 const ForgotPassword: Component = () => {
     const [email, setEmail] = createSignal('');
@@ -59,12 +60,16 @@ const ForgotPassword: Component = () => {
         <AuthForm
             header="Reset your password"
             button={{
-                text: 'Send reset link',
+                // text: 'Send reset link',
+                icon: <MdFillSend size={24}/>,
                 loading: loading(),
                 onSubmit: handleSubmit,
             }}
-            links={[{ text: 'Back to sign in', href: 'login' }]}
+            links={[{ text: 'く Back to Login', href: 'login' }]}
         >
+            <p class="text-sm opacity-60">
+                Enter your email address and we'll send you a link to reset your password.
+            </p>
             <div>
                 <label for="email" class="sr-only">
                     Email address
@@ -78,11 +83,6 @@ const ForgotPassword: Component = () => {
                     value={email()}
                     onInput={(e) => setEmail(e.currentTarget.value)}
                 />
-            </div>
-            <div>
-                <p class="text-sm text-center opacity-60">
-                    Enter your email address and we'll send you a link to reset your password.
-                </p>
             </div>
         </AuthForm>
     );

@@ -1,6 +1,7 @@
 // routes/login.tsx
 import { Component, createSignal } from 'solid-js';
 import AuthForm from '~/components/auth/AuthForm';
+import { FaSolidCheck } from 'solid-icons/fa'
 
 const Login: Component = () => {
     const [email, setEmail] = createSignal('');
@@ -17,18 +18,19 @@ const Login: Component = () => {
 
     return (
         <AuthForm
-            header="Sign in"
+            header="Login"
             button={{
-                text: 'Sign in',
+                // text: 'Login',
+                icon: <FaSolidCheck size={24} />,
                 loading: loading(),
                 onSubmit: handleSubmit,
             }}
             links={[
                 { text: 'Forgot your password?', href: 'forgot-password' },
-                { text: "Don't have an account? Sign up", href: 'register' },
+                { text: "Create new account!", href: 'register' },
             ]}
         >
-            <div>
+            <div class='flex flex-col gap-0.5'>
                 <div>
                     <label for="email" class="sr-only">
                         Email address
@@ -38,7 +40,7 @@ const Login: Component = () => {
                         type="email"
                         required
                         class="auth-input rounded-b-none!"
-                        placeholder="Email address"
+                        placeholder="Email"
                         value={email()}
                         onInput={(e) => setEmail(e.currentTarget.value)}
                     />

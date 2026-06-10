@@ -21,6 +21,7 @@ export function BackButton(props: CloseButtonProps) {
         <Button 
             onClick={props.onClose}
             icon={<VsArrowLeft size={iconSize} />}
+            rounded='full'
             variant="glass"
             size={size}
             name="Back"
