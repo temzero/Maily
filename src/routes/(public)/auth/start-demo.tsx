@@ -71,7 +71,7 @@ const DemoStart: Component = () => {
       class='relative w-full h-screen p-6 flex flex-col items-center justify-between'
       style="background: var(--gradient-bg)"
     >
-      <Logo size={getActionButtonSize(isMobile())} class='pt-15' />
+      <Logo size='xl' class='pt-15' />
 
       {isMobile() ? (
         <MobileContent loading={loading()} onSubmit={handleSubmit} />

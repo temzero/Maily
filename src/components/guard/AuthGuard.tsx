@@ -1,28 +1,32 @@
 // components/AuthGuard.tsx
-import { useNavigate, useLocation } from "@solidjs/router";
+import { useLocation } from "@solidjs/router";
 import { isAuthenticated, demoLogin } from "~/store/auth.store";
 import { isDevelopment, isPreviewMode } from "~/lib/env-helpers";
 
+
+
 export function AuthGuard(props: { children: any }) {
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Dev mode - auto login
-  if (isDevelopment()) {
-    demoLogin();
-    return <>{props.children}</>;
-  }
-
+  // if (isDevelopment()) {
+  //   demoLogin();
+  //   return <>{props.children}</>;
+  // }
+  
+  const demoPath: string = '/start-demo'
+  const loginPath: string = '/auth/login'
+  
   const isAuth = isAuthenticated();
   const isAuthPage = location.pathname.startsWith("/auth");
+  const isStartDemoPage = location.pathname === demoPath;
 
-  // Not auth and not on auth page -> redirect
-  if (!isAuth && !isAuthPage) {
-    const loginPath = isPreviewMode() ? "/auth/demo-login" : "/auth/login";
+  // Not auth, not on auth page, and not on start-demo page -> redirect
+  if (!isAuth && !isAuthPage && !isStartDemoPage) {
+    const initialPath = isPreviewMode() ? demoPath : loginPath;
 
-    // ✅ FIX: Use window.location for hard navigation
     if (typeof window !== "undefined") {
-      window.location.href = loginPath;
+      window.location.href = initialPath;
     }
     return null;
   }

@@ -31,7 +31,7 @@ const Register: Component = () => {
             }}
             links={[{ text: 'く Back to Login', href: 'login' }]}
         >
-            <div class="space-y-0.5">
+            <div class="">
                 <div>
                     <label for="first-name" class="sr-only">
                         First name
@@ -77,7 +77,7 @@ const Register: Component = () => {
                 />
             </div>
 
-            <div class="space-y-0.5">
+            <div class="">
                 <div>
                     <label for="password" class="sr-only">
                         Password

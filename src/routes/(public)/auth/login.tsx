@@ -30,7 +30,7 @@ const Login: Component = () => {
                 { text: "Create new account!", href: 'register' },
             ]}
         >
-            <div class='flex flex-col gap-0.5'>
+            <div class='flex flex-col'>
                 <div>
                     <label for="email" class="sr-only">
                         Email address
