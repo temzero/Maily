@@ -1,15 +1,14 @@
 // EnvelopeStep.tsx
 import { AiOutlineCheck } from "solid-icons/ai";
 import { VsChevronLeft } from 'solid-icons/vs'
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 
 import { mockAgentMessages } from "~/data/agent.mock";
-import { useMobile } from "~/hooks/useMobile";
 import {
   clearAgentMessages,
   setAgentMessages,
-} from "~/store/agent.store";
-import { envelopeStore } from "~/store/envelope.store";
+} from "~/stores/agent.store";
+import { envelopeStore } from "~/stores/envelope.store";
 import { EnvelopeType } from "~/types/envelop/envelop.type";
 
 import { ComposeStepType } from "./Compose";
@@ -20,6 +19,11 @@ import { NavigationContainer } from "./NavigationContainer";
 import Button from "../ui/button/Button";
 import { ItemsSlider } from "../ui/ItemsSlider";
 import { getActionButtonSize } from "~/utils/button.utils";
+import { currentUser } from "~/stores/auth.store";
+import { SealedMail } from "../email/SealedMail";
+import { mailDimensions } from "~/constants/constants";
+import { useDevice } from "~/stores/device.store";
+import { TouchItemsSlider } from "../ui/TouchItemsSlider";
 
 type Props = {
   subject: string;
@@ -27,7 +31,7 @@ type Props = {
 };
 
 export default function EnvelopeStep(props: Props) {
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
 
   // Local signals — copy from store on mount
   const [localEnvelopes, setLocalEnvelopes] = createSignal<EnvelopeType[]>(
@@ -77,18 +81,16 @@ export default function EnvelopeStep(props: Props) {
     });
   });
 
-  const buttonSize = () => getActionButtonSize(isMobile());
-
   return (
     <div>
       <NavigationContainer>
         <Button
-          onClick={() => props.setStep(ComposeStepType.COMPOSE)}
+          onClick={() => props.setStep(ComposeStepType.SEND)}
           icon={<VsChevronLeft size={36} />}
           rounded='full'
           aria-label="Back"
           variant="glass"
-          size={buttonSize()}
+          size={getActionButtonSize(isMobile)}
           name="Back"
         />
 
@@ -98,7 +100,7 @@ export default function EnvelopeStep(props: Props) {
           rounded='full'
           aria-label="Accept"
           variant="primary"
-          size={buttonSize()}
+          size={getActionButtonSize(isMobile)}
           name="Accept"
         />
       </NavigationContainer>
@@ -113,11 +115,54 @@ export default function EnvelopeStep(props: Props) {
         />
       )}
 
-      <ItemsSlider
+      <Show
+        when={isMobile()}
+        fallback={
+          <ItemsSlider
+            items={localEnvelopes()}
+            currentViewIndex={currentViewIndex()}
+            onIndexChange={setCurrentViewIndex}
+            dotsPosition="top"
+            showNavButtons={true}
+            sideScale={0.75}
+            onAccept={handleAccept}
+            renderItem={(envelope: EnvelopeType) => (
+              <div class="w-full h-full flex items-center justify-center">
+                <EnvelopePreview
+                  envelope={envelope}
+                  subject={props.subject}
+                  showSender={true}
+                />
+              </div>
+            )}
+          />
+        }
+      >
+        <TouchItemsSlider
+          items={localEnvelopes()}
+          currentIndex={currentViewIndex()}
+          onIndexChange={setCurrentViewIndex}
+          dotsPosition="bottom"
+          onAccept={handleAccept}
+          renderItem={(envelope: EnvelopeType) => (
+            <div class="w-full h-full flex items-center justify-center">
+              <EnvelopePreview
+                envelope={envelope}
+                subject={props.subject}
+                showSender={true}
+              />
+            </div>
+          )}
+        />
+      </Show>
+
+      {/* <ItemsSlider
         items={localEnvelopes()}
         currentViewIndex={currentViewIndex()}
         onIndexChange={setCurrentViewIndex}
         dotsPosition={isMobile() ? "bottom" : "top"}
+        showNavButtons={isMobile() ? false : true}
+        sideScale={isMobile() ? 1 : 0.75}
         onAccept={handleAccept}
         renderItem={(envelope: EnvelopeType) => (
           <div class="w-full h-full flex items-center justify-center">
@@ -128,7 +173,41 @@ export default function EnvelopeStep(props: Props) {
             />
           </div>
         )}
-      />
+      /> */}
+
+      {/* <ItemsSlider
+  items={localEnvelopes()}
+  currentViewIndex={currentViewIndex()}
+  onIndexChange={setCurrentViewIndex}
+  dotsPosition={isMobile() ? "bottom" : "top"}
+  onAccept={handleAccept}
+  renderItem={(envelope: EnvelopeType) => (
+    <div class="w-full h-full flex items-center justify-center">
+      {isMobile() ? (
+        <SealedMail
+          email={{
+            // Construct a minimal Email object from your envelope + props
+            id: '123',
+            envelope: envelope,
+            subject: props.subject,
+            from: `${currentUser()?.firstName} ${currentUser()?.lastName}`,
+            createdAt: new Date().toISOString(),
+            // ... other required Email fields
+          }}
+          // Make it full width on mobile
+          width={mailDimensions.width * 3}
+          class="w-full h-full"
+        />
+      ) : (
+        <EnvelopePreview
+          envelope={envelope}
+          subject={props.subject}
+          showSender={true}
+        />
+      )}
+    </div>
+  )}
+/> */}
     </div>
   );
 }

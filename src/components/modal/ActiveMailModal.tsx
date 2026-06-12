@@ -5,16 +5,13 @@ import { BackButton } from '~/components/ui/button/BackButton';
 import Compose from '../compose/Compose';
 import { MailContent } from '../email/MailContent';
 import { Email, EmailFolder } from '~/types/email/email.type';
-import { clearActiveEmailId, uiStore } from '~/store/ui.store';
 import { audioManager } from '~/utils/audioManager';
 import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
-import { getEmailById } from '~/store/email/email.selectors';
-import { openComposeDraft } from '~/store/modal/composeModal.store';
-import { useMobile } from '~/hooks/useMobile';
-import { Position } from '~/types/positions.enum';
+import { clearActiveEmailId, uiStore } from '~/stores/ui.store';
+import { getEmailById } from '~/stores/email/email.selectors';
+import { openComposeDraft } from '~/stores/modal/composeModal.store';
 
 export const transitionZoomDuration = 400;
-// const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
 const easing = 'ease-in-out';
 const overlayColor = 'rgba(0, 0, 0, 0.75)';
 const backdropBlur = true;
@@ -24,7 +21,6 @@ interface EmailModalProps {
 }
 
 export function ActiveEmailModal(props: EmailModalProps) {
-    const { isMobile } = useMobile();
     const emailId = () => uiStore.activeEmailId;
 
     const [isOpen, setIsOpen] = createSignal(false);

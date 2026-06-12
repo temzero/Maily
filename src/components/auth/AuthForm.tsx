@@ -1,7 +1,7 @@
 import { Component, JSX } from 'solid-js';
 import Button, { ButtonVariant } from '../ui/button/Button';
 import { useNavigate } from '@solidjs/router';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface AuthFormProps {
     header?: string;
@@ -22,7 +22,7 @@ interface AuthFormProps {
 
 const AuthForm: Component<AuthFormProps> = (props) => {
     const navigate = useNavigate();
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
 
     return (
         <form class={`max-w-md w-full rounded-md space-y-6 ${isMobile() ? '' : 'bg-(--blackOrWhite) border-2 border-(--border) shadow-xl p-10'} ${props.class}`} 

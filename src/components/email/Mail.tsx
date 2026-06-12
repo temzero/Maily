@@ -5,10 +5,10 @@ import { UnsealedMail } from './UnsealedMail';
 import { UnsealedMailMobile } from './UnsealedMailMobile';
 import { DraftMail } from './DraftMail';
 import { SentMail } from './SentMail';
-import { getRenderLabelIconsByIds } from '~/store/label.store';
+import { getRenderLabelIconsByIds } from '~/stores/label.store';
 import { mailDimensions } from '~/constants/constants';
 import { TiStarburst } from 'solid-icons/ti';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface MailProps {
     email: Email;
@@ -20,7 +20,7 @@ interface MailProps {
 }
 
 export const Mail: Component<MailProps> = (props) => {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     
     const isRead = () => props.email.isRead ?? false;
     const isSent = () => props.email.folder === EmailFolder.SENT;

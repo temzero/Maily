@@ -7,12 +7,12 @@ import {
     snoozeEmail,
     pinEmail,
     deleteEmail,
-} from '~/store/email/email.actions';
+} from '~/stores/email/email.actions';
 import { MenuItemType } from '../menu/MenuItem';
-import { getRenderLabelsByIds } from '~/store/label.store';
+import { getRenderLabelsByIds } from '~/stores/label.store';
 import { parseDuration } from '~/utils/formatDate';
 import { audioManager } from '~/utils/audioManager';
-import { getEmailById } from '~/store/email/email.selectors';
+import { getEmailById } from '~/stores/email/email.selectors';
 
 interface MailMenuItemsProps {
     emailId: string;

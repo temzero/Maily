@@ -4,7 +4,7 @@ import { Portal } from 'solid-js/web';
 import { Motion, Presence } from 'solid-motionone';
 import { BackButton } from '../ui/button/BackButton';
 import { Position } from '~/types/positions.enum';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 export const ModalAnimateDuration = 0.3;
 
@@ -22,7 +22,7 @@ interface ModalWrapperProps {
 }
 
 export const ModalWrapper: Component<ModalWrapperProps> = (props) => {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const closeButtonPosition = createMemo(() => {
         return isMobile() ? Position.TOP_LEFT : Position.TOP_RIGHT;
     });

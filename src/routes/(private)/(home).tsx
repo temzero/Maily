@@ -3,17 +3,17 @@ import { onMount, ParentProps } from 'solid-js';
 import { useLocation } from '@solidjs/router';
 import LabelsAction from '~/components/actions/LabelsAction';
 import { addedMails } from '~/data/email.mock';
-import { addEmail } from '~/store/email/email.actions';
-import { setAgentMessages } from '~/store/agent.store';
+import { addEmail } from '~/stores/email/email.actions';
+import { setAgentMessages } from '~/stores/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface HomeLayoutProps extends ParentProps {
     isGrid?: boolean;
 }
 
 export default function HomeLayout(props: HomeLayoutProps) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
 
     onMount(() => {
         setAgentMessages(mockAgentMessages.home);

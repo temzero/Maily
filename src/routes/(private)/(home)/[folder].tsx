@@ -3,19 +3,19 @@ import { useParams } from '@solidjs/router';
 import { EmailFolder } from '~/types/email/email.type';
 import { Motion, Presence } from 'solid-motionone';
 import { mailDimensions } from '~/constants/constants';
-import { GetEmailsOptions, getGroupedEmailIds, isGroupMarker } from '~/store/email/email.selectors';
-import { deleteEmail } from '~/store/email/email.actions';
+import { GetEmailsOptions, getGroupedEmailIds, isGroupMarker } from '~/stores/email/email.selectors';
+import { deleteEmail } from '~/stores/email/email.actions';
 import { GroupLabel } from '~/components/GroupLabel';
-import { getIsDateView } from '~/store/preferences.store';
-import { getSearchQuery } from '~/store/ui.store';
-import { getActiveLabelIds } from '~/store/label.store';
+import { getIsDateView } from '~/stores/preferences.store';
+import { getSearchQuery } from '~/stores/ui.store';
+import { getActiveLabelIds } from '~/stores/label.store';
 import { EmailListItem } from '~/components/email/EmailListItem';
 import EmptyFolder from '~/components/ui/EmptyFolder';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 import { easings } from '~/constants/easings';
 
 export default function FolderPage() {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const params = useParams();
     const folder = createMemo(() => params.folder as EmailFolder);
     const isDateView = createMemo(() => isMobile || getIsDateView());

@@ -1,6 +1,6 @@
 // components/modals/EditProfileModal.tsx
 import { createSignal, Show, createMemo, onMount } from 'solid-js';
-import { useAuth } from '~/store/auth.store';
+import { useAuth } from '~/stores/auth.store';
 import Modal from '~/components/modal/Modal';
 import { CloseButton } from '../ui/button/CloseButton';
 import { Position } from '~/types/positions.enum';

@@ -1,6 +1,6 @@
 import { ComposeStepType } from "~/components/compose/Compose";
 import { APP_NAME } from "../constants/constants";
-import { markAsRead } from "~/store/email/email.actions";
+import { markAsRead } from "~/stores/email/email.actions";
 
 export const mockAgentMessages = {
   home: [

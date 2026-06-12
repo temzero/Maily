@@ -6,7 +6,7 @@ import { BsCreditCard, BsCreditCardFill } from 'solid-icons/bs';
 import { VsBriefcase, VsGlobe, VsKey } from 'solid-icons/vs';
 import { ImKey } from 'solid-icons/im';
 import { TbFillLabelImportant, TbOutlineLabelImportant } from 'solid-icons/tb';
-import { Label, toggleLabel } from '~/store/label.store';
+import { Label, toggleLabel } from '~/stores/label.store';
 
 export interface IconSet {
     outline: (props: any) => JSX.Element;

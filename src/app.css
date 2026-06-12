@@ -212,11 +212,13 @@ input[type="range"]::-moz-range-thumb {
 /* Mobile styles */
 @media (max-width: 800px) {
   .paper {
-    padding: 1.5rem
+    padding: 1.5rem;
+    padding-top: 2rem
    }
 
   .subject-text {
-    font-size: 1.25rem; /* text-xl on mobile */
+    font-size: 1.5rem; /* text-xl on mobile */
+    margin-bottom: 0.2rem; /* same as mb-3 */
   }
 
   .content-text {

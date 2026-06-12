@@ -4,7 +4,7 @@ import { Email } from "~/types/email/email.type";
 import { mailDimensions } from "~/constants/constants";
 import { formatDate } from "~/utils/formatDate";
 import { ImQuill } from "solid-icons/im";
-import { useMobile } from "~/hooks/useMobile";
+import { useDevice } from "~/stores/device.store";
 
 interface DraftMailProps {
   email: Email;
@@ -15,7 +15,7 @@ interface DraftMailProps {
 }
 
 export const DraftMail: Component<DraftMailProps> = (props) => {
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
   const previewContent = props?.email?.content?.slice(0, 200);
 
   const getWidthStyle = () => {

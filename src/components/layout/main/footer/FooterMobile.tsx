@@ -1,10 +1,10 @@
-import { setSearchQuery, getSearchQuery } from '~/store/ui.store';
+import { setSearchQuery, getSearchQuery } from '~/stores/ui.store';
 import { ImQuill } from 'solid-icons/im';
-import { openComposeNew } from '~/store/modal/composeModal.store';
+import { openComposeNew } from '~/stores/modal/composeModal.store';
 import { FaSolidSearch } from 'solid-icons/fa';
 import { createSignal, Show, onCleanup, createMemo } from 'solid-js';
 import { LabelMenu } from '~/components/menu/LabelMenu';
-import { getActiveLabels, getRenderActiveLabels } from '~/store/label.store';
+import { getActiveLabels, getRenderActiveLabels } from '~/stores/label.store';
 import { TbOutlineFilter2 } from 'solid-icons/tb'
 import { Motion, Presence } from 'solid-motionone';
 import { easings } from '~/constants/easings';

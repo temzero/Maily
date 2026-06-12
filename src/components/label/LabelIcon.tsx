@@ -1,7 +1,7 @@
 // components/LabelIcon.tsx
 import { createMemo, JSX } from 'solid-js';
 import { getIcon } from '~/utils/icon-registry';
-import { isLabelActive, labelStore } from '~/store/label.store';
+import { isLabelActive, labelStore } from '~/stores/label.store';
 
 interface LabelIconProps {
     labelId: number;

@@ -3,15 +3,15 @@ import { createSignal, createEffect, Accessor, onMount, Switch, Match } from 'so
 import { Envelope } from '~/components/envelop/Envelop';
 import { mailDimensions } from '~/constants/constants';
 import { Avatar } from '~/components/ui/Avatar';
-import { currentUser } from '~/store/auth.store';
+import { currentUser } from '~/stores/auth.store';
 import { VsArrowRight } from 'solid-icons/vs';
 import { validateEmail } from '~/utils/email.utils';
-import { envelopeStore } from '~/store/envelope.store';
+import { envelopeStore } from '~/stores/envelope.store';
 import { Motion } from 'solid-motionone';
-import { setAgentMessages } from '~/store/agent.store';
+import { setAgentMessages } from '~/stores/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
 import { ComposeStepType } from './Compose';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 import { NavigationContainer } from "./NavigationContainer";
 import Button from "../ui/button/Button";
 import { FiArrowLeft } from 'solid-icons/fi';
@@ -32,10 +32,13 @@ type Props = {
 };
 
 export default function SendStep(props: Props) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const [recipientError, setRecipientError] = createSignal(''); // Local error state only
     let recipientRef: HTMLInputElement | undefined;
-
+        // SendStep
+        createEffect(() => {
+        console.log("SendStep mobile =", isMobile());
+        });
     onMount(() => {
         setAgentMessages(mockAgentMessages.send(props.setStep));  // Hide agent when SendStep opens
 
@@ -106,7 +109,7 @@ export default function SendStep(props: Props) {
                     rounded='full'
                     aria-label="Back"
                     variant="glass"
-                    size={getActionButtonSize(isMobile())}
+                    size={getActionButtonSize(isMobile)}
                     name="Back"
                 />
 
@@ -118,7 +121,7 @@ export default function SendStep(props: Props) {
                             rounded='full'
                             aria-label="Send"
                             variant="primary"
-                            size={getActionButtonSize(isMobile())}
+                            size={getActionButtonSize(isMobile)}
                             name="Send"
                         />
                     </Match>
@@ -129,7 +132,7 @@ export default function SendStep(props: Props) {
                             rounded='full'
                             aria-label="Edit"
                             variant="glass"
-                            size={getActionButtonSize(isMobile())}
+                            size={getActionButtonSize(isMobile)}
                             name="Edit"
                         />
                     </Match>
@@ -152,7 +155,7 @@ export default function SendStep(props: Props) {
                     envelope={envelopeStore.getCurrentEnvelope()!}
                 >
                     <div class="relative w-full h-full flex flex-col justify-between p-1 pointer-events-auto">
-                        <h1 class={`font-bold text-4xl p-1 ${isMobile() ? 'text-2xl' : 'text-4xl'}`}>{props.subject || '???'}</h1>
+                        <h1 class={`p-1 ${isMobile() ? 'text-2xl font-semibold' : 'text-4xl font-bold'}`}>{props.subject || '???'}</h1>
                             
                         {/* footer input */}
                             <div class="flex gap-2 items-end justify-between">
@@ -184,7 +187,7 @@ export default function SendStep(props: Props) {
                                         onInput={handleRecipientChange}
                                         onKeyDown={handleKeyDown}
                                         placeholder="recipient@example.com"
-                                        class={`w-full text-lg border-3 border-black/30 rounded outline-none px-1
+                                        class={`w-full border-3 border-black/30 rounded outline-none px-1 ${isMobile() ? 'text-md' : 'text-lg'}
                                         ${recipientError() ? 'border-red-500' : 'focus:border-blue-500'}`}
                                     />
                                 </div>

@@ -2,6 +2,7 @@
 import { useLocation } from '@solidjs/router';
 import { Show } from 'solid-js';
 import { MailContent } from '~/components/email/MailContent';
+import {getEmailById} from '~/stores/email/email.selectors';
 
 export default function Email() {
     const location = useLocation();
@@ -11,9 +12,11 @@ export default function Email() {
         return parts[parts.length - 1];
     };
 
+    const email = () => getEmailById(emailId())  // Make it a signal/accessor
+
     return (
-        <Show when={emailId()} fallback={<div>Loading...</div>}>
-            <MailContent id={emailId()} />
+        <Show when={email()} fallback={<div>Loading...</div>}>
+            <MailContent email={email()!} />
         </Show>
     );
 }

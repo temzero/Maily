@@ -115,12 +115,12 @@ export function ItemsSlider<T>(props: Props<T>) {
             class={`absolute ${props.dotsPosition === "top" ? "top-4" : "bottom-4"} left-0 right-0 flex justify-center gap-2 z-10`}
           >
             <For each={props.items}>
-                {(_, index) => (
-                  <button
-                    onClick={() => props.onIndexChange(index())}
-                    class={`h-1.5 w-1.5 rounded-full transition-all ${props.currentViewIndex === index() ? "bg-white scale-110" : "bg-white/30 hover:bg-white/60"}`}
-                  />
-                )}
+              {(_, index) => (
+                <button
+                  onClick={() => props.onIndexChange(index())}
+                  class={`h-1.5 w-1.5 rounded-full transition-all ${props.currentViewIndex === index() ? "bg-white" : "bg-white/30"}`}
+                />
+              )}
             </For>
           </div>
         </Show>

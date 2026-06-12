@@ -1,15 +1,15 @@
 import { Portal, Show } from 'solid-js/web';
-import { setSearchQuery, getSearchQuery } from '~/store/ui.store';
+import { setSearchQuery, getSearchQuery } from '~/stores/ui.store';
 import SearchInput from '~/components/layout/main/footer/SearchInput';
 import Button from '~/components/ui/button/Button';
 import { headerHeight } from '~/constants/dimensions';
 import { ImQuill } from 'solid-icons/im';
-import { openComposeNew } from '~/store/modal/composeModal.store';
+import { openComposeNew } from '~/stores/modal/composeModal.store';
 import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
 import { Agent } from '../Agent';
-import { agentStore } from '~/store/agent.store';
-import { useMobile } from '~/hooks/useMobile';
+import { agentStore } from '~/stores/agent.store';
+import { useDevice } from '~/stores/device.store';
 import { FiFilter } from 'solid-icons/fi'
 import { FaSolidSearch } from 'solid-icons/fa';
 import FooterMobile from './FooterMobile';
@@ -17,7 +17,7 @@ import FooterMobile from './FooterMobile';
 
 
 export default function Footer(props: { class: string }) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const isAgentVisible = () => agentStore.isVisible;
 
     return (

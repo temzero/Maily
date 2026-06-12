@@ -5,10 +5,10 @@ import { useNavigate, useLocation } from '@solidjs/router';
 import { FiInbox, FiSend, FiFileText, FiAlertCircle, FiTrash2, FiStar, FiHelpCircle, FiSettings, FiLogOut } from 'solid-icons/fi';
 import { NAVIGATION_ITEMS } from '~/constants/constants';
 import { Avatar } from '~/components/ui/Avatar';
-import { currentUser, logout } from '~/store/auth.store';
+import { currentUser, logout } from '~/stores/auth.store';
 import { IoMailUnreadOutline } from 'solid-icons/io'
 import { Motion, Presence } from "solid-motionone";
-import { getUnreadEmailCount } from '~/store/email/email.selectors';
+import { getUnreadEmailCount } from '~/stores/email/email.selectors';
 import { BackButton } from '~/components/ui/button/BackButton';
 import { easings } from '~/constants/easings';
 

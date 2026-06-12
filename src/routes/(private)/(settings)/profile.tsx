@@ -1,7 +1,7 @@
 // routes/settings/profile.tsx (or routes/profile.tsx)
 import SettingsLayout from '~/components/layout/SettingsLayout';
 import { For, Show, createMemo, createSignal } from 'solid-js';
-import { currentUser, logout } from '~/store/auth.store';
+import { currentUser, logout } from '~/stores/auth.store';
 import { useNavigate } from '@solidjs/router';
 import { Avatar } from '~/components/ui/Avatar';
 import { formatDate } from '~/utils/formatDate';

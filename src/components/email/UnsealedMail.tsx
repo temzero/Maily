@@ -5,7 +5,6 @@ import { mailDimensions } from "~/constants/constants";
 import { Envelope } from "../envelop/Envelop";
 import { getEmailAddress, getSenderDisplayName } from "~/utils/emailParser";
 import { formatDate } from "~/utils/formatDate";
-import { useMobile } from "~/hooks/useMobile";
 
 interface SealedMailProps {
   email: Email;

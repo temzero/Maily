@@ -4,7 +4,7 @@ import { FaSolidArrowRight } from 'solid-icons/fa';
 import { BiRegularPaperPlane } from 'solid-icons/bi';
 import { BsEnvelope } from 'solid-icons/bs';
 import { ComposeStepType } from './Compose';
-import { composeModalStore, ComposeModalType } from '~/store/modal/composeModal.store';
+import { composeModalStore, ComposeModalType } from '~/stores/modal/composeModal.store';
 
 export interface ComposeTopIconProps {
     step: () => ComposeStepType;

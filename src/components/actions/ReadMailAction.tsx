@@ -1,7 +1,7 @@
 // ReadMailActions.jsx
 import ActionBar from './ActionBar';
 import { FaRegularAlarmClock, FaSolidAlarmClock } from 'solid-icons/fa';
-import { getRenderLabelsByIds, useSortedLabels } from '~/store/label.store';
+import { getRenderLabelsByIds, useSortedLabels } from '~/stores/label.store';
 import { createMemo } from 'solid-js';
 import { BsPin, BsPinFill } from 'solid-icons/bs';
 import { IoArrowForwardOutline } from 'solid-icons/io';
@@ -17,10 +17,10 @@ import {
     markAsSpam,
     restoreEmail,
     deleteEmail,
-} from '~/store/email/email.actions';
+} from '~/stores/email/email.actions';
 import { TbOutlineRestore } from 'solid-icons/tb';
-import { openComposeForward } from '~/store/modal/composeModal.store';
-import { getEmailById } from '~/store/email/email.selectors';
+import { openComposeForward } from '~/stores/modal/composeModal.store';
+import { getEmailById } from '~/stores/email/email.selectors';
 import { labelSize } from '~/constants/constants';
 
 interface ReadMailActionsProps {

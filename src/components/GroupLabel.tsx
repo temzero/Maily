@@ -1,6 +1,6 @@
 import { BsPinFill } from 'solid-icons/bs';
-import { unpinAll } from '~/store/email/email.actions';
-import { GroupMarker } from '~/store/email/email.selectors';
+import { unpinAll } from '~/stores/email/email.actions';
+import { GroupMarker } from '~/stores/email/email.selectors';
 
 export const GroupLabel = (props: { marker: string }) => {
     const isPinned = props.marker === GroupMarker.PINNED;

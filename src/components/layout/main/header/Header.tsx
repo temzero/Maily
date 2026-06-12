@@ -8,15 +8,15 @@ import { FiUser, FiSettings, FiLogOut, FiHelpCircle } from 'solid-icons/fi';
 import { MenuItemType } from '~/components/menu/MenuItem';
 import { ContextMenu } from '~/components/menu/ContextMenu';
 import { MenuPosition } from '~/components/menu/Menu';
-import { currentUser, logout } from '~/store/auth.store';
+import { currentUser, logout } from '~/stores/auth.store';
 import { Avatar } from '~/components/ui/Avatar';
 import { Motion } from 'solid-motionone';
 import { getSlideAnimation } from '~/utils/animations';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 import HeaderMobile from './HeaderMobile';
 
 export default function Header(props: { class: string }) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const navigate = useNavigate();
 
     const handleLogout = () => {

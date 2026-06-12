@@ -5,7 +5,7 @@ import { HiOutlineTrash } from 'solid-icons/hi';
 import { EnvelopeType, BorderStyle, HiddenBorderSide } from '~/types/envelop/envelop.type';
 import { FontFamily } from "~/types/font-family.enums";
 import { getNewCustomEnvelope } from '~/data/envelop.mock';
-import { MAX_ENVELOPES } from '~/store/envelope.store';
+import { MAX_ENVELOPES } from '~/stores/envelope.store';
 import ColorPickerButton from '~/components/colorPicker/ColorPickerButton';
 import HiddenBorderPicker from './envelopeEditor/HiddenBorderPicker';
 import toast from 'solid-toast';

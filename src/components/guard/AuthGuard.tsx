@@ -1,6 +1,6 @@
 // components/AuthGuard.tsx
 import { useLocation } from "@solidjs/router";
-import { isAuthenticated, demoLogin } from "~/store/auth.store";
+import { isAuthenticated, demoLogin } from "~/stores/auth.store";
 import { isDevelopment, isPreviewMode } from "~/lib/env-helpers";
 
 export const demoPath: string = '/auth/start-demo'
@@ -10,11 +10,10 @@ export function AuthGuard(props: { children: any }) {
   const location = useLocation();
 
   // Dev mode - auto login
-  // if (isDevelopment()) {
-  //   demoLogin();
-  //   return <>{props.children}</>;
-  // }
-
+  if (isDevelopment()) {
+    demoLogin();
+    return <>{props.children}</>;
+  }
 
   const isAuth = isAuthenticated();
   const isAuthPage = location.pathname.startsWith("/auth");

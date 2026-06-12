@@ -1,7 +1,7 @@
 // LabelMenu.tsx
 import { Component, For, Show } from 'solid-js';
 import { MenuItem } from './MenuItem';
-import { useSortedLabels, clearActiveLabels } from '~/store/label.store';
+import { useSortedLabels, clearActiveLabels } from '~/stores/label.store';
 import { LabelIcon } from '../label/LabelIcon';
 import { labelSize } from '~/constants/constants';
 import { AiOutlineClose } from 'solid-icons/ai';

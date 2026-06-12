@@ -1,9 +1,9 @@
 import { Portal } from 'solid-js/web';
 import { createMemo, createSignal, createEffect, For, onCleanup } from 'solid-js';
-import { AgentMessage, getAgentMessages, setAgentMessages } from '~/store/agent.store';
+import { AgentMessage, getAgentMessages, setAgentMessages } from '~/stores/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
 import { Motion } from 'solid-motionone';
-import { getUnreadEmailCount } from '~/store/email/email.selectors';
+import { getUnreadEmailCount } from '~/stores/email/email.selectors';
 import { useNavigate } from '@solidjs/router';
 import AgentAvatar from '~/assets/images/AI-avatar.jpg';
 import { easings } from '~/constants/easings';

@@ -1,30 +1,29 @@
 // components/modal/FocusElementModal.tsx
-import { createSignal, onMount, onCleanup, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import { Motion, Presence } from 'solid-motionone';
-import { easings } from '~/constants/easings';
-import { useMobile } from '~/hooks/useMobile';
-import { clearFocusElementId, getFocusElementId } from '~/store/ui.store';
+import { createSignal, onMount, onCleanup, Show } from 'solid-js';
+import { clearFocusElementId, getFocusElementId } from '~/stores/ui.store';
 import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
+import { useDevice } from '~/stores/device.store';
 
 const focusScale: number = 2.6;
 const focusAnimateDuration: number = 400;
-const easing = easings.smooth;
+const easing = 'ease-in-out';
 
 export default function FocusElementModal(props: { zIndex?: number }) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const focusElementId = () => getFocusElementId();
-    const [isMounted, setIsMounted] = createSignal(false);
+    const [isOpen, setIsOpen] = createSignal(false);
     let overlayRef: HTMLDivElement | undefined;
 
     const focusScaleValue: number = isMobile() ? 1 : focusScale
 
     const handleClose = () => {
-        setIsMounted(false);
+        setIsOpen(false);
     };
 
     onMount(() => {
-        setIsMounted(true);
+        setIsOpen(true);
+        
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 handleClose();
@@ -32,7 +31,6 @@ export default function FocusElementModal(props: { zIndex?: number }) {
         };
 
         window.addEventListener('keydown', handleKeyDown);
-
         onCleanup(() => {
             window.removeEventListener('keydown', handleKeyDown);
         });
@@ -52,35 +50,32 @@ export default function FocusElementModal(props: { zIndex?: number }) {
     return (
         <Portal>
             <div
-                onClick={handleBackdropClick}
+                class="fixed inset-0"
                 style={{
-                    position: 'fixed',
-                    inset: 0,
                     'z-index': props.zIndex ?? 9999,
                 }}
             >
+                {/* Backdrop */}
                 <div
-                    id="focus-blur-overlay"
                     ref={overlayRef}
+                    class="fixed inset-0"
                     style={{
-                        position: 'fixed',
-                        inset: 0,
-                        'z-index': 0,
+                        'background-color': 'rgba(0, 0, 0, 0.6)',
                         'backdrop-filter': 'blur(4px)',
-                        background: 'rgba(0, 0, 0, 0.6)',
-                        opacity: isMounted() ? 1 : 0,
-                        transition: `opacity ${focusAnimateDuration}ms`,
+                        transition: `opacity ${focusAnimateDuration}ms ${easing}`,
+                        opacity: isOpen() ? 1 : 0,
                     }}
+                    onClick={handleBackdropClick}
                 />
 
+                {/* Animated clone - same pattern as ActiveEmailModal */}
                 <div
                     innerHTML={(() => {
                         const clone = originalElement.cloneNode(true) as HTMLElement;
                         clone.id = `focused-${focusElementId()}`;
-                        clone.style.transition = `all ${focusAnimateDuration}ms ${easing}`;
                         clone.style.boxShadow = 'none';
                         clone.style.textShadow = 'none';
-                        // Check if the original element has width: 100% and capture actual width
+                        
                         const originalWidth = window.getComputedStyle(originalElement).width;
                         if (originalWidth === '100%' || originalElement.style.width === '100%') {
                             const rect = originalElement.getBoundingClientRect();
@@ -91,14 +86,14 @@ export default function FocusElementModal(props: { zIndex?: number }) {
                     })()}
                     style={getZoomAnimationStyle(
                         focusElementId()!,
-                        isMounted(),
-                        focusScaleValue
+                        isOpen(),
+                        focusScaleValue,
+                        focusAnimateDuration,
+                        easing
                     )}
                     onTransitionEnd={(e) => {
-                        if (e.propertyName === 'transform') {
-                            if (!isMounted()) {
-                                clearFocusElementId();
-                            }
+                        if (e.propertyName === 'transform' && !isOpen()) {
+                            clearFocusElementId(); // Just clean up when closing
                         }
                     }}
                 />

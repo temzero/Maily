@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
-import { uiStore } from '../../store/ui.store';
+import { uiStore } from '../../stores/ui.store';
 import { ActiveEmailModal } from './ActiveMailModal';
-import { composeModalStore } from '~/store/modal/composeModal.store';
+import { composeModalStore } from '~/stores/modal/composeModal.store';
 import FocusElementModal from './FocusElementModal';
 import ComposeModal from './ComposeModal';
 

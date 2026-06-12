@@ -6,8 +6,13 @@ import { Toaster } from "solid-toast";
 import { AuthGuard } from "./components/guard/AuthGuard";
 import { GlobalContextMenu } from "./components/menu/GlobalContextMenu";
 import { GlobalModal } from "./components/modal/GlobalModal";
+import { initDeviceStore } from "./stores/device.store";
 
 export default function App() {
+  onMount(() => {
+    initDeviceStore(); // Initialize once when app mounts
+  });
+
   return (
     <>
       <Router

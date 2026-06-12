@@ -1,10 +1,10 @@
 // LabelsAction.jsx
 import ActionBar from './ActionBar';
 import { FaRegularCalendar, FaSolidCalendar } from 'solid-icons/fa';
-import { clearActiveLabels, useSortedLabels } from '~/store/label.store';
+import { clearActiveLabels, useSortedLabels } from '~/stores/label.store';
 import { createMemo } from 'solid-js';
 import { LabelIcon } from '../label/LabelIcon';
-import { updatePreference, getIsDateView } from '~/store/preferences.store';
+import { updatePreference, getIsDateView } from '~/stores/preferences.store';
 import { labelSize } from '~/constants/constants';
 
 

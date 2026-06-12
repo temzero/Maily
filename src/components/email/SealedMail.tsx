@@ -5,7 +5,7 @@ import { mailDimensions } from '~/constants/constants';
 import { Envelope } from '../envelop/Envelop';
 import { getSenderDisplayName } from '~/utils/emailParser';
 import { formatDate } from '~/utils/formatDate';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface SealedMailProps {
     email: Email;
@@ -16,7 +16,7 @@ interface SealedMailProps {
 }
 
 export const SealedMail: Component<SealedMailProps> = (props) => {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const envelope = () => props.email.envelope;
     const displayName = () => getSenderDisplayName(props.email.from);
 

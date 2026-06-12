@@ -8,7 +8,7 @@ import { formatDate } from '~/utils/formatDate';
 import { BiRegularPaperPlane, BiSolidPaperPlane } from 'solid-icons/bi';
 import { OcPaperairplane2 } from 'solid-icons/oc';
 import { FaSolidArrowRight } from 'solid-icons/fa';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface SentMailProps {
     email: Email;
@@ -19,7 +19,7 @@ interface SentMailProps {
 }
 
 export const SentMail: Component<SentMailProps> = (props) => {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     const envelope = () => props.email.envelope;
     const recipientNames = () => getRecipientDisplayNames(props.email.to); // Get recipient name
 

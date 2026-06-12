@@ -5,7 +5,7 @@ import {
     composeModalStore,
     closeComposeModal,
     ComposeModalType,
-} from '~/store/modal/composeModal.store';
+} from '~/stores/modal/composeModal.store';
 import Compose from '~/components/compose/Compose';
 
 interface ComposeModalProps {

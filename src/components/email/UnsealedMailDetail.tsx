@@ -8,9 +8,9 @@ import {
   getSenderDisplayName,
   getRecipientDisplayName,
 } from "~/utils/emailParser";
-import { currentUser } from "~/store/auth.store";
+import { currentUser } from "~/stores/auth.store";
 import { AiOutlineArrowRight } from "solid-icons/ai";
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface SealedMailProps {
   email: Email;
@@ -22,7 +22,7 @@ interface SealedMailProps {
 }
 
 export const UnsealedMailDetail: Component<SealedMailProps> = (props) => {
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
   const envelope = () => props.email.envelope;
 
   // Get sender info

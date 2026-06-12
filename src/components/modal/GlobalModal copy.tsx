@@ -1,7 +1,7 @@
 // components/modal/GlobalModal.tsx
 import { Component, createMemo } from 'solid-js';
-import { getModalState, closeModal } from '~/store/modal/modal.store';
-import { ModalType } from '~/store/modal/modal.store';
+import { getModalState, closeModal } from '~/stores/modal/modal.store';
+import { ModalType } from '~/stores/modal/modal.store';
 import ComposeModal from '~/components/modal/ComposeModal';
 import { ModalWrapper } from './ModalWrapper';
 

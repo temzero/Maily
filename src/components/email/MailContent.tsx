@@ -8,18 +8,18 @@ import {
   isOverlayMode,
   openComposeForward,
   openComposeReply,
-} from "~/store/modal/composeModal.store";
+} from "~/stores/modal/composeModal.store";
 import ReadMailActions from "../actions/ReadMailAction";
 import { Motion, Presence } from "solid-motionone";
 import { getMailLayoutAnimation } from "~/utils/animations";
 import RenderAttachments from "../attachment/RenderAttachments";
 import { audioManager } from "~/utils/audioManager";
-import { markAsRead } from "~/store/email/email.actions";
-import { setAgentMessages, clearAgentMessages } from "~/store/agent.store";
+import { markAsRead } from "~/stores/email/email.actions";
+import { setAgentMessages, clearAgentMessages } from "~/stores/agent.store";
 import { mockAgentMessages } from "~/data/agent.mock";
 import {formatEmailWithName} from "~/utils/emailParser"
 import { paperMinHeight, mailContentWidth, envelopeWidth} from "~/constants/dimensions";
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 interface MailContentProps {
   email: Email;
@@ -28,7 +28,7 @@ interface MailContentProps {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function MailContent(props: MailContentProps) {
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
   const email = props.email;
   const attachments = email.attachments || [];
 
@@ -60,14 +60,14 @@ export function MailContent(props: MailContentProps) {
       <Presence>
         <Motion {...animationProps}>
           <div
-            class="flex flex-col items-center justify-center transition-all ease-in-out min-h-screen"
+            class="flex flex-col items-center justify-center transition-all ease-in-out min-h-screen pb-16"
             classList={{
-              "pb-16 scale-90": isOverlayMode(),
-              "py-16": !isOverlayMode(),
+              "pt-0 scale-90": isOverlayMode(),
+              "pt-20": !isOverlayMode(),
             }}
           >
            <div
-              id="writing-paper"
+              id="reading-paper"
               class="relative paper"
               style={{
                 ...(!isMobile() && { width: `${mailContentWidth}px` }),
@@ -81,7 +81,7 @@ export function MailContent(props: MailContentProps) {
                 innerHTML={email.content ?? email.preview}
               />
 
-              <p class="absolute bottom-2.5 right-5 content-text opacity-60 leading-none">
+              <p class="absolute bottom-2.5 right-5 text-xs sm:content-text opacity-60 leading-none">
                 {formatEmailWithName(email.from)}
               </p>
             </div>
@@ -93,7 +93,7 @@ export function MailContent(props: MailContentProps) {
         </Motion>
       </Presence>
 
-      <div class={`w-full ${isMobile() ? '' : 'flex justify-center'}`}>
+      <div class={`w-full ${isMobile() ? 'mb-20' : 'flex justify-center'}`}>
         <UnsealedMailDetail 
           email={email} 
           width={envelopeWidth} 

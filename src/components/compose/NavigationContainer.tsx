@@ -1,9 +1,9 @@
 import { JSX } from "solid-js";
-import { useMobile } from "~/hooks/useMobile";
+import { useDevice } from "~/stores/device.store";
 
 // NavigationContainer.tsx - shared positioning logic only
 export function NavigationContainer(props: { children: JSX.Element }) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     return (
         <div class={isMobile() 
             ? "fixed top-3 right-3 flex gap-3 z-10" 

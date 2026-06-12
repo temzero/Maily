@@ -2,13 +2,13 @@ import { Component, createMemo, createSignal } from "solid-js";
 import { showContextMenu } from "../menu/GlobalContextMenu";
 import { getMailMenuItems } from "./MailMenuItems";
 import { Mail } from "./Mail";
-import { getEmailById } from "~/store/email/email.selectors";
+import { getEmailById } from "~/stores/email/email.selectors";
 import {
   getActiveEmailId,
   getFocusElementId,
   setActiveEmailId,
   setFocusElementId,
-} from "~/store/ui.store";
+} from "~/stores/ui.store";
 
 interface EmailListItemProps {
   emailId: string;

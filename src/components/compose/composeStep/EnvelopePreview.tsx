@@ -2,9 +2,9 @@
 import { Envelope } from "~/components/envelop/Envelop";
 import { mailDimensions } from "~/constants/constants";
 import { Avatar } from "~/components/ui/Avatar";
-import { currentUser } from "~/store/auth.store";
+import { currentUser } from "~/stores/auth.store";
 import { EnvelopeType } from "~/types/envelop/envelop.type";
-import { useMobile } from "~/hooks/useMobile";
+import { useDevice } from "~/stores/device.store";
 
 type EnvelopePreviewProps = {
   envelope: EnvelopeType | null;
@@ -17,20 +17,20 @@ type EnvelopePreviewProps = {
 };
 
 export default function EnvelopePreview(props: EnvelopePreviewProps) {
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
 
   return (
     <Envelope
       envelope={props.envelope}
       width={props.width || mailDimensions.width * 3}
       isFullWidth={isMobile()}
-      borderWidth={props.borderWidth || 16}
+      borderWidth={isMobile() ? 8 : 16}
       class={`${props.class} shadow-none`}
       isShadow={false}
     >
       <div class="w-full h-full flex flex-col justify-between p-2 select-none">
         <h1
-          class="font-bold text-4xl p-1 wrap-break-word line-clamp-2"
+          class="font-bold text-2xl sm:text-4xl p-1 wrap-break-word line-clamp-2"
           style={{ "font-family": props.envelope?.fontStyle || "Arial" }}
         >
           {props.subject || "Subject line"}
@@ -42,13 +42,13 @@ export default function EnvelopePreview(props: EnvelopePreviewProps) {
               <Avatar
                 src={currentUser()?.avatarUrl}
                 name={`${currentUser()?.firstName} ${currentUser()?.lastName}`}
-                size="lg"
+                size={isMobile() ? 'xs' : 'lg'}
               />
               <div class="flex flex-col -space-y-1">
-                <h1 class="font-bold text-xl line-clamp-1">
+                <h1 class="font-bold text-sm sm:text-xl line-clamp-1">
                   {`${currentUser()?.firstName} ${currentUser()?.lastName}`}
                 </h1>
-                <p class="text-sm line-clamp-1">{`${currentUser()?.email}`}</p>
+                <p class="text-xs sm:text-sm line-clamp-1">{`${currentUser()?.email}`}</p>
               </div>
             </div>
           </div>

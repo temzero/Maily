@@ -1,4 +1,4 @@
-import { Accessor, onMount, Setter } from "solid-js";
+import { Accessor, onMount, Setter, createEffect } from "solid-js";
 import ComposeActions from "../actions/ComposeActions";
 import { Motion } from "solid-motionone";
 import { animations } from "~/utils/animations";
@@ -12,7 +12,7 @@ import ComposeEditor from "../actions/composeEditor/ComposeEditor";
 import { IoMailOpenSharp } from 'solid-icons/io';
 import { AiOutlineArrowDown } from "solid-icons/ai";
 import { paperMinHeight, mailContentWidth} from "~/constants/dimensions";
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 import { NavigationContainer } from "./NavigationContainer";
 import Button from "../ui/button/Button";
 import { ComposeStepType } from "./Compose";
@@ -37,7 +37,7 @@ export default function ComposeStep(props: Props) {
   let subjectRef: HTMLTextAreaElement | undefined;
   let contentRef: HTMLDivElement | undefined;
 
-  const { isMobile } = useMobile();
+  const { isMobile } = useDevice();
   
 
   const { isDragging, setup } = useDragAndDropAttachments({
@@ -105,6 +105,12 @@ export default function ComposeStep(props: Props) {
     });
   };
 
+      // ComposeStep
+      createEffect(() => {
+      console.log("ComposeStep mobile =", isMobile());
+      });
+  
+
   return (
     <div ref={composeRef} class="relative w-full min-h-screen py-16 flex-1 flex justify-center items-center">
       {isDragging() && (
@@ -141,7 +147,7 @@ export default function ComposeStep(props: Props) {
               rounded='full'
               aria-label="Next"
               variant="primary"
-              size={getActionButtonSize(isMobile())}
+              size={getActionButtonSize(isMobile)}
               name="Next"
             />
         </NavigationContainer>

@@ -7,7 +7,7 @@ import SendStep from '~/components/compose/SendStep';
 import ComposeStep from '~/components/compose/ComposeStep';
 import EnvelopeStep from './EnvelopeStep';
 import ComposeTopIcon from './ComposeTopIcon';
-import { envelopeStore } from '~/store/envelope.store';
+import { envelopeStore } from '~/stores/envelope.store';
 import { Attachment } from '~/types/attachment/attachment.type';
 import {
     isComposeContentValid,
@@ -18,13 +18,13 @@ import {
     formatReplySubject,
     formatForwardSubject,
 } from '~/utils/compose.helper';
-import { composeModalStore, ComposeModalType } from '~/store/modal/composeModal.store';
+import { composeModalStore, ComposeModalType } from '~/stores/modal/composeModal.store';
 import { audioManager } from '~/utils/audioManager';
 import toast from 'solid-toast';
-import { addEmail, updateEmail } from '~/store/email/email.actions';
-import { setAgentMessages, clearAgentMessages } from '~/store/agent.store';
+import { addEmail, updateEmail } from '~/stores/email/email.actions';
+import { setAgentMessages, clearAgentMessages } from '~/stores/agent.store';
 import { mockAgentMessages } from '~/data/agent.mock';
-import { useMobile } from '~/hooks/useMobile';
+import { useDevice } from '~/stores/device.store';
 
 export const enum ComposeStepType {
     COMPOSE = 'compose',
@@ -38,7 +38,7 @@ export interface ComposeProps {
 }
 
 export default function Compose(props: ComposeProps) {
-    const { isMobile } = useMobile();
+    const { isMobile } = useDevice();
     
     let composeType = composeModalStore.type; // Capture at component creation
 
