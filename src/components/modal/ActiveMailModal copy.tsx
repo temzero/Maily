@@ -6,7 +6,7 @@ import Compose from '../compose/Compose';
 import { MailContent } from '../email/MailContent';
 import { Email, EmailFolder } from '~/types/email/email.type';
 import { audioManager } from '~/utils/audioManager';
-import { getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
+import { getMobileZoomAnimationStyle, getZoomAnimationStyle } from '~/utils/zoomAnimation.utils';
 import { clearActiveEmailId, uiStore } from '~/stores/ui.store';
 import { getEmailById } from '~/stores/email/email.selectors';
 import { openComposeDraft } from '~/stores/modal/composeModal.store';
@@ -134,7 +134,16 @@ export function ActiveEmailModal(props: EmailModalProps) {
                                     return clone.outerHTML;
                                 })()}
                                 style={
-                                    getZoomAnimationStyle(
+                                    isMobile() ? 
+                                        getMobileZoomAnimationStyle(
+                                        `mail-item-${emailId()}`,
+                                        isOpen(),
+                                        undefined,
+                                        transitionZoomDuration,
+                                        easing
+                                    )
+                                    :
+                                        getZoomAnimationStyle(
                                         `mail-item-${emailId()}`,
                                         isOpen(),
                                         undefined,

@@ -170,29 +170,17 @@ export function TouchItemsSlider<T>(props: Props<T>) {
   return (
     <Motion
       {...animations.zoomInLight}
-      class="fixed inset-0 bg-black/90"
+      class="fixed inset-0 bg-black/60"
     >
-      {/* Dots indicator */}
-      <Show when={props.dotsPosition}>
-        <div
-          class={`absolute ${
-            props.dotsPosition === "top" ? "top-4" : "bottom-4"
-          } left-0 right-0 flex justify-center gap-2 z-20`}
-        >
-          <For each={props.items}>
-            {(_, index) => (
-              <button
-                onClick={() => handleClick(index())}
-                class={`h-1.5 w-1.5 rounded-full transition-all ${
-                  props.currentIndex === index()
-                    ? "bg-white scale-110"
-                    : "bg-white/30 hover:bg-white/60"
-                }`}
-              />
-            )}
-          </For>
-        </div>
-      </Show>
+
+    {/* Number indicator */}  
+    <div class="absolute top-4 left-0 right-0 flex justify-center z-20">
+      <div class="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-white text-lg font-light">
+        {props.currentIndex + 1}/{props.items.length}
+      </div>
+    </div>
+
+
 
       {/* Swipe container */}
       <div
@@ -203,22 +191,19 @@ export function TouchItemsSlider<T>(props: Props<T>) {
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
       >
-        <div class="relative w-full h-full">
           <For each={props.items}>
             {(item, index) => (
               <div
                 onClick={() => handleClick(index())}
-                class="absolute inset-0 flex items-center justify-center"
+                class="absolute inset-0 flex items-center justify-center p-2"
                 style={getItemStyle(index())}
               >
-                <div class="w-full h-full flex items-center justify-center p-4">
                   {props.renderItem(item, index())}
-                </div>
               </div>
             )}
           </For>
-        </div>
       </div>
+
     </Motion>
   );
 }

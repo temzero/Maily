@@ -19,11 +19,9 @@ import { NavigationContainer } from "./NavigationContainer";
 import Button from "../ui/button/Button";
 import { ItemsSlider } from "../ui/ItemsSlider";
 import { getActionButtonSize } from "~/utils/button.utils";
-import { currentUser } from "~/stores/auth.store";
-import { SealedMail } from "../email/SealedMail";
-import { mailDimensions } from "~/constants/constants";
 import { useDevice } from "~/stores/device.store";
 import { TouchItemsSlider } from "../ui/TouchItemsSlider";
+import MobileEnvelopeEditor from "./composeStep/MobileEnvelopeEditor";
 
 type Props = {
   subject: string;
@@ -105,109 +103,61 @@ export default function EnvelopeStep(props: Props) {
         />
       </NavigationContainer>
 
-      {!isMobile() && (
-        <EnvelopeEditor
-          envelope={currentViewedEnvelope()}
-          currentViewIndex={currentViewIndex()}
-          setCurrentViewIndex={setCurrentViewIndex}
-          localEnvelopes={localEnvelopes}
-          setLocalEnvelopes={setLocalEnvelopes}
-        />
-      )}
-
       <Show
         when={isMobile()}
         fallback={
-          <ItemsSlider
-            items={localEnvelopes()}
-            currentViewIndex={currentViewIndex()}
-            onIndexChange={setCurrentViewIndex}
-            dotsPosition="top"
-            showNavButtons={true}
-            sideScale={0.75}
-            onAccept={handleAccept}
-            renderItem={(envelope: EnvelopeType) => (
-              <div class="w-full h-full flex items-center justify-center">
+          <>
+            <EnvelopeEditor
+              envelope={currentViewedEnvelope()}
+              currentViewIndex={currentViewIndex()}
+              setCurrentViewIndex={setCurrentViewIndex}
+              localEnvelopes={localEnvelopes}
+              setLocalEnvelopes={setLocalEnvelopes}
+            />
+            
+            <ItemsSlider
+              items={localEnvelopes()}
+              currentViewIndex={currentViewIndex()}
+              onIndexChange={setCurrentViewIndex}
+              dotsPosition="top"
+              showNavButtons={true}
+              sideScale={0.75}
+              onAccept={handleAccept}
+              renderItem={(envelope: EnvelopeType) => (
                 <EnvelopePreview
                   envelope={envelope}
                   subject={props.subject}
                   showSender={true}
                 />
-              </div>
-            )}
-          />
+              )}
+            />
+          </>
         }
       >
-        <TouchItemsSlider
-          items={localEnvelopes()}
-          currentIndex={currentViewIndex()}
-          onIndexChange={setCurrentViewIndex}
-          dotsPosition="bottom"
-          onAccept={handleAccept}
-          renderItem={(envelope: EnvelopeType) => (
-            <div class="w-full h-full flex items-center justify-center">
+        <>
+          <MobileEnvelopeEditor
+            envelope={currentViewedEnvelope()}
+            currentViewIndex={currentViewIndex()}
+            setCurrentViewIndex={setCurrentViewIndex}
+            localEnvelopes={localEnvelopes}
+            setLocalEnvelopes={setLocalEnvelopes}
+          />
+          
+          <TouchItemsSlider
+            items={localEnvelopes()}
+            currentIndex={currentViewIndex()}
+            onIndexChange={setCurrentViewIndex}
+            onAccept={handleAccept}
+            renderItem={(envelope: EnvelopeType) => (
               <EnvelopePreview
                 envelope={envelope}
                 subject={props.subject}
                 showSender={true}
               />
-            </div>
-          )}
-        />
+            )}
+          />
+        </>
       </Show>
-
-      {/* <ItemsSlider
-        items={localEnvelopes()}
-        currentViewIndex={currentViewIndex()}
-        onIndexChange={setCurrentViewIndex}
-        dotsPosition={isMobile() ? "bottom" : "top"}
-        showNavButtons={isMobile() ? false : true}
-        sideScale={isMobile() ? 1 : 0.75}
-        onAccept={handleAccept}
-        renderItem={(envelope: EnvelopeType) => (
-          <div class="w-full h-full flex items-center justify-center">
-            <EnvelopePreview
-              envelope={envelope}
-              subject={props.subject}
-              showSender={true}
-            />
-          </div>
-        )}
-      /> */}
-
-      {/* <ItemsSlider
-  items={localEnvelopes()}
-  currentViewIndex={currentViewIndex()}
-  onIndexChange={setCurrentViewIndex}
-  dotsPosition={isMobile() ? "bottom" : "top"}
-  onAccept={handleAccept}
-  renderItem={(envelope: EnvelopeType) => (
-    <div class="w-full h-full flex items-center justify-center">
-      {isMobile() ? (
-        <SealedMail
-          email={{
-            // Construct a minimal Email object from your envelope + props
-            id: '123',
-            envelope: envelope,
-            subject: props.subject,
-            from: `${currentUser()?.firstName} ${currentUser()?.lastName}`,
-            createdAt: new Date().toISOString(),
-            // ... other required Email fields
-          }}
-          // Make it full width on mobile
-          width={mailDimensions.width * 3}
-          class="w-full h-full"
-        />
-      ) : (
-        <EnvelopePreview
-          envelope={envelope}
-          subject={props.subject}
-          showSender={true}
-        />
-      )}
-    </div>
-  )}
-/> */}
     </div>
   );
 }

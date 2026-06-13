@@ -31,7 +31,7 @@ export function ItemsSlider<T>(props: Props<T>) {
 
   const sideOpacity = () => props.sideOpacity ?? 1;
   const sideScale = () => props.sideScale ?? 0.75;
-  const gap = () => props.gap ?? 160;
+  const gap = () => props.gap ?? 200;
   const showNavButtons = () => props.showNavButtons ?? true;
 
   const scrollToCurrent = (smooth = true) => {
@@ -127,7 +127,7 @@ export function ItemsSlider<T>(props: Props<T>) {
 
         <div
           ref={scrollRef}
-          class="flex items-center w-full h-full overflow-x-scroll scrollbar-hidden"
+          class="flex items-center overflow-x-scroll scrollbar-hidden"
           style={{ gap: `${gap()}px` }}
         >
           <div style={{ "min-width": `${spacerWidth()}px`, flex: "none" }} />
@@ -136,7 +136,7 @@ export function ItemsSlider<T>(props: Props<T>) {
             {(item, index) => (
               <div
                 onClick={() => onItemClick(index())}
-                class="cursor-pointer transition-all duration-300 shrink-0 w-full"
+                class="cursor-pointer transition-all duration-300"
                 style={{
                   opacity:
                     props.currentViewIndex === index()
