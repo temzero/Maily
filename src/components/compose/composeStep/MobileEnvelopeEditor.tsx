@@ -10,6 +10,9 @@ import ColorPickerButton from '~/components/colorPicker/ColorPickerButton';
 import HiddenBorderPicker from './envelopeEditor/HiddenBorderPicker';
 import toast from 'solid-toast';
 import { TbOutlineBackground } from 'solid-icons/tb'
+import ColorPickerList from '~/components/colorPicker/ColorPickerList';
+import FontPickerList from '~/components/picker/FontPickerList';
+import BorderStylePicker from '~/components/picker/BorderStylePicker';
 
 type EnvelopeEditorProps = {
     envelope: EnvelopeType;
@@ -140,73 +143,35 @@ export default function MobileEnvelopeEditor(props: EnvelopeEditorProps) {
 
 return (
     <div class="w-full flex flex-col rounded-t-xl fixed bottom-0 bg-white/20 text-white z-50 overflow-hidden">
-        {/* Mode Selection Buttons */}
-                {/* Conditional Editor Panels */}
+
          <Show when={settingMode() !== null}>
-            <div class="p-2 border border-(--primary)! rounded-xl -mb-2">
+            <div class="border-3 border-(--primary)! bg-black/60 backdrop-blur rounded-t-xl">
                 <Show when={settingMode() === SettingModes.TEXT}>
-                    <div class="flex gap-2 items-center justify-around">
-                        <ColorPickerButton
-                            color={props.envelope?.textColor}
+                    <div>
+                        <ColorPickerList
+                            selectedColor={props.envelope?.textColor}
                             onChange={(hex) => update({ textColor: hex })}
-                            shape="circle"
-                            offsetY={-245}
+                            isRounded={true}
+                        />      
+                        <FontPickerList
+                            selectedFont={props.envelope?.fontStyle}
+                            onChange={(font) => update({ fontStyle: font as FontFamily })}
+                            isFullWidth
+                            class='border-t border-(--border)'
                         />
-                        <select
-                            class="bg-black/50 rounded py-1 text-sm"
-                            onChange={(e) => update({ fontStyle: e.currentTarget.value as FontFamily })}
-                            value={props.envelope?.fontStyle || 'Arial'}
-                        >
-                            <For each={fontOptions}>
-                                {(font) => <option value={font}>{font}</option>}
-                            </For>
-                        </select>
                     </div>
                 </Show>
 
                 <Show when={settingMode() === SettingModes.BACKGROUND}>
-                    <div class="flex gap-2 items-center">
-                        <ColorPickerButton
-                            color={props.envelope?.backgroundColor}
-                            onChange={(hex) => update({ backgroundColor: hex })}
-                            shape="square"
-                            offsetY={-245}
-                        />
-                    </div>
+                    <ColorPickerList
+                        selectedColor={props.envelope?.backgroundColor}
+                        onChange={(hex) => update({ backgroundColor: hex })}
+                    />
                 </Show>
 
                 <Show when={settingMode() === SettingModes.BORDERS}>
-                    <div class="flex items-center justify-around gap-2">
-                        {/* Border Style */}
-                        <select
-                            class="bg-black/50 rounded py-1 text-sm"
-                            onChange={(e) => {
-                                const newStyle = e.currentTarget.value as BorderStyle;
-                                update({
-                                    borderStyle: newStyle,
-                                    ...(newStyle !== BorderStyle.NONE ? { hiddenBorders: [] } : {}),
-                                });
-                            }}
-                            value={currentBorderStyle()}
-                        >
-                            <For each={borderStyles}>
-                                {(style) => <option value={style}>{style}</option>}
-                            </For>
-                        </select>
-
-                        <Show
-                            when={
-                                currentBorderStyle() !== BorderStyle.NONE &&
-                                currentBorderStyle() !== BorderStyle.STRIPED
-                            }
-                        >
-                            <HiddenBorderPicker
-                                hiddenBorders={props.envelope?.hiddenBorders}
-                                onToggle={handleBorderToggle}
-                            />
-                        </Show>
-
-                        <Show when={currentBorderStyle() !== BorderStyle.NONE}>
+                    <div>
+                        {/* <Show when={currentBorderStyle() !== BorderStyle.NONE}>
                             <Show
                                 when={
                                     currentBorderStyle() === BorderStyle.DOUBLE ||
@@ -222,7 +187,6 @@ return (
                                     />
                                 }
                             >
-                                <div class="flex gap-1">
                                     <For each={[0, 1, 2]}>
                                         {(index) => (
                                             <ColorPickerButton
@@ -235,24 +199,84 @@ return (
                                             />
                                         )}
                                     </For>
+                          </Show>
+                        </Show> */}
+                        <Show when={currentBorderStyle() !== BorderStyle.NONE}>
+                            <Show
+                                when={
+                                    currentBorderStyle() === BorderStyle.DOUBLE ||
+                                    currentBorderStyle() === BorderStyle.STRIPED
+                                }
+                                fallback={
+                                    <ColorPickerList
+                                        selectedColor={currentBorderColors()[0]}
+                                        onChange={(hex) => updateBorderColor(0, hex)}
+                                        isRounded={false}
+                                        hasTransparent={true}
+                                        class='border-b border-(--border)'
+                                    />
+                                }
+                            >
+                                <div class="flex flex-col gap-2">
+                                    <For each={[0, 1, 2]}>
+                                        {(index) => (
+                                            <div class="flex items-center justify-center">
+                                                <span class="text-lg px-2">{index + 1}</span>
+                                                <ColorPickerList
+                                                    selectedColor={currentBorderColors()[index]}
+                                                    onChange={(hex) => updateBorderColor(index, hex)}
+                                                    isRounded={false}
+                                                    hasTransparent={true}
+                                                    class='border-b border-(--border)'
+                                                />
+                                            </div>
+                                        )}
+                                    </For>
                                 </div>
                             </Show>
                         </Show>
+
+                        <Show
+                            when={
+                                currentBorderStyle() !== BorderStyle.NONE &&
+                                currentBorderStyle() !== BorderStyle.STRIPED
+                            }
+                        >
+                            <HiddenBorderPicker
+                                hiddenBorders={props.envelope?.hiddenBorders}
+                                onToggle={handleBorderToggle}
+                                isSeperate={true}
+                                isFullWidth={true}
+                                class='custom-border'
+                            />
+                        </Show>
+
+                        <BorderStylePicker
+                            selectedStyle={currentBorderStyle()}
+                            onChange={(newStyle) => {
+                                update({
+                                    borderStyle: newStyle,
+                                    ...(newStyle !== BorderStyle.NONE ? { hiddenBorders: [] } : {}),
+                                });
+                            }}
+                            class='border-t border-(--border)'
+                        />
+
                     </div>
                 </Show>
             </div>
         </Show>
 
-        <div class="w-full flex items-center gap-1 justify-around p-2">
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.TEXT ? null : SettingModes.TEXT)} class={`w-8 h-8 flex items-center justify-center rounded-b ${settingMode() === SettingModes.TEXT ? "bg-(--primary)! text-white!" : ""}`}>
+        <div class="w-full flex items-center gap-1 justify-around">
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.TEXT ? null : SettingModes.TEXT)} class={`w-full h-12 flex items-center justify-center rounded-b ${settingMode() === SettingModes.TEXT ? "bg-(--primary)! text-white!" : ""}`}>
                 <h1 class='text-2xl'>T</h1>
             </button>
 
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.BACKGROUND ? null : SettingModes.BACKGROUND)} class={`w-8 h-8 flex items-center justify-center rounded-b ${settingMode() === SettingModes.BACKGROUND ? "bg-(--primary)! text-white!" : ""}`}>
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.BACKGROUND ? null : SettingModes.BACKGROUND)} class={`w-full h-12 flex items-center justify-center rounded-b ${settingMode() === SettingModes.BACKGROUND ? "bg-(--primary)! text-white!" : ""}`}>
                 <TbOutlineBackground size={24} />
             </button>
             
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.BORDERS ? null : SettingModes.BORDERS)} class={`w-8 h-8 flex items-center justify-center P-1 rounded-b ${settingMode() === SettingModes.BORDERS ? "bg-(--primary)! text-white!" : ""}`}>
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.BORDERS ? null : SettingModes.BORDERS)} class={`w-full h-12 flex items-center justify-center P-1 rounded-b ${settingMode() === SettingModes.BORDERS ? "bg-(--primary)! text-white!" : ""}`}>
                 <div class={`h-5 w-5 border-2 ${settingMode() === SettingModes.BORDERS ? 'border-white' : ''}`}/>
             </button>
         </div>

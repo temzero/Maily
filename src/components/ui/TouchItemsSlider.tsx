@@ -175,7 +175,8 @@ export function TouchItemsSlider<T>(props: Props<T>) {
 
     {/* Number indicator */}  
     <div class="absolute top-4 left-0 right-0 flex justify-center z-20">
-      <div class="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-white text-lg font-light">
+      {/* <div class="bg-black/50 backdrop-blur-sm px-2 rounded-full text-white text-lg font-light"> */}
+      <div class="text-white text-lg font-light">
         {props.currentIndex + 1}/{props.items.length}
       </div>
     </div>
