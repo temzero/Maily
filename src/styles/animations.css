@@ -166,38 +166,4 @@
     animation: spinOut 0.3s ease-out forwards;
 }
 
-/* Mount animation */
-.paper-slide-up {
-    animation: paper-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Unmount animation — triggered by toggling .mail-exiting on the parent */
-.paper-slide-down {
-    animation: paper-out 0.39s cubic-bezier(0.4, 0, 1, 1) forwards;
-}
-
-@keyframes paper-in {
-    from {
-        transform: translateY(500px);
-        scale: 0.75;
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        scale: 1;
-        opacity: 1;
-    }
-}
-
-@keyframes paper-out {
-    from {
-        transform: translateY(0);
-        scale: 1;
-        opacity: 1;
-    }
-    to {
-        transform: translateY(500px);
-        scale: 0.75;
-        opacity: 0;
-    }
-}
+/* open mail mobile animation */

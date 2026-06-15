@@ -40,6 +40,16 @@ export function ActiveEmailModal(props: EmailModalProps) {
         }
     };
 
+    const handleAnimationEnd = () => {
+        if (!showActiveElement()) {
+            if (isOpen()) {
+                setShowActiveElement(true);
+            } else {
+                clearActiveEmailId();
+            }
+        }
+    };
+
     onMount(() => {
         setShowActiveElement(false);
         setIsOpen(true);
@@ -138,20 +148,18 @@ export function ActiveEmailModal(props: EmailModalProps) {
                                         `mail-item-${emailId()}`,
                                         isOpen(),
                                         undefined,
-                                        transitionZoomDuration,
-                                        easing
+                                        undefined,
+                                        easing,
+                                        isMobile() ? 260 : 200
                                     )
                                 }
                                 onTransitionEnd={(e) => {
                                     if (e.propertyName === 'transform') {
-                                        if (!showActiveElement()) {
-                                            if (isOpen()) {
-                                                setShowActiveElement(true);
-                                            } else {
-                                                clearActiveEmailId();
-                                            }
-                                        }
+                                        handleAnimationEnd()
                                     }
+                                }}
+                                onAnimationEnd={(e) => {
+                                    handleAnimationEnd()
                                 }}
                             />
 

@@ -32,8 +32,8 @@
 
 body {
   background: var(--background);
-  background: var(--blackOrWhite);
-  background: var(--gradient-bg);
+  /* background: var(--blackOrWhite);
+  background: var(--gradient-bg); */
   color: var(--foreground);
 }
 

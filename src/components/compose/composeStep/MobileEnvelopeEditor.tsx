@@ -2,17 +2,16 @@
 import { createSignal, Accessor, For, Show } from 'solid-js';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlinePlusCircle } from 'solid-icons/ai';
 import { HiOutlineTrash } from 'solid-icons/hi';
-import { EnvelopeType, BorderStyle, HiddenBorderSide } from '~/types/envelop/envelop.type';
+import { TbOutlineBackground } from 'solid-icons/tb'
 import { FontFamily } from "~/types/font-family.enums";
 import { getNewCustomEnvelope } from '~/data/envelop.mock';
 import { MAX_ENVELOPES } from '~/stores/envelope.store';
-import ColorPickerButton from '~/components/colorPicker/ColorPickerButton';
+import { EnvelopeType, BorderStyle, HiddenBorderSide } from '~/types/envelop/envelop.type';
 import HiddenBorderPicker from './envelopeEditor/HiddenBorderPicker';
-import toast from 'solid-toast';
-import { TbOutlineBackground } from 'solid-icons/tb'
 import ColorPickerList from '~/components/colorPicker/ColorPickerList';
 import FontPickerList from '~/components/picker/FontPickerList';
 import BorderStylePicker from '~/components/picker/BorderStylePicker';
+import toast from 'solid-toast';
 
 type EnvelopeEditorProps = {
     envelope: EnvelopeType;
@@ -32,8 +31,8 @@ const enum SettingModes {
 
 export default function MobileEnvelopeEditor(props: EnvelopeEditorProps) {
     const [settingMode, setSettingMode] = createSignal<SettingModes | null>(null)
-
     const currentId = () => props.envelope?.id;
+    let actionButtonsRef: HTMLDivElement | undefined;
 
     // All mutations go through local state only
     const update = (updates: Partial<EnvelopeType>) => {
@@ -43,16 +42,6 @@ export default function MobileEnvelopeEditor(props: EnvelopeEditorProps) {
             prev.map((e) => (e.id === id ? { ...e, ...updates } : e))
         );
     };
-
-    const fontOptions = [FontFamily.ARIAL, FontFamily.SERIF, FontFamily.GEORGIA, FontFamily.MONOSPACE];
-    const borderStyles = [
-        BorderStyle.SOLID,
-        BorderStyle.DASHED,
-        BorderStyle.DOTTED,
-        BorderStyle.DOUBLE,
-        BorderStyle.STRIPED,
-        BorderStyle.NONE,
-    ];
 
     const currentBorderStyle = () => props.envelope?.borderStyle || BorderStyle.SOLID;
 
@@ -143,9 +132,8 @@ export default function MobileEnvelopeEditor(props: EnvelopeEditorProps) {
 
 return (
     <div class="w-full flex flex-col rounded-t-xl fixed bottom-0 bg-white/20 text-white z-50 overflow-hidden">
-
          <Show when={settingMode() !== null}>
-            <div class="border-3 border-(--primary)! bg-black/60 backdrop-blur rounded-t-xl">
+            <div class="border-3 border-(--border)! bg-black/60 backdrop-blur rounded-t-xl">
                 <Show when={settingMode() === SettingModes.TEXT}>
                     <div>
                         <ColorPickerList
@@ -171,36 +159,6 @@ return (
 
                 <Show when={settingMode() === SettingModes.BORDERS}>
                     <div>
-                        {/* <Show when={currentBorderStyle() !== BorderStyle.NONE}>
-                            <Show
-                                when={
-                                    currentBorderStyle() === BorderStyle.DOUBLE ||
-                                    currentBorderStyle() === BorderStyle.STRIPED
-                                }
-                                fallback={
-                                    <ColorPickerButton
-                                        color={currentBorderColors()[0]}
-                                        onChange={(hex) => updateBorderColor(0, hex)}
-                                        shape="square"
-                                        size="w-5 h-6"
-                                        offsetY={-245}
-                                    />
-                                }
-                            >
-                                    <For each={[0, 1, 2]}>
-                                        {(index) => (
-                                            <ColorPickerButton
-                                                color={currentBorderColors()[index]}
-                                                onChange={(hex) => updateBorderColor(index, hex)}
-                                                shape="square"
-                                                size="w-5 h-6"
-                                                label={String(index + 1)}
-                                                offsetY={-245}
-                                            />
-                                        )}
-                                    </For>
-                          </Show>
-                        </Show> */}
                         <Show when={currentBorderStyle() !== BorderStyle.NONE}>
                             <Show
                                 when={
@@ -267,22 +225,29 @@ return (
             </div>
         </Show>
 
-        <div class="w-full flex items-center gap-1 justify-around">
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.TEXT ? null : SettingModes.TEXT)} class={`w-full h-12 flex items-center justify-center rounded-b ${settingMode() === SettingModes.TEXT ? "bg-(--primary)! text-white!" : ""}`}>
+        <div class="w-full flex items-center gap-1 justify-around transition-all">
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.TEXT ? null : SettingModes.TEXT)} class={`w-full h-12 flex items-center justify-center rounded ${settingMode() === SettingModes.TEXT ? "bg-(--primary)! text-white!" : ""}`}>
                 <h1 class='text-2xl'>T</h1>
             </button>
 
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.BACKGROUND ? null : SettingModes.BACKGROUND)} class={`w-full h-12 flex items-center justify-center rounded-b ${settingMode() === SettingModes.BACKGROUND ? "bg-(--primary)! text-white!" : ""}`}>
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.BACKGROUND ? null : SettingModes.BACKGROUND)} class={`w-full h-12 flex items-center justify-center rounded ${settingMode() === SettingModes.BACKGROUND ? "bg-(--primary)! text-white!" : ""}`}>
                 <TbOutlineBackground size={24} />
             </button>
             
-            <button onClick={() => setSettingMode(settingMode() === SettingModes.BORDERS ? null : SettingModes.BORDERS)} class={`w-full h-12 flex items-center justify-center P-1 rounded-b ${settingMode() === SettingModes.BORDERS ? "bg-(--primary)! text-white!" : ""}`}>
+            <button onClick={() => setSettingMode(settingMode() === SettingModes.BORDERS ? null : SettingModes.BORDERS)} class={`w-full h-12 flex items-center justify-center P-1 rounded ${settingMode() === SettingModes.BORDERS ? "bg-(--primary)! text-white!" : ""}`}>
                 <div class={`h-5 w-5 border-2 ${settingMode() === SettingModes.BORDERS ? 'border-white' : ''}`}/>
             </button>
         </div>
 
-        {/* Navigation Buttons */}
-        <div class='w-full flex items-center justify-around p-2 border-t border-(--border)'>
+        {/* Action Buttons */}
+        <div 
+            ref={actionButtonsRef} 
+            class='w-full flex items-center justify-between py-2 px-4 border-t border-(--border)'
+            style={{
+                'margin-bottom': settingMode() !== null ? `-${actionButtonsRef?.offsetHeight || 0}px` : '0px',
+                'transition': 'margin-bottom 0.3s ease-in-out'
+            }}
+        >
             <button onClick={newEnvelope} class="opacity-70 hover:opacity-100">
                 <AiOutlinePlusCircle size={28} />
             </button>
