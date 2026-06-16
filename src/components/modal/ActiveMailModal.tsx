@@ -150,7 +150,7 @@ export function ActiveEmailModal(props: EmailModalProps) {
                                         undefined,
                                         undefined,
                                         easing,
-                                        isMobile() ? 260 : 200
+                                        isMobile
                                     )
                                 }
                                 onTransitionEnd={(e) => {

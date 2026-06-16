@@ -186,7 +186,7 @@ export default function MobileSidebar(props: MobileSidebarProps) {
                                     }}
                                     class={`w-full flex items-center gap-4 px-4 py-3 border-b border-(--border) button-effect ${
                                         location.pathname === action.href
-                                            ? 'bg-(--primary) text-white! font-semibold'
+                                            ? 'text-(--primary) bg-blue-100! font-semibold'
                                             : 'hover:bg-(--border)'
                                     }`}
                                 >

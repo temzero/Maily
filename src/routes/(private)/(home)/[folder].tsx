@@ -132,7 +132,7 @@ export default function FolderPage() {
     return (
         <Presence initial={false}>
             <Show when={groupedEmailIds().length > 0} fallback={<EmptyFolder folder={folder()} />}>
-                    <div class={`${isMobile() ? 'w-full' : ''} h-full flex flex-col gap-10`}>
+                    <div class={`h-full w-full flex flex-col gap-10 overflow-y-auto ${isMobile() ? 'py-24 px-4' : 'p-24'} `}>
                         <For each={groupedEmailIds()}>
                             {(item, index) => {
                                 if (isGroupMarker(item)) {

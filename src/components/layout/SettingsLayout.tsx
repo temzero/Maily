@@ -3,6 +3,7 @@ import { JSX } from 'solid-js';
 import Button from '../ui/button/Button';
 import { VsArrowLeft } from 'solid-icons/vs';
 import { useNavigate } from '@solidjs/router';
+import { useDevice } from '~/stores/device.store';
 
 interface SettingsLayoutProps {
     children: JSX.Element;
@@ -13,6 +14,7 @@ interface SettingsLayoutProps {
 }
 
 export default function SettingsLayout(props: SettingsLayoutProps) {
+    const { isMobile } = useDevice();
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -21,15 +23,17 @@ export default function SettingsLayout(props: SettingsLayoutProps) {
 
     return (
         <div class="min-h-screen  bg-(--blackOrWhite)">
-            <div class="max-w-4xl mx-auto p-4">
-                <Button
-                    onClick={handleBack}
-                    icon={<VsArrowLeft size={32} />}
-                    rounded='full'
-                    variant="glass"
-                    size="sm"
-                    name="Close sidebar"
-                />
+            <div class={`max-w-4xl mx-auto py-10 ${isMobile() ? 'px-4' : ''}`}>
+                {isMobile() && 
+                    <Button
+                        onClick={handleBack}
+                        icon={<VsArrowLeft size={32} />}
+                        rounded='full'
+                        variant="glass"
+                        size="sm"
+                        name="Close sidebar"
+                    />
+                }
                 <div class="flex gap-1.5 items-center mb-6 mt-2">
                     {props.icon}
                     <h1 class="text-4xl font-bold">{props.title}</h1>

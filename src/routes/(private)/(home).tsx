@@ -40,8 +40,8 @@ export default function HomeLayout(props: HomeLayoutProps) {
 
     return (
         <MainLayout>
-            {props.children}
             {!isMobile() && <LabelsAction />}
+            {props.children}
         </MainLayout>
     );
 }
